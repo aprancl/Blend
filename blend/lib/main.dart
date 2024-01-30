@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Namer App',
+        title: 'Blend',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
@@ -64,6 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         page = FavoritesPage();
         break;
+      case 2:
+        page = PostingPagePlatforms();
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -74,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SafeArea(
             child: NavigationRail(
               extended: false,
+              //
               destinations: [
                 NavigationRailDestination(
                   icon: Icon(Icons.home),
@@ -83,10 +86,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: Icon(Icons.favorite),
                   label: Text('Favorites'),
                 ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.cloud_circle_outlined),
+                  label: Text('Post'),
+                ),
               ],
               selectedIndex: selectedIndex,
               onDestinationSelected: (value) {
                 setState(() {
+                  print(value);
                   selectedIndex = value;
                 });
               },
@@ -101,6 +109,84 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+  }
+}
+
+class PostDataState extends ChangeNotifier {
+  var platforms =
+      <String>[]; // a list of strings, each denoting the platforms to post to
+  var text = ""; // the text to go with the post
+  var media = ""; // pointer to the media that they provide
+}
+
+class PostingPagePlatforms extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // var appState = context.watch<PostDataState>();
+    // var cur_platforms = appState.platforms;
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          MediaSelectionButton(),
+          Text("Text Item 2"),
+          Text("Text Item 3"),
+          Text("Text Item 4"),
+          Text("Text Item 5"),
+          Text("Text Item 6"),
+          Text("Text Item 7"),
+        ],
+      ),
+    );
+  }
+}
+
+class MediaSelectionButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    const IconData icon = Icons.photo_camera_outlined;
+    const label = "Instagram";
+
+    return Expanded(
+      child: ListView(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: ListTile(
+              leading: Icon(Icons.map),
+              title: Text('Map'),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.photo_album),
+            title: Text('Album'),
+          ),
+          ListTile(
+            leading: Icon(Icons.phone),
+            title: Text('Phone'),
+          ),
+        ],
+      ),
+    );
+
+    //   return Scaffold(
+    //     body: Row(
+    //       children: [
+    //         Column(
+    //           children: [Icon(icon)],
+    //         ),
+    //         Column(
+    //           children: [Text(label)],
+    //         )
+    //       ],
+    //     ),
+    //   );
+    // }
   }
 }
 
