@@ -129,7 +129,10 @@ class PostingPagePlatforms extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          MediaSelectionButton(),
+          MediaSelectionButton(
+            Icons.cloud,
+            "Instagram",
+          ),
           Text("Text Item 2"),
           Text("Text Item 3"),
           Text("Text Item 4"),
@@ -143,11 +146,14 @@ class PostingPagePlatforms extends StatelessWidget {
 }
 
 class MediaSelectionButton extends StatelessWidget {
+
+  IconData buttonIcon;
+  String label;
+  MediaSelectionButton(this.buttonIcon, this.label);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    const IconData icon = Icons.photo_camera_outlined;
-    const label = "Instagram";
 
     return Expanded(
       child: ListView(
@@ -158,17 +164,9 @@ class MediaSelectionButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.0),
             ),
             child: ListTile(
-              leading: Icon(Icons.map),
-              title: Text('Map'),
+              leading: Icon(buttonIcon),
+              title: Text(label),
             ),
-          ),
-          ListTile(
-            leading: Icon(Icons.photo_album),
-            title: Text('Album'),
-          ),
-          ListTile(
-            leading: Icon(Icons.phone),
-            title: Text('Phone'),
           ),
         ],
       ),
