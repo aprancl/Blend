@@ -1,7 +1,10 @@
 // Import dependencies
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
+import 'package:english_words/english_words.dart';
 
 // Import pages
 import 'pages/home.dart';
@@ -18,7 +21,12 @@ void main() async {
   );
 
   // Launch the app
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => MyAppState(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Blend',
-      initialRoute: '/login',
+      initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
         '/login': (context) => LoginPage(),
@@ -34,4 +42,34 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+class MyAppState extends ChangeNotifier {
+  var current = WordPair.random();
+
+  // Method to get a new word pair
+  void getNext() {
+    current = WordPair.random();
+    notifyListeners();
+  }
+
+  var favorites = <WordPair>[];
+
+  void toggleFavorite() {
+    if (favorites.contains(current)) {
+      favorites.remove(current);
+    } else {
+      favorites.add(current);
+    }
+    notifyListeners();
+  }
+
+  var authStateChanges =
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    if (user == null) {
+      print('User is currently signed out!');
+    } else {
+      print('User is signed in!');
+    }
+  });
 }
