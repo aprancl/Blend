@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
               controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
-                errorText: this.emailErrorText,
+                errorText: emailErrorText,
               ),
             ),
             SizedBox(height: 16.0),
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
-                errorText: this.passwordErrorText,
+                errorText: passwordErrorText,
               ),
             ),
             SizedBox(height: 16.0),
@@ -60,17 +60,17 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.pushNamed(context, "/");
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'user-not-found') {
-                    print('No user found for that email.');
+                    print('Account not found!');
 
                     setState(() {
-                      this.emailErrorText = 'No user found for that email.';
+                      emailErrorText = 'Account not found!';
                     });
                   } else if (e.code == 'wrong-password') {
-                    print('Wrong password provided for that user.');
+                    print('Invalid password!');
 
                     setState(() {
-                      this.passwordErrorText =
-                          'Wrong password provided for that user.';
+                      passwordErrorText =
+                          'Invalid password!';
                     });
                   }
                   else {
