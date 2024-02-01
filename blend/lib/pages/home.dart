@@ -3,44 +3,21 @@ import 'package:blend/pages/register.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:provider/provider.dart';
+import '../main.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Blend',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        ),
-        home: MyHomePage(),
+    return MaterialApp(
+      title: 'Blend',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
       ),
+      home: MyHomePage(),
     );
-  }
-}
-
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-
-  // Method to get a new word pair
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-
-  var favorites = <WordPair>[];
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
   }
 }
 
@@ -163,7 +140,6 @@ class PostingPagePlatforms extends StatelessWidget {
 }
 
 class MediaSelectionButton extends StatelessWidget {
-
   IconData buttonIcon;
   String label;
   MediaSelectionButton(this.buttonIcon, this.label);
