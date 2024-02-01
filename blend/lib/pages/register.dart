@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In'),
+        title: Text('Sign Up'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -25,11 +25,18 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16.0),
+            TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Confirm Password',
+              ),
+            ),
+            SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement login functionality
+                // TODO: Implement register functionality
               },
-              child: Text('Sign In'),
+              child: Text('Sign Up'),
             ),
           ],
         ),

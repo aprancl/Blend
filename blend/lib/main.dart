@@ -6,6 +6,7 @@ import 'firebase_options.dart';
 // Import pages
 import 'pages/home.dart';
 import 'pages/login.dart';
+import 'pages/register.dart';
 
 void main() async {
   // Make sure everything is loaded
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(),
         '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
       },
     );
   }

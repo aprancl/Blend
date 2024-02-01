@@ -1,4 +1,5 @@
 import 'package:blend/pages/login.dart';
+import 'package:blend/pages/register.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:provider/provider.dart';
@@ -68,6 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
         // push to /login
         // Navigator.pushNamed(context, '/login');
         page = LoginPage();
+        break;
+      case 4:
+        // push to /register
+        // Navigator.pushNamed(context, '/register');
+        page = RegisterPage();
+        break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -95,6 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 NavigationRailDestination(
                   icon: Icon(Icons.login),
                   label: Text('Login'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.person_add),
+                  label: Text('Register'),
                 ),
               ],
               selectedIndex: selectedIndex,
