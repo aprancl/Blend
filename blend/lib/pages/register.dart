@@ -24,7 +24,6 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  @override
   bool validate(email, password, confirm) {
     // Confirm email is valid
     if (email.contains(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'))) {
