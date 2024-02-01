@@ -54,8 +54,27 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {
-                // Get values from text fields
+              onPressed: () async {
+                if (passwordController.text != confirmController.text) {
+                  print('Passwords do not match');
+                  return;
+                } else {
+                  try {
+                    final credential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'weak-password') {
+                      print('The password provided is too weak.');
+                    } else if (e.code == 'email-already-in-use') {
+                      print('The account already exists for that email.');
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+                }
               },
               child: Text('Sign Up'),
             ),
