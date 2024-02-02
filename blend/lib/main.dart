@@ -8,8 +8,12 @@ import 'package:english_words/english_words.dart';
 
 // Import pages
 import 'pages/home.dart';
-import 'pages/login.dart';
-import 'pages/register.dart';
+import 'pages/auth/login.dart';
+import 'pages/auth/register.dart';
+import 'pages/posting/platforms.dart';
+import 'pages/posting/caption.dart';
+import 'pages/posting/media.dart';
+
 
 void main() async {
   // Make sure everything is loaded
@@ -37,8 +41,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/login': (context) => LoginPage(),
-        '/register': (context) => RegisterPage(),
+        '/auth/login': (context) => LoginPage(),
+        '/auth/register': (context) => RegisterPage(),
+        '/posting/platforms': (context) => PostingPlatformsPage(),
+        '/posting/caption': (context) => PostingCaptionPage(),
+        '/posting/media': (context) => PostingMediaPage(),
       },
     );
   }
