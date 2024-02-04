@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import './postingState.dart';
 
 class PostingPlatformsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // var appState = context.watch<PostDataState>();
+    var appState = context.watch<PostDataState>();
     // var cur_platforms = appState.platforms;
 
     return Center(
@@ -31,30 +32,37 @@ class PostingPlatformsPage extends StatelessWidget {
           MediaSelectionButton(
             Icons.camera_alt_sharp,
             "Instagram",
+            appState.selectedPlatforms
           ),
           MediaSelectionButton(
             Icons.music_note,
             "TikTok",
+            appState.selectedPlatforms
           ),
           MediaSelectionButton(
             Icons.play_arrow_sharp,
             "Youtube",
+            appState.selectedPlatforms
           ),
           MediaSelectionButton(
             Icons.snapchat_outlined,
             "Snapchat",
+            appState.selectedPlatforms
           ),
           MediaSelectionButton(
             Icons.cancel_presentation_sharp,
             "X",
+            appState.selectedPlatforms
           ),
           MediaSelectionButton(
             Icons.facebook,
             "Facebook",
+            appState.selectedPlatforms
           ),
           MediaSelectionButton(
             Icons.language_sharp,
             "LinkedIn",
+            appState.selectedPlatforms
           ),
           // adding a button group
           Container(
@@ -67,6 +75,7 @@ class PostingPlatformsPage extends StatelessWidget {
                   child: Text('Next'),
                   onPressed: () {
                     print('We want to go next!');
+                    appState.showSelectedPlatforms();
                   },
                 ),
               ],
@@ -81,14 +90,16 @@ class PostingPlatformsPage extends StatelessWidget {
 class MediaSelectionButton extends StatelessWidget {
   final IconData buttonIcon;
   final String label;
+  final Set<String> selectedPlatforms;
 
-  MediaSelectionButton(this.buttonIcon, this.label);
+  MediaSelectionButton(this.buttonIcon, this.label, this.selectedPlatforms);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("User selected $label");
+        selectedPlatforms.add(label);
+        print(selectedPlatforms);
       },
       child: Column(
         children: <Widget>[

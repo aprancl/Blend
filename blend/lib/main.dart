@@ -13,6 +13,7 @@ import 'pages/auth/register.dart';
 import 'pages/posting/platforms.dart';
 import 'pages/posting/caption.dart';
 import 'pages/posting/media.dart';
+import 'pages/posting/postingState.dart';
 
 
 void main() async {
@@ -27,7 +28,7 @@ void main() async {
   // Launch the app
   runApp(
     ChangeNotifierProvider(
-      create: (context) => MyAppState(),
+      create: (context) => (PostDataState()),
       child: MyApp(),
     ),
   );
@@ -51,32 +52,32 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
+// class MyAppState extends ChangeNotifier {
+//   var current = WordPair.random();
 
-  // Method to get a new word pair
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
+//   // Method to get a new word pair
+//   void getNext() {
+//     current = WordPair.random();
+//     notifyListeners();
+//   }
 
-  var favorites = <WordPair>[];
+//   var favorites = <WordPair>[];
 
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
+//   void toggleFavorite() {
+//     if (favorites.contains(current)) {
+//       favorites.remove(current);
+//     } else {
+//       favorites.add(current);
+//     }
+//     notifyListeners();
+//   }
 
-  var authStateChanges =
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    if (user == null) {
-      print('User is currently signed out!');
-    } else {
-      print('User is signed in!');
-    }
-  });
-}
+//   var authStateChanges =
+//       FirebaseAuth.instance.authStateChanges().listen((User? user) {
+//     if (user == null) {
+//       print('User is currently signed out!');
+//     } else {
+//       print('User is signed in!');
+//     }
+//   });
+// }
