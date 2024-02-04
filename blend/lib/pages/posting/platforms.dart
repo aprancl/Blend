@@ -1,8 +1,27 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './postingState.dart';
 
 class PostingPlatformsPage extends StatelessWidget {
+  var eachPlatform = <String>[
+    "Instagram",
+    "TikTok",
+    "Youtube",
+    "Snapchat",
+    "X",
+    "Facebook",
+    "LinkedIn"
+  ];
+  var eachPlatformIcon = <IconData>[
+    Icons.camera_alt_sharp,
+    Icons.music_note,
+    Icons.play_arrow_sharp,
+    Icons.snapchat,
+    Icons.cancel_presentation,
+    Icons.facebook,
+    Icons.language_sharp
+  ];
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<PostDataState>();
@@ -29,40 +48,14 @@ class PostingPlatformsPage extends StatelessWidget {
             indent: 12.0,
             endIndent: 12.0,
           ),
-          MediaSelectionButton(
-            Icons.camera_alt_sharp,
-            "Instagram",
-            appState.selectedPlatforms
-          ),
-          MediaSelectionButton(
-            Icons.music_note,
-            "TikTok",
-            appState.selectedPlatforms
-          ),
-          MediaSelectionButton(
-            Icons.play_arrow_sharp,
-            "Youtube",
-            appState.selectedPlatforms
-          ),
-          MediaSelectionButton(
-            Icons.snapchat_outlined,
-            "Snapchat",
-            appState.selectedPlatforms
-          ),
-          MediaSelectionButton(
-            Icons.cancel_presentation_sharp,
-            "X",
-            appState.selectedPlatforms
-          ),
-          MediaSelectionButton(
-            Icons.facebook,
-            "Facebook",
-            appState.selectedPlatforms
-          ),
-          MediaSelectionButton(
-            Icons.language_sharp,
-            "LinkedIn",
-            appState.selectedPlatforms
+          Column(
+            children: List.generate(
+              eachPlatform.length,
+              (index) {
+                return MediaSelectionButton(eachPlatformIcon[index],
+                    eachPlatform[index], appState.selectedPlatforms);
+              },
+            ),
           ),
           // adding a button group
           Container(
@@ -75,7 +68,6 @@ class PostingPlatformsPage extends StatelessWidget {
                   child: Text('Next'),
                   onPressed: () {
                     print('We want to go next!');
-                    appState.showSelectedPlatforms();
                   },
                 ),
               ],
