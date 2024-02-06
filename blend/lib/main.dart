@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
     final _bottomNavigationKey = provider.bottomNavigationKey;
-    final _page = provider.page;
+    final _page = provider.navbarIndex;
     final _pageController = provider.pageController;
 
     return MaterialApp(
@@ -68,6 +68,7 @@ class _MyAppState extends State<MyApp> {
             PostingPlatformsPage(),
             AnalyticsPage(),
             ProfilePage(),
+            LoginPage()
           ],
         ),
         bottomNavigationBar: CurvedNavigationBar(
@@ -102,7 +103,7 @@ class _MyAppState extends State<MyApp> {
             )
           ],
           onTap: (index) {
-            provider.updatePage(index);
+            provider.updateNavbarIndex(index);
             _pageController.animateToPage(index,
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeOut);

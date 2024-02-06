@@ -8,19 +8,24 @@ class GlobalProvider with ChangeNotifier {
   // ****************************************************** //
   // ********************* Navigation ********************* //
   // ****************************************************** //
-  int page = 0;
+  int navbarIndex = 0;
   GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
   PageController pageController = PageController();
 
-  void updatePage(int index) {
-    page = index;
+  void updateNavbarIndex(int index) {
+    navbarIndex = index;
     notifyListeners();
   }
 
-  void goToPage(int index) {
+  void goToNavPage(int index) {
     final CurvedNavigationBarState? navBarState =
         bottomNavigationKey.currentState;
     navBarState?.setPage(index);
+  }
+
+  void goToPage(int index) {
+    pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
   }
 
   // ****************************************************** //

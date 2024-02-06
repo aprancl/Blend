@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () {
               
               // Update navbar
-              provider.goToPage(1);
+              provider.goToNavPage(1);
             },
             child: Text('Post'),
           ),

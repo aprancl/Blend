@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:blend/global_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Page'),
@@ -14,7 +17,7 @@ class ProfilePage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Display LoginPage
-                Navigator.pushNamed(context, '/login');
+                provider.goToPage(4);
               },
               child: Text('Profile'),
             ),
