@@ -24,7 +24,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In'),
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        title: Text("Sign In"),
+        centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -69,11 +73,9 @@ class _LoginPageState extends State<LoginPage> {
                     print('Invalid password!');
 
                     setState(() {
-                      passwordErrorText =
-                          'Invalid password!';
+                      passwordErrorText = 'Invalid password!';
                     });
-                  }
-                  else {
+                  } else {
                     print('Error: ${e.code}');
                   }
                 }

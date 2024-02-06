@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
 
-class HomePage extends StatelessWidget {
-  // const HomePage({super.key});
+class AnalyticsPage extends StatelessWidget {
+  // const AnalyticsPage({super.key});
   
   @override
   Widget build(BuildContext context) {
@@ -13,23 +13,21 @@ class HomePage extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
       ),
-      home: MyHomePage(),
+      home: MyAnalyticsPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyAnalyticsPage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyAnalyticsPage> createState() => _MyAnalyticsPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyAnalyticsPageState extends State<MyAnalyticsPage> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<GlobalProvider>(context);
-    final _bottomNavigationKey = provider.bottomNavigationKey;
     return Container(
-      decoration: BoxDecoration(color: Colors.red),
+      decoration: BoxDecoration(color: Color.fromARGB(255, 41, 255, 123)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -45,18 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.white, fontSize: 30, fontWeight: FontWeight.w700),
           ),
           // button
-          ElevatedButton(
-            onPressed: () {
-              
-              // Update navbar
-              provider.goToPage(1);
-            },
-            child: Text('Post'),
-          ),
         ],
       ),
     );
   }
 }
-
-// this class contains all the data the user sets for the posting process

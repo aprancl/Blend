@@ -103,26 +103,23 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<UserCredential> signInWithGoogle() async {
     // try{
-      print("google auth button SIGN IN WITH GOOGLE");
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser =
-          await GoogleSignIn().signIn();
+    print("google auth button SIGN IN WITH GOOGLE");
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
 
-      // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance
-          .signInWithCredential(credential);
-  
-    } 
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
   //   on Exception catch (e) {
   //     print(e);
 
@@ -194,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
               // Google sign in button
               onPressed: () async {
                 try {
-                  signInWithGoogle();
+                  await signInWithGoogle();
                   print("works as expected...");
                 } on Exception catch (e) {
                   print(e);

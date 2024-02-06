@@ -1,9 +1,11 @@
 // Import dependencies
 // Flutter
+import 'package:blend/pages/navPages/analytics/analytics.dart';
+import 'package:blend/pages/navPages/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'router/router.dart' as router;
 import 'router/routing_constants.dart';
-import 'global_provider.dart';
+import 'package:blend/global_provider.dart';
 // Firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -64,8 +66,8 @@ class _MyAppState extends State<MyApp> {
           children: <Widget>[
             HomePage(),
             PostingPlatformsPage(),
-            LoginPage(),
-            RegisterPage()
+            AnalyticsPage(),
+            ProfilePage(),
           ],
         ),
         bottomNavigationBar: CurvedNavigationBar(
