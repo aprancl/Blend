@@ -70,7 +70,10 @@ class _MyAppState extends State<MyApp> {
             AnalyticsPage(),
             ProfilePage(),
             LoginPage(),
-            RegisterPage(),
+            RegisterPage(),,
+            PostingMediaPage(),
+            PostingCaptionPage(),
+
           ],
         ),
         bottomNavigationBar: CurvedNavigationBar(

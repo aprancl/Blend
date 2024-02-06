@@ -37,12 +37,12 @@ class PostingPlatformsPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: const Color.fromARGB(255, 184, 23, 23),
               ),
             ),
           ),
           Divider(
-            color: Colors.white,
+            color: Color.fromARGB(255, 184, 23, 23),
             thickness: 3.0,
             indent: 12.0,
             endIndent: 12.0,
@@ -58,7 +58,7 @@ class PostingPlatformsPage extends StatelessWidget {
           ),
           // adding a button group
           Container(
-            margin: EdgeInsets.only(right: 0.0),
+            margin: EdgeInsets.only(right: 10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -67,6 +67,7 @@ class PostingPlatformsPage extends StatelessWidget {
                   child: Text('Next'),
                   onPressed: () {
                     print('We want to go next!');
+                    provider.goToPage(5);
                   },
                 ),
               ],
