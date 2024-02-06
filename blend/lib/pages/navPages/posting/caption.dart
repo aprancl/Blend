@@ -33,6 +33,7 @@ class PostingCaptionPage extends StatelessWidget {
                 print('We want to go back!');
                 provider.postCaption = controller.text;
                 print(provider.postCaption);
+                provider.goToNavPage(5);
               },
             ),
             ElevatedButton(
