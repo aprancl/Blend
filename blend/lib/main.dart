@@ -63,12 +63,14 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         body: PageView(
           controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             HomePage(),
             PostingPlatformsPage(),
             AnalyticsPage(),
             ProfilePage(),
-            LoginPage()
+            LoginPage(),
+            RegisterPage(),
           ],
         ),
         bottomNavigationBar: CurvedNavigationBar(

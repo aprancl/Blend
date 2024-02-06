@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:blend/global_provider.dart';
 import 'package:provider/provider.dart';
@@ -14,25 +15,29 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(provider.getAuthUser() == null
+                ? 'No user signed in'
+                : 'User ' + provider.getAuthUser()!.email! + ' signed in'),
             ElevatedButton(
               onPressed: () {
                 // Display LoginPage
                 provider.goToPage(4);
               },
-              child: Text('Profile'),
+              child: Text('Sign In'),
             ),
             ElevatedButton(
               onPressed: () {
                 // Display LoginPage
-                Navigator.pushNamed(context, '/register');
+                provider.goToPage(5);
               },
-              child: Text('Register'),
+              child: Text('Sign Up'),
             ),
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement logout functionality
+                // Log out
+                provider.signOut();
               },
-              child: Text('Logout'),
+              child: Text('Sign Out'),
             ),
           ],
         ),

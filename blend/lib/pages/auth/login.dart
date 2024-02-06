@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:blend/global_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -22,6 +24,36 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
+
+    void signIn() async {
+      try {
+        final credential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+
+        provider.goToNavPage(0);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          print('Account not found!');
+
+          setState(() {
+            emailErrorText = 'Account not found!';
+          });
+        } else if (e.code == 'wrong-password') {
+          print('Invalid password!');
+
+          setState(() {
+            passwordErrorText = 'Invalid password!';
+          });
+        } else {
+          print('Error: ${e.code}');
+        }
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -54,31 +86,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () async {
-                try {
-                  final credential =
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: emailController.text,
-                    password: passwordController.text,
-                  );
-
-                  Navigator.pushNamed(context, "/");
-                } on FirebaseAuthException catch (e) {
-                  if (e.code == 'user-not-found') {
-                    print('Account not found!');
-
-                    setState(() {
-                      emailErrorText = 'Account not found!';
-                    });
-                  } else if (e.code == 'wrong-password') {
-                    print('Invalid password!');
-
-                    setState(() {
-                      passwordErrorText = 'Invalid password!';
-                    });
-                  } else {
-                    print('Error: ${e.code}');
-                  }
-                }
+                signIn();
               },
               child: Text('Sign In'),
             ),
