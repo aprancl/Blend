@@ -1,7 +1,6 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './postingState.dart';
+import 'package:blend/global_provider.dart';
 
 class PostingPlatformsPage extends StatelessWidget {
   var eachPlatform = <String>[
@@ -24,7 +23,7 @@ class PostingPlatformsPage extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<PostDataState>();
+    final provider = Provider.of<GlobalProvider>(context);
     // var cur_platforms = appState.platforms;
 
     return Center(
@@ -53,7 +52,7 @@ class PostingPlatformsPage extends StatelessWidget {
               eachPlatform.length,
               (index) {
                 return MediaSelectionButton(eachPlatformIcon[index],
-                    eachPlatform[index], appState.selectedPlatforms);
+                    eachPlatform[index], provider.selectedPlatforms);
               },
             ),
           ),

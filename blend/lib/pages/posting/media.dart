@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import './postingState.dart';
 import 'package:provider/provider.dart';
+import 'package:blend/global_provider.dart';
 
 
 class PostingMediaPage extends StatelessWidget {
@@ -10,17 +8,17 @@ class PostingMediaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<PostDataState>();
+    final provider = Provider.of<GlobalProvider>(context);
 
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ImageContainer(imgPath: appState.mediaPath),
+          ImageContainer(imgPath: provider.postMediaPath),
           ElevatedButton(
             child: Text('Add Media'),
             onPressed: () {
-              appState.pickImage();
+              provider.selectImage();
             },
           ),
         ],
