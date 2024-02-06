@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import './postingState.dart';
+import 'package:provider/provider.dart';
 
 class PostingCaptionPage extends StatelessWidget {
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // var appState = context.watch<PostDataState>();
+    var appState = context.watch<PostDataState>();
 
     return Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       TextField(
+        controller: controller,
         keyboardType: TextInputType.multiline,
         maxLines: 10,
         decoration: const InputDecoration(
@@ -27,12 +30,16 @@ class PostingCaptionPage extends StatelessWidget {
               child: Text('back'),
               onPressed: () {
                 print('We want to go back!');
+                appState.text = controller.text;
+                print(appState.text);
               },
             ),
             ElevatedButton(
               child: Text('Next'),
               onPressed: () {
                 print('We want to go next!');
+                appState.text = controller.text;
+                print(appState.text);
               },
             ),
           ],

@@ -1,10 +1,30 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import './postingState.dart';
 
 class PostingPlatformsPage extends StatelessWidget {
+  var eachPlatform = <String>[
+    "Instagram",
+    "TikTok",
+    "Youtube",
+    "Snapchat",
+    "X",
+    "Facebook",
+    "LinkedIn"
+  ];
+  var eachPlatformIcon = <IconData>[
+    Icons.camera_alt_sharp,
+    Icons.music_note,
+    Icons.play_arrow_sharp,
+    Icons.snapchat,
+    Icons.cancel_presentation,
+    Icons.facebook,
+    Icons.language_sharp
+  ];
   @override
   Widget build(BuildContext context) {
-    // var appState = context.watch<PostDataState>();
+    var appState = context.watch<PostDataState>();
     // var cur_platforms = appState.platforms;
 
     return Center(
@@ -28,33 +48,14 @@ class PostingPlatformsPage extends StatelessWidget {
             indent: 12.0,
             endIndent: 12.0,
           ),
-          MediaSelectionButton(
-            Icons.camera_alt_sharp,
-            "Instagram",
-          ),
-          MediaSelectionButton(
-            Icons.music_note,
-            "TikTok",
-          ),
-          MediaSelectionButton(
-            Icons.play_arrow_sharp,
-            "Youtube",
-          ),
-          MediaSelectionButton(
-            Icons.snapchat_outlined,
-            "Snapchat",
-          ),
-          MediaSelectionButton(
-            Icons.cancel_presentation_sharp,
-            "X",
-          ),
-          MediaSelectionButton(
-            Icons.facebook,
-            "Facebook",
-          ),
-          MediaSelectionButton(
-            Icons.language_sharp,
-            "LinkedIn",
+          Column(
+            children: List.generate(
+              eachPlatform.length,
+              (index) {
+                return MediaSelectionButton(eachPlatformIcon[index],
+                    eachPlatform[index], appState.selectedPlatforms);
+              },
+            ),
           ),
           // adding a button group
           Container(
@@ -81,14 +82,16 @@ class PostingPlatformsPage extends StatelessWidget {
 class MediaSelectionButton extends StatelessWidget {
   final IconData buttonIcon;
   final String label;
+  final Set<String> selectedPlatforms;
 
-  MediaSelectionButton(this.buttonIcon, this.label);
+  MediaSelectionButton(this.buttonIcon, this.label, this.selectedPlatforms);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("User selected $label");
+        selectedPlatforms.add(label);
+        print(selectedPlatforms);
       },
       child: Column(
         children: <Widget>[
