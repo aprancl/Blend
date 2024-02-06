@@ -5,9 +5,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'dart:io';
-import './posting/platforms.dart';
-import './posting/caption.dart';
-import './posting/media.dart';
+import 'navPages/posting/platforms.dart';
+import 'navPages/posting/caption.dart';
+import 'navPages/posting/media.dart';
 import '../main.dart';
 import '../global_provider.dart';
 

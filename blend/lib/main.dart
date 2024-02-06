@@ -17,9 +17,9 @@ import 'pages/home.dart';
 import 'pages/undefined.dart';
 import 'pages/auth/login.dart';
 import 'pages/auth/register.dart';
-import 'pages/posting/platforms.dart';
-import 'pages/posting/caption.dart';
-import 'pages/posting/media.dart';
+import 'pages/navPages/posting/platforms.dart';
+import 'pages/navPages/posting/caption.dart';
+import 'pages/navPages/posting/media.dart';
 
 void main() async {
   // Make sure everything is loaded
