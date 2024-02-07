@@ -108,6 +108,10 @@ class GlobalProvider with ChangeNotifier {
   }
 
   void goToPage(int index) {
+    pageController.jumpToPage(index);
+  }
+
+  void animateToPage(int index) {
     pageController.animateToPage(index,
         duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
   }

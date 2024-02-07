@@ -70,15 +70,12 @@ class _MyAppState extends State<MyApp> {
                 controller: _pageController,
                 physics: NeverScrollableScrollPhysics(),
                 children: <Widget>[
-                  HomePage(),
-                  PostingPlatformsPage(),
-                  AnalyticsPage(),
-                  ProfilePage(),
-                  LoginPage(),
-                  RegisterPage(),
-                  PostingPlatformsPage(),
-                  PostingMediaPage(),
-                  PostingCaptionPage(),
+                  HomePage(), //0
+                  PostingPlatformsPage(), //1
+                  AnalyticsPage(), //2
+                  ProfilePage(), //3
+                  PostingCaptionPage(), //4
+                  PostingMediaPage(), //5
                 ],
               ),
               bottomNavigationBar: CurvedNavigationBar(
