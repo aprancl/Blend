@@ -115,7 +115,9 @@ class GlobalProvider with ChangeNotifier {
   // ****************************************************** //
   // ************************ Auth ************************ //
   // ****************************************************** //
+  var existingEmail = null;
   final FirebaseAuth auth = FirebaseAuth.instance;
+  var authUser = FirebaseAuth.instance.currentUser;
 
   var authStateChanges = FirebaseAuth.instance.authStateChanges().listen(
     (User? user) {
@@ -129,14 +131,19 @@ class GlobalProvider with ChangeNotifier {
 
   User? getAuthUser() {
     if (FirebaseAuth.instance.currentUser != null) {
+      authUser = FirebaseAuth.instance.currentUser;
+      notifyListeners();
       return FirebaseAuth.instance.currentUser!;
     } else {
+      authUser = null;
+      notifyListeners();
       return null;
     }
   }
 
   void signOut() async {
     await FirebaseAuth.instance.signOut();
+    authUser = null;
     notifyListeners();
   }
   // getAuthUser()

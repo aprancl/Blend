@@ -2,6 +2,7 @@
 // Flutter
 import 'package:blend/pages/navPages/analytics/analytics.dart';
 import 'package:blend/pages/navPages/profile/profile.dart';
+import 'package:blend/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'router/router.dart' as router;
 import 'router/routing_constants.dart';
@@ -54,69 +55,76 @@ class _MyAppState extends State<MyApp> {
     final _bottomNavigationKey = provider.bottomNavigationKey;
     final _page = provider.navbarIndex;
     final _pageController = provider.pageController;
+    final authUser = provider.authUser;
 
     return MaterialApp(
       title: "Blend",
       onGenerateRoute: router.generateRoute,
       initialRoute: SplashRoute,
       theme: provider.theme,
-      home: Scaffold(
-        extendBody: true,
-        body: PageView(
-          controller: _pageController,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            HomePage(),
-            PostingPlatformsPage(),
-            AnalyticsPage(),
-            ProfilePage(),
-            LoginPage(),
-            RegisterPage(),
-            PostingPlatformsPage(),
-            PostingMediaPage(),
-            PostingCaptionPage(),
-          ],
-        ),
-        bottomNavigationBar: CurvedNavigationBar(
-          key: _bottomNavigationKey,
-          index: 0,
-          animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 300),
-          backgroundColor: Color.fromARGB(210, provider.theme.colorScheme.background.red, provider.theme.colorScheme.background.green, provider.theme.colorScheme.background.blue),
-          buttonBackgroundColor: provider.theme.colorScheme.surface,
-          color: provider.theme.colorScheme.surface,
-          height: 65,
-          items: const <Widget>[
-            Icon(
-              Icons.home_filled,
-              size: 35,
-              color: Colors.white,
+      home: (authUser == null)
+          ? SplashPage()
+          : Scaffold(
+              extendBody: true,
+              body: PageView(
+                controller: _pageController,
+                physics: NeverScrollableScrollPhysics(),
+                children: <Widget>[
+                  HomePage(),
+                  PostingPlatformsPage(),
+                  AnalyticsPage(),
+                  ProfilePage(),
+                  LoginPage(),
+                  RegisterPage(),
+                  PostingPlatformsPage(),
+                  PostingMediaPage(),
+                  PostingCaptionPage(),
+                ],
+              ),
+              bottomNavigationBar: CurvedNavigationBar(
+                key: _bottomNavigationKey,
+                index: 0,
+                animationCurve: Curves.easeInOut,
+                animationDuration: Duration(milliseconds: 300),
+                backgroundColor: Color.fromARGB(
+                    210,
+                    provider.theme.colorScheme.background.red,
+                    provider.theme.colorScheme.background.green,
+                    provider.theme.colorScheme.background.blue),
+                buttonBackgroundColor: provider.theme.colorScheme.surface,
+                color: provider.theme.colorScheme.surface,
+                height: 65,
+                items: const <Widget>[
+                  Icon(
+                    Icons.home_filled,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  Icon(
+                    Icons.add_box,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  Icon(
+                    Icons.insert_chart,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  Icon(
+                    Icons.account_circle,
+                    size: 35,
+                    color: Colors.white,
+                  )
+                ],
+                onTap: (index) {
+                  provider.updateNavbarIndex(index);
+                  _pageController.animateToPage(index,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOut);
+                },
+                letIndexChange: (index) => true,
+              ),
             ),
-            Icon(
-              Icons.add_box,
-              size: 35,
-              color: Colors.white,
-            ),
-            Icon(
-              Icons.insert_chart,
-              size: 35,
-              color: Colors.white,
-            ),
-            Icon(
-              Icons.account_circle,
-              size: 35,
-              color: Colors.white,
-            )
-          ],
-          onTap: (index) {
-            provider.updateNavbarIndex(index);
-            _pageController.animateToPage(index,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeOut);
-          },
-          letIndexChange: (index) => true,
-        ),
-      ),
     );
   }
 }

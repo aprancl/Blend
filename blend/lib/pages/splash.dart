@@ -6,7 +6,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
-    final authUser = provider.getAuthUser();
+    final authUser = provider.authUser;
 
 
     return Scaffold(
@@ -20,14 +20,14 @@ class SplashPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
-              child: Text('Login'),
+              child: Text('Sign In'),
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/register');
               },
-              child: Text('Register'),
+              child: Text('Create an Account'),
             ),
           ],
         ),

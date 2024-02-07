@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:blend/global_provider.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -125,9 +127,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('Create an Accout'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -170,14 +173,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       email: emailController.text,
                       password: passwordController.text,
                     );
-                    Navigator.pushNamed(context, "/");
+
+                    provider.getAuthUser();
+                    Navigator.pop(context);
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
                       print('The password provided is too weak.');
                     } else if (e.code == 'email-already-in-use') {
                       print('The account already exists for that email.');
                       // Launch alert dialog
-                      _accountAlreadyExists(context);
+                      _accountAlreadyExists(context, emailController.text);
                     }
                   } catch (e) {
                     print(e);
@@ -206,11 +211,13 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 }
 
-Future<void> _accountAlreadyExists(BuildContext context) async {
+Future<void> _accountAlreadyExists(BuildContext context, String email) async {
+  print("registerEmail: $email");
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
+      final provider = Provider.of<GlobalProvider>(context);
       return AlertDialog(
         title: const Text('Account Already Exists!'),
         content: const SingleChildScrollView(
@@ -231,6 +238,7 @@ Future<void> _accountAlreadyExists(BuildContext context) async {
           TextButton(
             child: const Text('Yes'),
             onPressed: () {
+              provider.existingEmail = email;
               Navigator.of(context).pop();
               Navigator.pushNamed(context, "/login");
             },
