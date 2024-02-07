@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:blend/global_provider.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -8,13 +10,17 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
 
-  String emailErrorText = '';
-  String passwordErrorText = '';
-  String confirmErrorText = '';
+  String? fnameErrorText = null;
+  String? lnameErrorText = null;
+  String? emailErrorText = null;
+  String? passwordErrorText = null;
+  String? confirmErrorText = null;
 
   @override
   void dispose() {
@@ -24,25 +30,56 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  bool validate(email, password, confirm) {
+  bool validate(fname, lname, email, password, confirm) {
+    bool isValid = true;
+
+    // Confirm first name is not empty
+    if (fname.isEmpty) {
+      print('First name is empty');
+      setState(() {
+        this.fnameErrorText = 'This field is required';
+        isValid = false;
+      });
+    } else {
+      // Clear first name error text
+      setState(() {
+        this.fnameErrorText = null;
+      });
+    }
+
+    // Confirm last name is not empty
+    if (lname.isEmpty) {
+      print('Last name is empty');
+      setState(() {
+        this.lnameErrorText = 'This field is required';
+        isValid = false;
+      });
+    } else {
+      // Clear last name error text
+      setState(() {
+        this.lnameErrorText = null;
+      });
+    }
+
     // Confirm email is valid
     if (email.contains(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'))) {
       // Clear email error text
       setState(() {
-        this.emailErrorText = '';
+        this.emailErrorText = null;
       });
     } else {
       print('Invalid email');
       setState(() {
         this.emailErrorText = 'Invalid email';
       });
+      isValid = false;
     }
 
     // Confirm passwords match
     if (password == confirm) {
       // Clear confirm error text
       setState(() {
-        this.confirmErrorText = '';
+        this.confirmErrorText = null;
       });
       // Password length >= 10
       if (password.length >= 10) {
@@ -56,21 +93,22 @@ class _RegisterPageState extends State<RegisterPage> {
               if (password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>_]'))) {
                 // Clear password error text
                 setState(() {
-                  this.passwordErrorText = '';
+                  this.passwordErrorText = null;
                 });
-                return true;
               } else {
                 print('Password must contain a special character');
                 setState(() {
                   this.passwordErrorText =
                       'Password must contain a special character';
                 });
+                isValid = false;
               }
             } else {
               print('Password must contain a number');
               setState(() {
                 this.passwordErrorText = 'Password must contain a number';
               });
+              isValid = false;
             }
           } else {
             print('Password must contain a lowercase letter');
@@ -78,6 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
               this.passwordErrorText =
                   'Password must contain a lowercase letter';
             });
+            isValid = false;
           }
         } else {
           print('Password must contain an uppercase letter');
@@ -85,20 +124,23 @@ class _RegisterPageState extends State<RegisterPage> {
             this.passwordErrorText =
                 'Password must contain an uppercase letter';
           });
+          isValid = false;
         }
       } else {
         print('Password must be at least 10 characters');
         setState(() {
           this.passwordErrorText = 'Password must be at least 10 characters';
         });
+        isValid = false;
       }
     } else {
       print('Passwords do not match');
       setState(() {
         this.confirmErrorText = 'Passwords do not match';
       });
+      isValid = false;
     }
-    return false;
+    return isValid;
   }
 
   Future<UserCredential> signInWithGoogle() async {
@@ -125,9 +167,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('Create an Accout'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -136,12 +179,25 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             TextField(
               decoration: InputDecoration(
+                labelText: 'First Name',
+                errorText: this.fnameErrorText,
+              ),
+              controller: fnameController,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Last Name',
+                errorText: this.lnameErrorText,
+              ),
+              controller: lnameController,
+            ),
+            TextField(
+              decoration: InputDecoration(
                 labelText: 'Email',
                 errorText: this.emailErrorText,
               ),
               controller: emailController,
             ),
-            SizedBox(height: 16.0),
             TextField(
               obscureText: true,
               decoration: InputDecoration(
@@ -150,7 +206,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               controller: passwordController,
             ),
-            SizedBox(height: 16.0),
             TextField(
               obscureText: true,
               decoration: InputDecoration(
@@ -162,25 +217,29 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () async {
-                if (validate(emailController.text, passwordController.text,
-                    confirmController.text)) {
-                  try {
-                    final credential = await FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    );
-                    Navigator.pushNamed(context, "/");
-                  } on FirebaseAuthException catch (e) {
+                if (validate(
+                    fnameController.text.trim(),
+                    lnameController.text.trim(),
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
+                    confirmController.text.trim())) {
+                  FirebaseAuthException? e = await provider.signUp(
+                      fnameController.text.trim(),
+                      lnameController.text.trim(),
+                      emailController.text.trim(),
+                      passwordController.text.trim());
+
+                  if (e == null) {
+                    Navigator.popUntil(
+                        context, (route) => route.settings.name == '/');
+                  } else {
                     if (e.code == 'weak-password') {
                       print('The password provided is too weak.');
                     } else if (e.code == 'email-already-in-use') {
                       print('The account already exists for that email.');
                       // Launch alert dialog
-                      _accountAlreadyExists(context);
+                      _accountAlreadyExists(context, emailController.text);
                     }
-                  } catch (e) {
-                    print(e);
                   }
                 }
               },
@@ -206,11 +265,13 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 }
 
-Future<void> _accountAlreadyExists(BuildContext context) async {
+Future<void> _accountAlreadyExists(BuildContext context, String email) async {
+  print("registerEmail: $email");
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
+      final provider = Provider.of<GlobalProvider>(context);
       return AlertDialog(
         title: const Text('Account Already Exists!'),
         content: const SingleChildScrollView(
@@ -231,6 +292,7 @@ Future<void> _accountAlreadyExists(BuildContext context) async {
           TextButton(
             child: const Text('Yes'),
             onPressed: () {
+              provider.existingEmail = email;
               Navigator.of(context).pop();
               Navigator.pushNamed(context, "/login");
             },

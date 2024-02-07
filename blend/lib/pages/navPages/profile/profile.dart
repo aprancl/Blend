@@ -7,41 +7,193 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile Page'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(provider.getAuthUser() == null
-                ? 'No user signed in'
-                : 'User ' + provider.getAuthUser()!.email! + ' signed in'),
-            ElevatedButton(
-              onPressed: () {
-                // Display LoginPage
-                provider.goToPage(4);
-              },
-              child: Text('Sign In'),
+    return Container(
+      child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+          ),
+          body: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // Header row
+                Padding(
+                  padding: const EdgeInsets.only(top: 60),
+                  child: Row(
+                    children: [
+                      // workspace pfp
+                      Container(
+                        margin: EdgeInsets.only(right: 20),
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: NetworkImage(
+                                "https://via.placeholder.com/100x100"),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 100,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Google",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "42M",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    " Followers",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  SizedBox(width: 20),
+                                  Text(
+                                    "5",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    " Following",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ]),
+                      )
+                    ],
+                  ),
+                ),
+
+                // Button row
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Follow"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 0, 145, 255),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Follow"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 0, 145, 255),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Follow"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 0, 145, 255),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Recent posts row
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Recent Posts",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      // Horizontal bar
+                      Container(
+                        margin: EdgeInsets.only(top: 0),
+                        width: double.infinity,
+                        height: 3,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // 3 x infinity grid of scrollable posts
+                Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.only(top: 10, bottom: 30),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: 12,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: NetworkImage(
+                                "https://via.placeholder.com/150x150"),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                // Display LoginPage
-                provider.goToPage(5);
-              },
-              child: Text('Sign Up'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Log out
-                provider.signOut();
-              },
-              child: Text('Sign Out'),
-            ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }

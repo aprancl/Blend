@@ -26,16 +26,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
 
-    void signIn() async {
-      try {
-        final credential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
+    if (provider.existingEmail != null) {
+      emailController.text = provider.existingEmail;
+      provider.existingEmail = null;
+    }
 
-        provider.goToNavPage(0);
-      } on FirebaseAuthException catch (e) {
+    void signIn() async {
+      FirebaseAuthException? e =
+          await provider.signIn(emailController.text, passwordController.text);
+
+      if (e == null) {
+        Navigator.popUntil(context, (route) => route.settings.name == '/');
+      } else {
         if (e.code == 'user-not-found') {
           print('Account not found!');
 
@@ -56,11 +58,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),
-        title: Text("Sign In"),
-        centerTitle: true,
+        title: Text('Sign In'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
