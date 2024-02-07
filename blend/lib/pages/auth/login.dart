@@ -32,16 +32,12 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     void signIn() async {
-      try {
-        final credential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
+      FirebaseAuthException? e =
+          await provider.signIn(emailController.text, passwordController.text);
 
-        provider.getAuthUser();
+      if (e == null) {
         Navigator.popUntil(context, (route) => route.settings.name == '/');
-      } on FirebaseAuthException catch (e) {
+      } else {
         if (e.code == 'user-not-found') {
           print('Account not found!');
 
