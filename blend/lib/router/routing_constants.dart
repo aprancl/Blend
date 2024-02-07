@@ -1,4 +1,5 @@
-const String HomeRoute = '/';
+const String SplashRoute = '/';
+const String HomeRoute = '/home';
 const String LoginRoute = '/login';
 const String RegisterRoute = '/register';
 const String PostingPlatformsRoute = '/posting/platforms';

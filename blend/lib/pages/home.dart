@@ -2,34 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
 
-class HomePage extends StatelessWidget {
-  // const HomePage({super.key});
-  
+
+class HomePage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Blend',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-      ),
-      home: MyHomePage(),
-    );
-  }
+  State<HomePage> createState() => _HomePageState();
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
     final _bottomNavigationKey = provider.bottomNavigationKey;
     return Container(
-      decoration: BoxDecoration(color: Colors.red),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -47,11 +31,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // button
           ElevatedButton(
             onPressed: () {
-              
-              // Update navbar
-              provider.goToNavPage(1);
+              provider.signOut();
             },
-            child: Text('Post'),
+            child: Text('Sign Out'),
           ),
         ],
       ),

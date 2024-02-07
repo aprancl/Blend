@@ -8,15 +8,14 @@ import 'router/routing_constants.dart';
 import 'package:blend/global_provider.dart';
 // Firebase
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 // Misc
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 // Import pages
 import 'pages/home.dart';
-import 'pages/undefined.dart';
 import 'pages/auth/login.dart';
 import 'pages/auth/register.dart';
 import 'pages/navPages/posting/platforms.dart';
@@ -59,8 +58,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: "Blend",
       onGenerateRoute: router.generateRoute,
-      initialRoute: HomeRoute,
+      initialRoute: SplashRoute,
+      theme: provider.theme,
       home: Scaffold(
+        extendBody: true,
         body: PageView(
           controller: _pageController,
           physics: NeverScrollableScrollPhysics(),
@@ -70,10 +71,10 @@ class _MyAppState extends State<MyApp> {
             AnalyticsPage(),
             ProfilePage(),
             LoginPage(),
-            RegisterPage(),,
+            RegisterPage(),
+            PostingPlatformsPage(),
             PostingMediaPage(),
             PostingCaptionPage(),
-
           ],
         ),
         bottomNavigationBar: CurvedNavigationBar(
@@ -81,9 +82,9 @@ class _MyAppState extends State<MyApp> {
           index: 0,
           animationCurve: Curves.easeInOut,
           animationDuration: Duration(milliseconds: 300),
-          backgroundColor: Color.fromARGB(255, 35, 49, 117),
-          buttonBackgroundColor: Color.fromARGB(255, 15, 23, 63),
-          color: Color.fromARGB(255, 15, 23, 63),
+          backgroundColor: Color.fromARGB(210, provider.theme.colorScheme.background.red, provider.theme.colorScheme.background.green, provider.theme.colorScheme.background.blue),
+          buttonBackgroundColor: provider.theme.colorScheme.surface,
+          color: provider.theme.colorScheme.surface,
           height: 65,
           items: const <Widget>[
             Icon(
