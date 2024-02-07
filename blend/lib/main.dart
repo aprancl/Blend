@@ -9,6 +9,7 @@ import 'router/routing_constants.dart';
 import 'package:blend/global_provider.dart';
 // Firebase
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 // Misc
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -60,6 +61,63 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: "Blend",
       onGenerateRoute: router.generateRoute,
+      initialRoute: HomeRoute,
+      home: Scaffold(
+        body: PageView(
+          controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            HomePage(),
+            PostingPlatformsPage(),
+            AnalyticsPage(),
+            ProfilePage(),
+            LoginPage(),
+            RegisterPage(),
+            PostingMediaPage(),
+            PostingCaptionPage(),
+
+          ],
+        ),
+        bottomNavigationBar: CurvedNavigationBar(
+          key: _bottomNavigationKey,
+          index: 0,
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 300),
+          backgroundColor: Color.fromARGB(255, 35, 49, 117),
+          buttonBackgroundColor: Color.fromARGB(255, 15, 23, 63),
+          color: Color.fromARGB(255, 15, 23, 63),
+          height: 65,
+          items: const <Widget>[
+            Icon(
+              Icons.home_filled,
+              size: 35,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.add_box,
+              size: 35,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.insert_chart,
+              size: 35,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.account_circle,
+              size: 35,
+              color: Colors.white,
+            )
+          ],
+          onTap: (index) {
+            provider.updateNavbarIndex(index);
+            _pageController.animateToPage(index,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut);
+          },
+          letIndexChange: (index) => true,
+        ),
+      ),
       initialRoute: SplashRoute,
       theme: provider.theme,
       home: (authUser == null)
