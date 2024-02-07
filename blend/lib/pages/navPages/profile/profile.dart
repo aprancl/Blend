@@ -3,10 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:blend/global_provider.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
+    final _blendUser = provider.blendUser;
+
+    @override
+    void didChangeDependencies() {
+      super.didChangeDependencies();
+      provider.getAuthUser();
+      print("HEREEEE");
+    }
+
     return Container(
       child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -33,7 +47,7 @@ class ProfilePage extends StatelessWidget {
                           image: DecorationImage(
                             fit: BoxFit.fill,
                             image: NetworkImage(
-                                "https://via.placeholder.com/100x100"),
+                                _blendUser.pfp ?? ""),
                           ),
                         ),
                       ),
@@ -43,12 +57,15 @@ class ProfilePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Google",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.w900,
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 210,
+                                child: Text(
+                                  _blendUser.personalWorkspace!.name ?? "",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
                               ),
                               Row(

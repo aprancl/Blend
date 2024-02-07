@@ -1,4 +1,6 @@
 // Flutter
+import 'package:blend/objects/blendUser.dart';
+import 'package:blend/objects/blendWorkspace.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,6 +91,7 @@ class GlobalProvider with ChangeNotifier {
 // ██   ██  ██████     ██    ██   ██ ███████ ██   ████    ██    ██  ██████ ██   ██    ██    ██  ██████  ██   ████
   var existingEmail = null;
   var authUser = FirebaseAuth.instance.currentUser;
+  BlendUser blendUser = BlendUser();
 
   var authStateChanges = FirebaseAuth.instance.authStateChanges().listen(
     (User? user) {
@@ -110,6 +113,48 @@ class GlobalProvider with ChangeNotifier {
       notifyListeners();
       return null;
     }
+  }
+
+  Future<BlendUser> getBlendUser() async {
+    print("getAuthUserDoc");
+    if (FirebaseAuth.instance.currentUser != null) {
+      final ref = db.collection("users").doc(authUser!.uid).withConverter(
+            fromFirestore: BlendUser.fromFirestore,
+            toFirestore: (BlendUser blendUser, _) => blendUser.toFirestore(),
+          );
+      final docSnap = await ref.get();
+      final blendUser = docSnap.data();
+
+      var blendWorkspaces = <BlendWorkspace>[];
+
+      for (var workspace in blendUser!.workspaceRefs!) {
+        blendWorkspaces.add(await getBlendWorkspace(workspace));
+      }
+
+      blendUser.workspaces = blendWorkspaces;
+      blendUser.personalWorkspace =
+          await getBlendWorkspace(blendUser.personalWorkspaceRef!);
+          
+      this.blendUser = blendUser!;
+      notifyListeners();
+      return blendUser;
+    } else {
+      this.blendUser = BlendUser();
+      notifyListeners();
+      return BlendUser();
+    }
+  }
+
+  Future<BlendWorkspace> getBlendWorkspace(
+      DocumentReference<Map<String, dynamic>> workspaceRef) async {
+    final ref = workspaceRef.withConverter(
+      fromFirestore: BlendWorkspace.fromFirestore,
+      toFirestore: (BlendWorkspace blendWorkspace, _) =>
+          blendWorkspace.toFirestore(),
+    );
+    final workspaceDocSnap = await ref.get();
+    final blendWorkspace = workspaceDocSnap.data();
+    return blendWorkspace!;
   }
 
   Future<FirebaseAuthException?> signIn(String email, String password) async {
@@ -139,7 +184,7 @@ class GlobalProvider with ChangeNotifier {
       );
 
       // Reload authUser
-      getAuthUser();
+      authUser = FirebaseAuth.instance.currentUser;
       authUser!.updateDisplayName(fname + " " + lname);
 
       // Create personal workspace
@@ -179,6 +224,7 @@ class GlobalProvider with ChangeNotifier {
 
       await db.collection("users").doc(authUser!.uid).set(user);
 
+      getAuthUser();
       return null;
     } on FirebaseAuthException catch (e) {
       return e;
@@ -187,7 +233,7 @@ class GlobalProvider with ChangeNotifier {
 
   void signOut() async {
     await FirebaseAuth.instance.signOut();
-    authUser = null;
+    getAuthUser();
     notifyListeners();
   }
   // getAuthUser()

@@ -1,0 +1,59 @@
+import 'package:blend/objects/blendWorkspace.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+class BlendUser {
+  String? fname;
+  String? lname;
+  String? email;
+  String? pfp;
+  String? theme;
+  Object? customTheme;
+  DocumentReference<Map<String, dynamic>>? personalWorkspaceRef;
+  BlendWorkspace? personalWorkspace;
+  List<DocumentReference<Map<String, dynamic>>>? workspaceRefs;
+  List<BlendWorkspace>? workspaces;
+
+  BlendUser({
+    this.fname,
+    this.lname,
+    this.email,
+    this.pfp,
+    this.theme,
+    this.customTheme,
+    this.personalWorkspaceRef,
+    this.workspaceRefs,
+  });
+
+  factory BlendUser.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
+
+    return BlendUser(
+      fname: data?['fname'],
+      lname: data?['lname'],
+      email: data?['email'],
+      pfp: data?['pfp'],
+      theme: data?['theme'],
+      customTheme: data?['customTheme'],
+      personalWorkspaceRef: data?['personalWorkspace'],
+      workspaceRefs:
+          data?['workspaces'] is Iterable ? List.from(data?['workspaces']) : null,
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      if (fname != null) "fname": fname,
+      if (lname != null) "lname": lname,
+      if (email != null) "email": email,
+      if (pfp != null) "pfp": pfp,
+      if (theme != null) "theme": theme,
+      if (customTheme != null) "customTheme": customTheme,
+      if (personalWorkspaceRef != null) "personalWorkspace": personalWorkspaceRef,
+      if (workspaceRefs != null) "workspaces": workspaceRefs,
+    };
+  }
+}

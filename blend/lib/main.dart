@@ -115,6 +115,10 @@ class _MyAppState extends State<MyApp> {
                 ],
                 onTap: (index) {
                   provider.updateNavbarIndex(index);
+                  if (index == 3) {
+                    provider.getAuthUser();
+                    provider.getBlendUser();
+                  }
                   _pageController.animateToPage(index,
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeOut);
