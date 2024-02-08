@@ -39,7 +39,7 @@ class PostingOverviewPage extends StatelessWidget {
                       height: 15,
                     ),
                     ImageContainer(provider: provider),
-                    SizedBox(height: 50),
+                    SizedBox(height: 25),
                     Container(
                       padding: EdgeInsets.all(10.0),
                       width: 350,
@@ -56,14 +56,31 @@ class PostingOverviewPage extends StatelessWidget {
                         style: TextStyle(fontSize: 14.0),
                       ),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[400]),
-                      child: Text('Post Content'),
-                      onPressed: () {
-                        print('Post the Content');
-                        // provider.goToPage(6);
-                      },
+                    SizedBox(height: 10,),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ElevatedButton(
+                            child: Text('Back'),
+                            onPressed: () {
+                              print('We want to go back!');
+                              provider.goToPage(4);
+                            },
+                          ),
+                          Spacer(),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue[400]),
+                            child: Text('Post Content'),
+                            onPressed: () {
+                              print('Post the Content');
+                              // provider.goToPage(6);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

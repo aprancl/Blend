@@ -55,14 +55,14 @@ class PostingCaptionPage extends StatelessWidget {
                               print('We want to go back!');
                               provider.postCaption = captionController.text;
                               print(provider.postCaption);
-                              provider.goToPage(1);
+                              provider.goToPage(5);
                             },
                           ),
                           ElevatedButton(
                             child: Text('Next'),
                             onPressed: () {
                               print('We want to go next!');
-                              provider.goToPage(5);
+                              provider.goToPage(6);
                               provider.postCaption = captionController.text;
                               print(provider.postCaption);
                             },
