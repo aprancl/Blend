@@ -2,52 +2,71 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
 
-
 class PostingCaptionPage extends StatelessWidget {
-  TextEditingController controller = TextEditingController();
+  TextEditingController captionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
 
-    return Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      TextField(
-        controller: controller,
-        keyboardType: TextInputType.multiline,
-        maxLines: 10,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 40, horizontal: 15),
-          border: OutlineInputBorder(),
-          labelText: "Add caption here",
-          alignLabelWithHint: true,
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.only(right: 0.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              child: Text('back'),
-              onPressed: () {
-                print('We want to go back!');
-                provider.postCaption = controller.text;
-                print(provider.postCaption);
-                provider.goToPage(1);
-              },
+            Title(
+              color: Color(0xFFFFFFFF),
+              child: Text(
+                "Add a Caption",
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+              ),
             ),
-            ElevatedButton(
-              child: Text('Next'),
-              onPressed: () {
-                print('We want to go next!');
-                provider.goToPage(5);
-                provider.postCaption = controller.text;
-                print(provider.postCaption);
-              },
+            SizedBox(height: 50),
+            TextField(
+              controller: captionController,
+              keyboardType: TextInputType.multiline,
+              maxLines: 10,
+              decoration: const InputDecoration(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 40, horizontal: 15),
+                border: OutlineInputBorder(),
+                labelText: "Add your caption here",
+                alignLabelWithHint: true,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 0.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    child: Text('back'),
+                    onPressed: () {
+                      print('We want to go back!');
+                      provider.postCaption = captionController.text;
+                      print(provider.postCaption);
+                      provider.goToPage(1);
+                    },
+                  ),
+                  ElevatedButton(
+                    child: Text('Next'),
+                    onPressed: () {
+                      print('We want to go next!');
+                      provider.goToPage(5);
+                      provider.postCaption = captionController.text;
+                      print(provider.postCaption);
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
-    ]));
+    );
   }
 }

@@ -14,7 +14,7 @@ class PostingMediaPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // ImageContainer(imgPath: provider.mediaFile.path),
-          ImageContainer2(provider: provider),
+          ImageContainer(provider: provider),
           ElevatedButton(
             child: Text('Add Media'),
             onPressed: () {
@@ -50,24 +50,9 @@ class PostingMediaPage extends StatelessWidget {
   }
 }
 
+
 class ImageContainer extends StatelessWidget {
-  const ImageContainer({super.key, required this.imgPath});
-
-  final String imgPath;
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.asset(
-      imgPath,
-      width: 240,
-      height: 240,
-      fit: BoxFit.cover,
-    );
-  }
-}
-
-class ImageContainer2 extends StatelessWidget {
-  const ImageContainer2({Key? key, required this.provider}) : super(key: key);
+  const ImageContainer({Key? key, required this.provider}) : super(key: key);
 
   // final File imageFile; // Change the type from String to XFile
   final GlobalProvider provider;

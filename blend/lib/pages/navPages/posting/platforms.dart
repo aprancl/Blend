@@ -39,16 +39,17 @@ class PostingPlatformsPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 184, 23, 23),
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
             ),
             Divider(
-              color: Color.fromARGB(255, 184, 23, 23),
+              color: Color.fromARGB(255, 255, 255, 255),
               thickness: 3.0,
               indent: 12.0,
               endIndent: 12.0,
             ),
+            SizedBox(height: 20),
             Column(
               children: List.generate(
                 eachPlatform.length,
@@ -60,7 +61,7 @@ class PostingPlatformsPage extends StatelessWidget {
             ),
             // adding a button group
             Container(
-              margin: EdgeInsets.only(right: 10.0),
+              margin: EdgeInsets.only(right: 0.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
