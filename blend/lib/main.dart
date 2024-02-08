@@ -81,6 +81,7 @@ class _MyAppState extends State<MyApp> {
                       ProfilePage(), //3
                       PostingCaptionPage(), //4
                       PostingMediaPage(), //5
+                      PostingOverviewPage(), //6
                     ],
                   ),
                   bottomNavigationBar: CurvedNavigationBar(
