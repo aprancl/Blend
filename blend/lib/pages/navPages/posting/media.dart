@@ -32,7 +32,7 @@ class PostingMediaPage extends StatelessWidget {
                       child: Text('Back'),
                       onPressed: () {
                         print('We want to go back!');
-                        provider.goToPage(4);
+                        provider.goToPage(1);
                       },
                     ),
                     Spacer(),
@@ -40,7 +40,7 @@ class PostingMediaPage extends StatelessWidget {
                       child: Text('Next'),
                       onPressed: () {
                         print('We want to go next!');
-                        provider.goToPage(6);
+                        provider.goToPage(4);
                       },
                     ),
                   ],

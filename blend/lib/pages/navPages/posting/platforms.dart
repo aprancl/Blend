@@ -70,7 +70,7 @@ class PostingPlatformsPage extends StatelessWidget {
                     child: Text('Next'),
                     onPressed: () {
                       print('We want to go next!');
-                      provider.goToPage(4);
+                      provider.goToPage(5);
                     },
                   ),
                 ],
