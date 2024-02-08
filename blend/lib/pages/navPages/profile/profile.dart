@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Colors.white,
                                     fontSize: 22,
                                     fontWeight: FontWeight.w900,
-                                  ),
+                                  ), 
                                 ),
                               ),
                               Row(
