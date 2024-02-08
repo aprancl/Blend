@@ -1,5 +1,6 @@
 // Import dependencies
 // Flutter
+import 'package:blend/pages/auth/verify.dart';
 import 'package:blend/pages/navPages/analytics/analytics.dart';
 import 'package:blend/pages/navPages/profile/profile.dart';
 import 'package:blend/pages/splash.dart';
@@ -66,69 +67,71 @@ class _MyAppState extends State<MyApp> {
       theme: provider.theme,
       home: (authUser == null)
           ? SplashPage()
-          : Scaffold(
-              extendBody: true,
-              body: PageView(
-                controller: _pageController,
-                physics: NeverScrollableScrollPhysics(),
-                children: <Widget>[
-                  HomePage(), //0
-                  PostingPlatformsPage(), //1
-                  AnalyticsPage(), //2
-                  ProfilePage(), //3
-                  PostingCaptionPage(), //4
-                  PostingMediaPage(), //5
-                  PostingOverviewPage(), //6
-                ],
-              ),
-              bottomNavigationBar: CurvedNavigationBar(
-                key: _bottomNavigationKey,
-                index: 0,
-                animationCurve: Curves.easeInOut,
-                animationDuration: Duration(milliseconds: 300),
-                backgroundColor: Color.fromARGB(
-                    210,
-                    provider.theme.colorScheme.background.red,
-                    provider.theme.colorScheme.background.green,
-                    provider.theme.colorScheme.background.blue),
-                buttonBackgroundColor: provider.theme.colorScheme.surface,
-                color: provider.theme.colorScheme.surface,
-                height: 65,
-                items: const <Widget>[
-                  Icon(
-                    Icons.home_filled,
-                    size: 35,
-                    color: Colors.white,
+          : (!authUser.emailVerified)
+              ? VerifyPage()
+              : Scaffold(
+                  extendBody: true,
+                  body: PageView(
+                    controller: _pageController,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: <Widget>[
+                      HomePage(), //0
+                      PostingPlatformsPage(), //1
+                      AnalyticsPage(), //2
+                      ProfilePage(), //3
+                      PostingCaptionPage(), //4
+                      PostingMediaPage(), //5
+                      PostingOverviewPage(), //6
+                    ],
                   ),
-                  Icon(
-                    Icons.add_box,
-                    size: 35,
-                    color: Colors.white,
+                  bottomNavigationBar: CurvedNavigationBar(
+                    key: _bottomNavigationKey,
+                    index: 0,
+                    animationCurve: Curves.easeInOut,
+                    animationDuration: Duration(milliseconds: 300),
+                    backgroundColor: Color.fromARGB(
+                        210,
+                        provider.theme.colorScheme.background.red,
+                        provider.theme.colorScheme.background.green,
+                        provider.theme.colorScheme.background.blue),
+                    buttonBackgroundColor: provider.theme.colorScheme.surface,
+                    color: provider.theme.colorScheme.surface,
+                    height: 65,
+                    items: const <Widget>[
+                      Icon(
+                        Icons.home_filled,
+                        size: 35,
+                        color: Colors.white,
+                      ),
+                      Icon(
+                        Icons.add_box,
+                        size: 35,
+                        color: Colors.white,
+                      ),
+                      Icon(
+                        Icons.insert_chart,
+                        size: 35,
+                        color: Colors.white,
+                      ),
+                      Icon(
+                        Icons.account_circle,
+                        size: 35,
+                        color: Colors.white,
+                      )
+                    ],
+                    onTap: (index) {
+                      provider.updateNavbarIndex(index);
+                      if (index == 3) {
+                        provider.getAuthUser();
+                        provider.getBlendUser();
+                      }
+                      _pageController.animateToPage(index,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeOut);
+                    },
+                    letIndexChange: (index) => true,
                   ),
-                  Icon(
-                    Icons.insert_chart,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  Icon(
-                    Icons.account_circle,
-                    size: 35,
-                    color: Colors.white,
-                  )
-                ],
-                onTap: (index) {
-                  provider.updateNavbarIndex(index);
-                  if (index == 3) {
-                    provider.getAuthUser();
-                    provider.getBlendUser();
-                  }
-                  _pageController.animateToPage(index,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOut);
-                },
-                letIndexChange: (index) => true,
-              ),
-            ),
+                ),
     );
   }
 }

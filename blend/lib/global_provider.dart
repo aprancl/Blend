@@ -226,6 +226,9 @@ class GlobalProvider with ChangeNotifier {
       await db.collection("users").doc(authUser!.uid).set(user);
 
       getAuthUser();
+
+      // send verification email
+      await authUser!.sendEmailVerification();
       return null;
     } on FirebaseAuthException catch (e) {
       return e;
