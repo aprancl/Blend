@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PostingMediaPage extends StatelessWidget {
   @override
@@ -11,7 +13,8 @@ class PostingMediaPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ImageContainer(imgPath: provider.postMediaPath),
+          // ImageContainer(imgPath: provider.mediaFile.path),
+          ImageContainer2(provider: provider),
           ElevatedButton(
             child: Text('Add Media'),
             onPressed: () {
@@ -27,7 +30,7 @@ class PostingMediaPage extends StatelessWidget {
                   child: Text('Back'),
                   onPressed: () {
                     print('We want to go back!');
-                    provider.goToPage(4);
+                    provider.goToPage(1);
                   },
                 ),
                 Spacer(),
@@ -35,7 +38,7 @@ class PostingMediaPage extends StatelessWidget {
                   child: Text('Next'),
                   onPressed: () {
                     print('We want to go next!');
-                    // provider.goToPage(6);
+                    provider.goToPage(6);
                   },
                 ),
               ],
@@ -60,5 +63,29 @@ class ImageContainer extends StatelessWidget {
       height: 240,
       fit: BoxFit.cover,
     );
+  }
+}
+
+class ImageContainer2 extends StatelessWidget {
+  const ImageContainer2({Key? key, required this.provider}) : super(key: key);
+
+  // final File imageFile; // Change the type from String to XFile
+  final GlobalProvider provider;
+
+  @override
+  Widget build(BuildContext context) {
+    return provider.selectedMedia != null
+        ? Image.file(
+            provider.selectedMedia!,
+            width: 240,
+            height: 240,
+            fit: BoxFit.cover,
+          )
+        : Container(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Image.asset(
+              provider.defaultImagePath,
+            ),
+          ); // You can replace this with any fallback widget or null widget.
   }
 }
