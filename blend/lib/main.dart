@@ -23,6 +23,7 @@ import 'pages/auth/register.dart';
 import 'pages/navPages/posting/platforms.dart';
 import 'pages/navPages/posting/caption.dart';
 import 'pages/navPages/posting/media.dart';
+import 'pages/navPages/posting/overview_post.dart';
 
 void main() async {
   // Make sure everything is loaded
@@ -77,6 +78,7 @@ class _MyAppState extends State<MyApp> {
                   ProfilePage(), //3
                   PostingCaptionPage(), //4
                   PostingMediaPage(), //5
+                  PostingOverviewPage(), //6
                 ],
               ),
               bottomNavigationBar: CurvedNavigationBar(

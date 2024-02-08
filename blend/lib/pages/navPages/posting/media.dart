@@ -9,42 +9,46 @@ class PostingMediaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
 
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // ImageContainer(imgPath: provider.mediaFile.path),
-          ImageContainer(provider: provider),
-          ElevatedButton(
-            child: Text('Add Media'),
-            onPressed: () {
-              provider.selectImage();
-            },
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 10.0, left: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  child: Text('Back'),
-                  onPressed: () {
-                    print('We want to go back!');
-                    provider.goToPage(4);
-                  },
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // ImageContainer(imgPath: provider.mediaFile.path),
+              ImageContainer(provider: provider),
+              ElevatedButton(
+                child: Text('Add Media'),
+                onPressed: () {
+                  provider.selectImage();
+                },
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      child: Text('Back'),
+                      onPressed: () {
+                        print('We want to go back!');
+                        provider.goToPage(4);
+                      },
+                    ),
+                    Spacer(),
+                    ElevatedButton(
+                      child: Text('Next'),
+                      onPressed: () {
+                        print('We want to go next!');
+                        provider.goToPage(6);
+                      },
+                    ),
+                  ],
                 ),
-                Spacer(),
-                ElevatedButton(
-                  child: Text('Next'),
-                  onPressed: () {
-                    print('We want to go next!');
-                    provider.goToPage(6);
-                  },
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
