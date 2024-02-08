@@ -30,7 +30,7 @@ class PostingMediaPage extends StatelessWidget {
                   child: Text('Back'),
                   onPressed: () {
                     print('We want to go back!');
-                    provider.goToPage(1);
+                    provider.goToPage(4);
                   },
                 ),
                 Spacer(),
