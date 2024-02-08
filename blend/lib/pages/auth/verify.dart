@@ -17,7 +17,7 @@ class VerifyPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Your email isn\'t verified!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text('Your email (${provider.authUser!.email}) isn\'t verified!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
             // I verified my email button
             ElevatedButton(
