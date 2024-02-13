@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'dart:io';
 
 class GlobalProvider with ChangeNotifier {
 //  ██████  ██       ██████  ██████   █████  ██
@@ -225,6 +226,9 @@ class GlobalProvider with ChangeNotifier {
       await db.collection("users").doc(authUser!.uid).set(user);
 
       getAuthUser();
+
+      // send verification email
+      await authUser!.sendEmailVerification();
       return null;
     } on FirebaseAuthException catch (e) {
       return e;
@@ -245,13 +249,15 @@ class GlobalProvider with ChangeNotifier {
 // ██       ██████  ███████    ██    ██ ██   ████  ██████
   Set<String> selectedPlatforms = {};
   var postCaption = "";
-  var postMediaPath = "images/lime.png";
+  var defaultImagePath = "images/lime.png";
+  File? selectedMedia;
+
 
   Future selectImage() async {
     try {
       final img = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (img != null) {
-        postMediaPath = img.path;
+        selectedMedia = File(img!.path);
         notifyListeners();
       }
     } on Error catch (err) {

@@ -17,8 +17,8 @@ class _ProfilePageState extends State<ProfilePage> {
     @override
     void didChangeDependencies() {
       super.didChangeDependencies();
-      provider.getAuthUser();
       print("HEREEEE");
+      provider.getAuthUser();
     }
 
     return Container(
@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width - 210,
                                 child: Text(
-                                  _blendUser.personalWorkspace!.name ?? "",
+                                  _blendUser.personalWorkspace?.name ?? "",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 22,

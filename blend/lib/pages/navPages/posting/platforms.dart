@@ -27,53 +27,57 @@ class PostingPlatformsPage extends StatelessWidget {
     // var cur_platforms = appState.platforms;
 
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Title(
-            color: Color(0xFFFFFFFF),
-            child: Text(
-              "Choose Platforms",
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: const Color.fromARGB(255, 184, 23, 23),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 25.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Title(
+              color: Color(0xFFFFFFFF),
+              child: Text(
+                "Choose Platforms",
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
               ),
             ),
-          ),
-          Divider(
-            color: Color.fromARGB(255, 184, 23, 23),
-            thickness: 3.0,
-            indent: 12.0,
-            endIndent: 12.0,
-          ),
-          Column(
-            children: List.generate(
-              eachPlatform.length,
-              (index) {
-                return MediaSelectionButton(eachPlatformIcon[index],
-                    eachPlatform[index], provider.selectedPlatforms);
-              },
+            Divider(
+              color: Color.fromARGB(255, 255, 255, 255),
+              thickness: 3.0,
+              indent: 12.0,
+              endIndent: 12.0,
             ),
-          ),
-          // adding a button group
-          Container(
-            margin: EdgeInsets.only(right: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Spacer(),
-                ElevatedButton(
-                  child: Text('Next'),
-                  onPressed: () {
-                    print('We want to go next!');
-                    provider.goToPage(4);
-                  },
-                ),
-              ],
+            SizedBox(height: 20),
+            Column(
+              children: List.generate(
+                eachPlatform.length,
+                (index) {
+                  return MediaSelectionButton(eachPlatformIcon[index],
+                      eachPlatform[index], provider.selectedPlatforms);
+                },
+              ),
             ),
-          ),
-        ],
+            // adding a button group
+            Container(
+              margin: EdgeInsets.only(right: 0.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Spacer(),
+                  ElevatedButton(
+                    child: Text('Next'),
+                    onPressed: () {
+                      print('We want to go next!');
+                      provider.goToPage(5);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
