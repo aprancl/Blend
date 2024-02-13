@@ -186,17 +186,14 @@ class GlobalProvider with ChangeNotifier {
 
       // Reload authUser
       authUser = FirebaseAuth.instance.currentUser;
-      authUser!.updateDisplayName(fname + " " + lname);
+      authUser!.updateDisplayName("$fname $lname");
 
       // Create personal workspace
       final workspace = <String, dynamic>{
-        "name": fname + " " + lname + "'s Workspace",
-        "pfp": "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-            fname +
-            "+" +
-            lname,
+        "name": "$fname $lname's Workspace",
+        "pfp": "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
         "users": [
-          {"user": db.doc('users/' + authUser!.uid), "role": "owner"}
+          {"user": db.doc('users/${authUser!.uid}'), "role": "owner"}
         ],
         "instagram": {},
         "tiktok": {},
@@ -213,14 +210,11 @@ class GlobalProvider with ChangeNotifier {
         "email": email,
         "fname": fname,
         "lname": lname,
-        "pfp": "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-            fname +
-            "+" +
-            lname,
+        "pfp": "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
         "theme": "default",
         "customTheme": {},
-        "personalWorkspace": db.doc('workspaces/' + workspaceDocRef.id),
-        "workspaces": [db.doc('workspaces/' + workspaceDocRef.id)],
+        "personalWorkspace": db.doc('workspaces/${workspaceDocRef.id}'),
+        "workspaces": [db.doc('workspaces/${workspaceDocRef.id}')],
       };
 
       await db.collection("users").doc(authUser!.uid).set(user);
@@ -233,6 +227,10 @@ class GlobalProvider with ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       return e;
     }
+  }
+
+  void forgotPassword(String email) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 
   void signOut() async {
