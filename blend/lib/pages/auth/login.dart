@@ -11,9 +11,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  String emailErrorText = '';
-  String passwordErrorText = '';
+  String? emailErrorText = null;
+  String? passwordErrorText = null;
 
   @override
   void dispose() {
@@ -56,8 +55,41 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
+<<<<<<< HEAD
 return Scaffold(
       backgroundColor: Colors.white,
+=======
+    void forgotPassword(String email) async {
+      if (email.isEmpty) {
+        setState(() {
+          emailErrorText = 'Emaiv    l is required!';
+        });
+      } else {
+        provider.forgotPassword(email);
+        // Display alert box
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Password Reset Email Sent'),
+              content: Text(
+                  'Please check your email for a password reset link. Be sure to check your spam folder!'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+
+      }
+    }
+    return Scaffold(
+>>>>>>> d19e4a68d555af7d0e9ca01cd1f0149253ee7996
       appBar: AppBar(
         title: Text('Sign In'),
       ),
@@ -81,6 +113,18 @@ return Scaffold(
                 labelText: 'Password',
                 errorText: passwordErrorText,
               ),
+            ),
+            // forgot password
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    forgotPassword(emailController.text);
+                  },
+                  child: Text("Forgot password?"),
+                ),
+              ],
             ),
             SizedBox(height: 16.0),
             SizedBox(
