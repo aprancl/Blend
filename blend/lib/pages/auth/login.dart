@@ -55,10 +55,6 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
-<<<<<<< HEAD
-return Scaffold(
-      backgroundColor: Colors.white,
-=======
     void forgotPassword(String email) async {
       if (email.isEmpty) {
         setState(() {
@@ -89,7 +85,7 @@ return Scaffold(
       }
     }
     return Scaffold(
->>>>>>> d19e4a68d555af7d0e9ca01cd1f0149253ee7996
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Sign In'),
       ),
