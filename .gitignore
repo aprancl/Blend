@@ -1,1 +1,4 @@
 clientkeystore
+blend/keystore/blend_upload_keystore.jks
+blend/keystore/private_key.pepk
+blend_android_build/private_key.pepk
