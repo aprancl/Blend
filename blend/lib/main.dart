@@ -2,12 +2,11 @@
 // Flutter
 import 'package:blend/pages/auth/verify.dart';
 import 'package:blend/pages/navPages/analytics/analytics.dart';
-import 'package:blend/pages/navPages/userProfile/user_profile.dart';
-import 'package:blend/pages/navPages/workspaceProfile/workspace_profile.dart';
+import 'package:blend/pages/navPages/user/user_profile.dart';
+import 'package:blend/pages/navPages/workspace/workspace_profile.dart';
 import 'package:blend/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'router/router.dart' as router;
-import 'router/routing_constants.dart';
 import 'package:blend/global_provider.dart';
 // Firebase
 import 'package:firebase_core/firebase_core.dart';
@@ -64,7 +63,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: "Blend",
       onGenerateRoute: router.generateRoute,
-      initialRoute: SplashRoute,
+      initialRoute: '/',
       theme: provider.theme,
       home: (authUser == null)
           ? SplashPage()

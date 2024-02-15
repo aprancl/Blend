@@ -1,10 +1,11 @@
 import 'package:blend/pages/auth/verify.dart';
 import 'package:blend/pages/navPages/posting/overview_post.dart';
-import 'package:blend/pages/navPages/userProfile/user_profile.dart';
-import 'package:blend/pages/navPages/workspaceProfile/workspace_profile.dart';
+import 'package:blend/pages/navPages/user/user_profile.dart';
+import 'package:blend/pages/navPages/workspace/settings/workspace_account_linking.dart';
+import 'package:blend/pages/navPages/workspace/settings/workspace_settings.dart';
+import 'package:blend/pages/navPages/workspace/workspace_profile.dart';
 import 'package:blend/pages/splash.dart';
 import 'package:flutter/material.dart';
-import 'routing_constants.dart';
 import '../pages/home.dart';
 import '../pages/undefined.dart';
 import '../pages/auth/login.dart';
@@ -27,20 +28,25 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     } else {
       print("Oh cool, yo email is verified! :))))))");
       switch (settings.name) {
-        case HomeRoute:
+        case '/home':
           return MaterialPageRoute(builder: (context) => HomePage());
-        case PostingPlatformsRoute:
+        case '/posting/platforms':
           return MaterialPageRoute(
               builder: (context) => PostingPlatformsPage());
-        case PostingCaptionRoute:
+        case '/posting/caption':
           return MaterialPageRoute(builder: (context) => PostingCaptionPage());
-        case PostingMediaRoute:
+        case '/posting/media':
           return MaterialPageRoute(builder: (context) => PostingMediaPage());
-        case PostingOverviewRoute:
+        case '/posting/overview':
           return MaterialPageRoute(builder: (context) => PostingOverviewPage());
-        case WorkspaceProfileRoute:
+        case '/workspace/profile':
           return MaterialPageRoute(builder: (context) => WorkspaceProfilePage());
-        case UserProfileRoute:
+        case '/workspace/settings':
+          return MaterialPageRoute(builder: (context) => WorkspaceSettingsPage());
+        case '/workspace/settings/account-linking':
+          return MaterialPageRoute(
+              builder: (context) => WorkspaceAccountLinkingPage());
+        case '/user/profile':
           return MaterialPageRoute(builder: (context) => UserProfilePage());
         default:
           return MaterialPageRoute(builder: (context) => UndefinedPage());
@@ -49,9 +55,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   } else {
     print("imagine not being logged in. loser");
     switch (settings.name) {
-      case LoginRoute:
+      case '/login':
         return MaterialPageRoute(builder: (context) => LoginPage());
-      case RegisterRoute:
+      case '/register':
         return MaterialPageRoute(builder: (context) => RegisterPage());
       default:
         return MaterialPageRoute(builder: (context) => SplashPage());

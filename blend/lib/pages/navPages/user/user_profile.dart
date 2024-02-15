@@ -1,32 +1,23 @@
+import 'package:blend/components/appBars/settings_app_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:blend/global_provider.dart';
 import 'package:provider/provider.dart';
 
-class WorkspaceProfilePage extends StatefulWidget {
+class UserProfilePage extends StatefulWidget {
   @override
-  State<WorkspaceProfilePage> createState() => _WorkspaceProfilePageState();
+  State<UserProfilePage> createState() => _UserProfilePageState();
 }
 
-class _WorkspaceProfilePageState extends State<WorkspaceProfilePage> {
+class _UserProfilePageState extends State<UserProfilePage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
     final _blendUser = provider.blendUser;
 
-    @override
-    void didChangeDependencies() {
-      super.didChangeDependencies();
-      print("HEREEEE");
-      provider.getAuthUser();
-    }
-
     return Container(
       child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-          ),
+          appBar: SettingsAppBar(settingsRoute: "/undefined", title: "Profile",).build(context),
           body: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
@@ -46,8 +37,7 @@ class _WorkspaceProfilePageState extends State<WorkspaceProfilePage> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: NetworkImage(
-                                _blendUser.workspaces?[0].pfp ?? ""),
+                            image: NetworkImage(_blendUser.pfp ?? ""),
                           ),
                         ),
                       ),
@@ -60,12 +50,13 @@ class _WorkspaceProfilePageState extends State<WorkspaceProfilePage> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width - 210,
                                 child: Text(
-                                  _blendUser.workspaces?[0].name ?? "",
+                                  "${_blendUser.fname} ${_blendUser.lname}" ??
+                                      "",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 22,
                                     fontWeight: FontWeight.w900,
-                                  ), 
+                                  ),
                                 ),
                               ),
                               Row(

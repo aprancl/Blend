@@ -1,14 +1,15 @@
+import 'package:blend/components/appBars/settings_app_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:blend/global_provider.dart';
 import 'package:provider/provider.dart';
 
-class UserProfilePage extends StatefulWidget {
+class WorkspaceProfilePage extends StatefulWidget {
   @override
-  State<UserProfilePage> createState() => _UserProfilePageState();
+  State<WorkspaceProfilePage> createState() => _WorkspaceProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> {
+class _WorkspaceProfilePageState extends State<WorkspaceProfilePage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
@@ -16,27 +17,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
     return Container(
       child: Scaffold(
-          appBar: AppBar(
-            title: Center(
-              child: Text(
-                'Profile',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            actions: <Widget>[
-              // gear button
-              IconButton(
-                icon: Icon(Icons.settings),
-                onPressed: () {
-                  // do something
-                },
-              ),
-            ],
-          ),
+          backgroundColor: Colors.transparent,
+          appBar: SettingsAppBar(
+            settingsRoute: "/workspace/settings",
+            title: "Workspace",
+          ).build(context),
           body: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
@@ -56,7 +41,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: NetworkImage(_blendUser.pfp ?? ""),
+                            image: NetworkImage(
+                                _blendUser.workspaces?[0].pfp ?? ""),
                           ),
                         ),
                       ),
@@ -69,8 +55,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width - 210,
                                 child: Text(
-                                  "${_blendUser.fname} ${_blendUser.lname}" ??
-                                      "",
+                                  _blendUser.workspaces?[0].name ?? "",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 22,
