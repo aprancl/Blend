@@ -75,6 +75,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'com.android.support:multidex:2.0.1'
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
 }
 
 apply plugin: 'com.google.gms.google-services'
