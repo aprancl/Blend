@@ -2,7 +2,8 @@
 // Flutter
 import 'package:blend/pages/auth/verify.dart';
 import 'package:blend/pages/navPages/analytics/analytics.dart';
-import 'package:blend/pages/navPages/profile/profile.dart';
+import 'package:blend/pages/navPages/userProfile/user_profile.dart';
+import 'package:blend/pages/navPages/workspaceProfile/workspace_profile.dart';
 import 'package:blend/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'router/router.dart' as router;
@@ -79,10 +80,11 @@ class _MyAppState extends State<MyApp> {
                         HomePage(), //0
                         PostingPlatformsPage(), //1
                         AnalyticsPage(), //2
-                        ProfilePage(), //3
+                        WorkspaceProfilePage(), //3
                         PostingCaptionPage(), //4
                         PostingMediaPage(), //5
                         PostingOverviewPage(), //6
+                        // UserProfilePage(), //7
                       ],
                     ),
                     bottomNavigationBar: CurvedNavigationBar(

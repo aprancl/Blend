@@ -43,14 +43,8 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   go_router: ^13.1.0
   flex_color_scheme: ^7.3.1
-<<<<<<< HEAD
   image_gallery_saver: ^2.0.3
-=======
   flutter_facebook_auth: ^6.0.4
-
->>>>>>> d223c563a0d8b2bad905668f81e75671e4060b63
-
-
 
 dev_dependencies:
   flutter_test:

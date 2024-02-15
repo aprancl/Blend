@@ -23,8 +23,8 @@ class MainAppBar extends StatelessWidget {
           'Blend',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
+            fontSize: 25,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -36,7 +36,8 @@ class MainAppBar extends StatelessWidget {
                 "https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"),
           ),
           onPressed: () {
-            // do something
+            // Display user profile
+            Navigator.pushNamed(context, '/user/profile');
           },
         ),
       ],

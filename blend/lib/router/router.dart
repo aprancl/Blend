@@ -1,4 +1,7 @@
 import 'package:blend/pages/auth/verify.dart';
+import 'package:blend/pages/navPages/posting/overview_post.dart';
+import 'package:blend/pages/navPages/userProfile/user_profile.dart';
+import 'package:blend/pages/navPages/workspaceProfile/workspace_profile.dart';
 import 'package:blend/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'routing_constants.dart';
@@ -33,12 +36,18 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           return MaterialPageRoute(builder: (context) => PostingCaptionPage());
         case PostingMediaRoute:
           return MaterialPageRoute(builder: (context) => PostingMediaPage());
+        case PostingOverviewRoute:
+          return MaterialPageRoute(builder: (context) => PostingOverviewPage());
+        case WorkspaceProfileRoute:
+          return MaterialPageRoute(builder: (context) => WorkspaceProfilePage());
+        case UserProfileRoute:
+          return MaterialPageRoute(builder: (context) => UserProfilePage());
         default:
           return MaterialPageRoute(builder: (context) => UndefinedPage());
       }
     }
   } else {
-    print("image not being logged in. loser");
+    print("imagine not being logged in. loser");
     switch (settings.name) {
       case LoginRoute:
         return MaterialPageRoute(builder: (context) => LoginPage());
