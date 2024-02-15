@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   void _signOut() {
     // Implement your sign out logic here
     setState(() {
-      _accessToken = 'No access token';
+       Provider.of<GlobalProvider>(context, listen: false).signOut();
     });
   }
 

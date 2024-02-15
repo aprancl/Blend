@@ -294,14 +294,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
-  flutter_facebook_sdk:
-    dependency: "direct main"
-    description:
-      name: flutter_facebook_sdk
-      sha256: "1068a0a4ab15781a1e0478bb5dd46d17c588af4233b0935757febfb0d041c9f2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   flutter_lints:
     dependency: "direct dev"
     description:

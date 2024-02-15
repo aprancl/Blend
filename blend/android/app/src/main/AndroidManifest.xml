@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.blend">
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> <!-- allows app to access Facebook app features -->
@@ -11,10 +12,12 @@
         android:icon="@mipmap/ic_launcher">
         <meta-data 
             android:name="com.facebook.sdk.ApplicationId" 
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value"/>
         <meta-data 
             android:name="com.facebook.sdk.ClientToken" 
-            android:value="@string/facebook_client_token"/>
+            android:value="@string/facebook_client_token"
+            tools:replace="android:value"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
