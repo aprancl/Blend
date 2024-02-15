@@ -1,4 +1,6 @@
 // Flutter
+import 'dart:async';
+
 import 'package:blend/objects/blendUser.dart';
 import 'package:blend/objects/blendWorkspace.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +19,11 @@ class GlobalProvider with ChangeNotifier {
 //  ██████  ███████  ██████  ██████  ██   ██ ███████
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  late StreamSubscription<User?> _authStateChanges;
+
+  GlobalProvider() {
+    _initializeAuthStateListener();
+  }
 
 //  ████████ ██   ██ ███████ ███    ███ ███████
 //     ██    ██   ██ ██      ████  ████ ██
@@ -94,15 +101,20 @@ class GlobalProvider with ChangeNotifier {
   var authUser = FirebaseAuth.instance.currentUser;
   BlendUser blendUser = BlendUser();
 
-  var authStateChanges = FirebaseAuth.instance.authStateChanges().listen(
-    (User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    },
-  );
+  void _initializeAuthStateListener() {
+    _authStateChanges = FirebaseAuth.instance.authStateChanges().listen(
+      (User? user) async {
+        if (user == null) {
+          print('User is currently signed out!');
+        } else {
+          print('User is signed in!');
+          // Call your function here
+          await getAuthUser();
+          await getBlendUser(); // Replace getAuthUser() with the actual function call
+        }
+      },
+    );
+  }
 
   User? getAuthUser() {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -135,7 +147,7 @@ class GlobalProvider with ChangeNotifier {
       blendUser.workspaces = blendWorkspaces;
       blendUser.personalWorkspace =
           await getBlendWorkspace(blendUser.personalWorkspaceRef!);
-          
+
       this.blendUser = blendUser!;
       notifyListeners();
       return blendUser;
@@ -191,7 +203,8 @@ class GlobalProvider with ChangeNotifier {
       // Create personal workspace
       final workspace = <String, dynamic>{
         "name": "$fname $lname's Workspace",
-        "pfp": "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
+        "pfp":
+            "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
         "users": [
           {"user": db.doc('users/${authUser!.uid}'), "role": "owner"}
         ],
@@ -210,7 +223,8 @@ class GlobalProvider with ChangeNotifier {
         "email": email,
         "fname": fname,
         "lname": lname,
-        "pfp": "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
+        "pfp":
+            "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
         "theme": "default",
         "customTheme": {},
         "personalWorkspace": db.doc('workspaces/${workspaceDocRef.id}'),
@@ -250,7 +264,6 @@ class GlobalProvider with ChangeNotifier {
   var defaultImagePath = "images/lime.png";
   File? selectedMedia;
 
-
   Future selectImage() async {
     try {
       final img = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -261,5 +274,11 @@ class GlobalProvider with ChangeNotifier {
     } on Error catch (err) {
       debugPrint("Failed to find image: $err");
     }
+  }
+
+  @override
+  void dispose() {
+    _authStateChanges.cancel();
+    super.dispose();
   }
 }
