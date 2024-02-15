@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
 
+
 class PostingPlatformsPage extends StatelessWidget {
   var eachPlatform = <String>[
     "Instagram",

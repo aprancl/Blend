@@ -87,6 +87,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.blue),
         title: Text('Sign In'),
       ),
       body: Padding(
