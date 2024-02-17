@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
 
-
 class PostingPlatformsPage extends StatelessWidget {
   var eachPlatform = <String>[
     "Instagram",
@@ -22,10 +21,10 @@ class PostingPlatformsPage extends StatelessWidget {
     Icons.facebook,
     Icons.language_sharp
   ];
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
-    // var cur_platforms = appState.platforms;
 
     return Center(
       child: Padding(
@@ -55,8 +54,11 @@ class PostingPlatformsPage extends StatelessWidget {
               children: List.generate(
                 eachPlatform.length,
                 (index) {
-                  return MediaSelectionButton(eachPlatformIcon[index],
-                      eachPlatform[index], provider.selectedPlatforms);
+                  return MediaSelectionButton(
+                    eachPlatformIcon[index],
+                    eachPlatform[index],
+                    provider.selectedPlatforms,
+                  );
                 },
               ),
             ),
@@ -84,7 +86,7 @@ class PostingPlatformsPage extends StatelessWidget {
   }
 }
 
-class MediaSelectionButton extends StatelessWidget {
+class MediaSelectionButton extends StatefulWidget {
   final IconData buttonIcon;
   final String label;
   final Set<String> selectedPlatforms;
@@ -92,24 +94,37 @@ class MediaSelectionButton extends StatelessWidget {
   MediaSelectionButton(this.buttonIcon, this.label, this.selectedPlatforms);
 
   @override
+  _MediaSelectionButtonState createState() => _MediaSelectionButtonState();
+}
+
+class _MediaSelectionButtonState extends State<MediaSelectionButton> {
+  bool _isTapped = false;
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        selectedPlatforms.add(label);
-        print(selectedPlatforms);
+      onTapDown: (_) {
+        setState(() {
+          _isTapped = !_isTapped;
+        });
+        widget.selectedPlatforms.add(widget.label);
+        print(widget.selectedPlatforms);
       },
       child: Column(
         children: <Widget>[
           Container(
-            margin:
-                EdgeInsets.only(bottom: 10.0), // Adjust the margin as needed
+            margin: EdgeInsets.only(bottom: 10.0),
             padding: EdgeInsets.only(left: 20.0, right: 10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF3366FF),
-                  const Color(0xFF00CCFF),
+                  _isTapped
+                      ? const Color(0xFF0055FF)
+                      : const Color(0xFF3366FF),
+                  _isTapped
+                      ? const Color(0xFF00D7FF)
+                      : const Color(0xFF00CCFF),
                 ],
                 begin: const FractionalOffset(0.0, 0.0),
                 end: const FractionalOffset(1.0, 0.0),
@@ -118,10 +133,14 @@ class MediaSelectionButton extends StatelessWidget {
               ),
             ),
             child: ListTile(
-              contentPadding:
-                  EdgeInsets.all(0), // Remove default ListTile padding
-              leading: Icon(buttonIcon),
-              title: Text(label),
+              contentPadding: EdgeInsets.all(0),
+              leading: Icon(widget.buttonIcon),
+              title: Text(
+                widget.label,
+                style: TextStyle(
+                  color: _isTapped ? Colors.white : Colors.black,
+                ),
+              ),
             ),
           ),
         ],
@@ -129,3 +148,5 @@ class MediaSelectionButton extends StatelessWidget {
     );
   }
 }
+
+
