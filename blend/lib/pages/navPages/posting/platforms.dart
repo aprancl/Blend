@@ -107,7 +107,11 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
         setState(() {
           _isTapped = !_isTapped;
         });
-        widget.selectedPlatforms.add(widget.label);
+        if (_isTapped) {
+          widget.selectedPlatforms.add(widget.label);
+        } else {
+          widget.selectedPlatforms.remove(widget.label);
+        }
         print(widget.selectedPlatforms);
       },
       child: Column(
@@ -148,5 +152,3 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
     );
   }
 }
-
-

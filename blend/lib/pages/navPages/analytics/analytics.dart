@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
-
+import 'package:pie_chart/pie_chart.dart';
 
 class AnalyticsPage extends StatefulWidget {
   @override
@@ -9,25 +9,26 @@ class AnalyticsPage extends StatefulWidget {
 }
 
 class _AnalyticsPageState extends State<AnalyticsPage> {
+  final dataMap = <String, double>{
+    "Flutter": 5,
+  };
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.insert_chart,
-            size: 120,
-            color: Colors.white,
+    return SafeArea(
+      child: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Center(
+              child: Column(
+                children: [
+                  Text("Hello world"),
+                  PieChart(dataMap: dataMap)
+                ],
+              ),
+            ),
           ),
-          Text(
-            'Analytics Page',
-            style: TextStyle(
-                color: Colors.white, fontSize: 30, fontWeight: FontWeight.w700),
-          ),
-          // button
-        ],
+        ),
       ),
     );
   }
