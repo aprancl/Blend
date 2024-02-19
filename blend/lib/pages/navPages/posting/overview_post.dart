@@ -45,7 +45,7 @@ class PostingOverviewPage extends StatelessWidget {
                       width: 350,
                       height: 150,
                       decoration: BoxDecoration(
-                        color: Colors.purple[700],
+                        color: Color.fromARGB(255, 35, 70, 198).withOpacity(0.3),
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.all(
                           Radius.circular(20.0),
@@ -92,3 +92,4 @@ class PostingOverviewPage extends StatelessWidget {
     );
   }
 }
+

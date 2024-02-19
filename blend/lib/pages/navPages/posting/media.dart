@@ -83,12 +83,17 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
                   ),
                   itemCount: galleryImages.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: FileImage(galleryImages[index]),
-                          fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: () {
+                        provider.selectImage();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: FileImage(galleryImages[index]),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     );
@@ -102,76 +107,6 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
     );
   }
 }
-// class PostingMediaPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final provider = Provider.of<GlobalProvider>(context);
-
-//     return Scaffold(
-//       body: SafeArea(
-//         child: Center(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               ImageContainer(provider: provider),
-//               ElevatedButton(
-//                 child: Text('Add Media'),
-//                 onPressed: () {
-//                   provider.selectImage();
-//                 },
-//               ),
-//               Container(
-//                 margin: EdgeInsets.symmetric(horizontal: 15.0),
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.end,
-//                   children: [
-//                     ElevatedButton(
-//                       child: Text('Back'),
-//                       onPressed: () {
-//                         print('We want to go back!');
-//                         provider.goToPage(1);
-//                       },
-//                     ),
-//                     Spacer(),
-//                     ElevatedButton(
-//                       child: Text('Next'),
-//                       onPressed: () {
-//                         print('We want to go next!');
-//                         provider.goToPage(4);
-//                       },
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               Expanded(
-
-//                 child: GridView.builder(
-//                   padding: EdgeInsets.only(top: 10, bottom: 30, left: 10, right: 10),
-//                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                     crossAxisCount: 3,
-//                     crossAxisSpacing: 10,
-//                     mainAxisSpacing: 10,
-//                   ),
-//                   itemCount: 12,
-//                   itemBuilder: (BuildContext context, int index) {
-//                     return Container(
-//                       decoration: BoxDecoration(
-//                         borderRadius: BorderRadius.circular(10),
-//                         image: DecorationImage(
-//                           image: AssetImage("images/lime.png"),
-//                         ),
-//                       ),
-//                     );
-//                   },
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class ImageContainer extends StatelessWidget {
   const ImageContainer({Key? key, required this.provider}) : super(key: key);
