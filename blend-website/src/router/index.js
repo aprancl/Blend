@@ -19,7 +19,13 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/PrivacyPolicy.vue')
-  }
+  },
+  // Route to profile page which takes in a user ID URL parameter
+    {
+        path: '/profile/:uid',
+        name: 'profile',
+        component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+    },
 ]
 
 const router = createRouter({
