@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
@@ -13,50 +15,89 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   final dataMap = <String, double>{
     "instagram": 543,
     "TikTok": 1000,
-    "LinkedIn": 43,
     "Youtube": 1221,
-    "snapchat": 900,
+    "other": 900,
   };
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar().build(context),
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              child: Center(
-                child: Column(
-                  children: [
-                    Text("Hello world"),
-                    PieChart(
-                      dataMap: dataMap,
-                      chartType: ChartType.ring,
-                      chartRadius: MediaQuery.of(context).size.width / 2.5,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Title(
-                      color: Color(0xFFFFFFFF),
-                      child: Text(
-                        "Choose Platforms",
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        ),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+                left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Title(
+                    color: Color(0xFFFFFFFF),
+                    child: Text(
+                      "Analytics Home",
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
-                    Divider(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      thickness: 3.0,
-                      indent: 12.0,
-                      endIndent: 12.0,
-                    ),
-                  ],
-                ),
+                  ),
+                  Divider(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    thickness: 3.0,
+                    indent: 12.0,
+                    endIndent: 12.0,
+                  ),
+                  SizedBox(height: 20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      PieChart(
+                        ringStrokeWidth: 20,
+                        dataMap: dataMap,
+                        chartLegendSpacing: 20,
+                        chartType: ChartType.ring,
+                        chartRadius: MediaQuery.of(context).size.width / 2.5,
+                        legendOptions: LegendOptions(
+                            showLegends: false,
+                            showLegendsInRow: true,
+                            legendPosition: LegendPosition.bottom),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Title(
+                            color: Color(0xFFFFFFFF),
+                            child: Text(
+                              "Followers",
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                          ),
+                          
+                          SizedBox(height: 30,),
+                          Container(
+                            height: 100.0, 
+                            color: Colors.grey,
+                            child: Text("Place holder"),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Divider(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    thickness: 3.0,
+                    indent: 12.0,
+                    endIndent: 12.0,
+                  ),
+                ],
               ),
             ),
           ),
