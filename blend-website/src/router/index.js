@@ -22,7 +22,7 @@ const routes = [
   },
   // Route to profile page which takes in a user ID URL parameter
     {
-        path: '/profile/:uid',
+        path: '/profile/:id',
         name: 'profile',
         component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
     },
