@@ -45,6 +45,32 @@
 				</div>
 			</div>
 		</div>
+        <div
+            v-if="displayBothSides"
+			:style="
+				'transform: scaleY(' +
+				(invert ? '-' : '') +
+				'1); background-position: center; background-size: cover; background-image: ' +
+				(pictureSide == 'right'
+					? leftBG.backgroundImage
+					: rightBG.backgroundImage)
+			"
+			style="width: 100% !important; height: 100% !important"
+		>
+			<div
+				:style="
+					'transform: scaleY(' +
+					(invert ? '-' : '') +
+					'1); display: flex; align-items: center; background: transparent; height: 100%; width: 100%;'
+				"
+			>
+				<div class="container">
+					<slot
+						:name="pictureSide == 'left' ? 'left' : 'right'"
+					></slot>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -99,6 +125,11 @@ export default {
 		pictureSide: {
 			type: String,
 			default: "right",
+			required: false,
+		},
+        displayBothSides: {
+			type: Boolean,
+			default: true,
 			required: false,
 		},
 		maintainSkewbox: {

@@ -1,8 +1,8 @@
 <template>
-	<div id="profilePage">
+	<div id="profilePage" v-if="workspace && blendCard">
 		<Parallax
 			:image="{
-				backgroundImage: `url(${require('@/assets/img/Background.jpg')})`,
+				backgroundImage: `url(${blendCard.background})`,
 				'background-position': 'center',
 			}"
 			:height="'100vh'"
@@ -11,6 +11,8 @@
 		>
 			<div class="blur">
 				<SkewBox
+					:style="(windowWidth >= 1200) ? 'position: fixed' : ''"
+                    class="w-100"
 					:height="Math.max(windowHeight, 600)"
 					:padding="'0 0 0 0'"
 					:divisionPosition="40"
@@ -49,7 +51,13 @@
 											"
 										>
 											<div class="pe-3">
-												<h5>42M</h5>
+												<h5>
+													{{
+														convertToReadableValue(
+															workspace.followers
+														)
+													}}
+												</h5>
 												<h6>Followers</h6>
 											</div>
 										</div>
@@ -62,7 +70,13 @@
 											"
 										>
 											<div class="ps-3">
-												<h5>5</h5>
+												<h5>
+													{{
+														convertToReadableValue(
+															workspace.following
+														)
+													}}
+												</h5>
 												<h6>Following</h6>
 											</div>
 										</div>
@@ -72,48 +86,28 @@
 						</div>
 					</template>
 					<template v-slot:right>
-						<div
-							class="vertical-center"
-							style="transform: translateY(-2rem)"
-						>
-							<Quote :author="'- ' + workspace.name">{{
-								workspace.bio
-							}}</Quote>
+						<div class="right">
+							<div
+							>
+								<Quote class="ps-1 ps-xl-0" :author="'- ' + workspace.name">{{
+									blendCard.bio
+								}}</Quote>
+							</div>
+							<div class="mx-s-5 py-2">
+								<div class="row white w-100 mx-auto">
+									<SocialLink
+										v-for="platform in blendCard.platforms"
+										class="col-md-6 col-12"
+										:key="platform"
+										:platform="platform.type"
+										:link="platform.link"
+										:title="platform.title"
+									></SocialLink>
+								</div>
+							</div>
 						</div>
 					</template>
 				</SkewBox>
-
-				<div class="mx-s-5 py-5">
-					<div class="container white">
-                        <SocialLink :platform="'discord'" :link="'https://www.example.com/'" :title="'discord'"></SocialLink>
-                        <SocialLink :platform="'douyin'" :link="'https://www.example.com/'" :title="'douyin'"></SocialLink>
-                        <SocialLink :platform="'facebook'" :link="'https://www.example.com/'" :title="'facebook'"></SocialLink>
-                        <SocialLink :platform="'instagram'" :link="'https://www.example.com/'" :title="'instagram'"></SocialLink>
-                        <SocialLink :platform="'linkedin'" :link="'https://www.example.com/'" :title="'linkedin'"></SocialLink>
-                        <SocialLink :platform="'messenger'" :link="'https://www.example.com/'" :title="'messenger'"></SocialLink>
-                        <SocialLink :platform="'pinterest'" :link="'https://www.example.com/'" :title="'pinterest'"></SocialLink>
-                        <SocialLink :platform="'quora'" :link="'https://www.example.com/'" :title="'quora'"></SocialLink>
-                        <SocialLink :platform="'reddit'" :link="'https://www.example.com/'" :title="'reddit'"></SocialLink>
-                        <SocialLink :platform="'skype'" :link="'https://www.example.com/'" :title="'skype'"></SocialLink>
-                        <SocialLink :platform="'snapchat'" :link="'https://www.example.com/'" :title="'snapchat'"></SocialLink>
-                        <SocialLink :platform="'telegram'" :link="'https://www.example.com/'" :title="'telegram'"></SocialLink>
-                        <SocialLink :platform="'threads'" :link="'https://www.example.com/'" :title="'threads'"></SocialLink>
-                        <SocialLink :platform="'tiktok'" :link="'https://www.example.com/'" :title="'tiktok'"></SocialLink>
-                        <SocialLink :platform="'tumblr'" :link="'https://www.example.com/'" :title="'tumblr'"></SocialLink>
-                        <SocialLink :platform="'twitch'" :link="'https://www.example.com/'" :title="'twitch'"></SocialLink>
-                        <SocialLink :platform="'wechat'" :link="'https://www.example.com/'" :title="'wechat'"></SocialLink>
-                        <SocialLink :platform="'whatsapp'" :link="'https://www.example.com/'" :title="'whatsapp'"></SocialLink>
-                        <SocialLink :platform="'x'" :link="'https://www.example.com/'" :title="'x'"></SocialLink>
-                        <SocialLink :platform="'youtube'" :link="'https://www.example.com/'" :title="'youtube'"></SocialLink>
-                        <SocialLink :platform="'github'" :link="'https://www.example.com/'" :title="'github'"></SocialLink>
-                        <SocialLink :platform="'myspace'" :link="'https://www.example.com/'" :title="'myspace'"></SocialLink>
-                        <SocialLink :platform="'researchgate'" :link="'https://www.example.com/'" :title="'researchgate'"></SocialLink>
-                        <SocialLink :platform="'soundcloud'" :link="'https://www.example.com/'" :title="'soundcloud'"></SocialLink>
-                        <SocialLink :platform="'stackoverflow'" :link="'https://www.example.com/'" :title="'stackoverflow'"></SocialLink>
-                        <SocialLink :platform="'steam'" :link="'https://www.example.com/'" :title="'steam'"></SocialLink>
-                        <SocialLink :platform="'spotify'" :link="'https://www.example.com/'" :title="'spotify'"></SocialLink>
-                    </div>
-				</div>
 			</div>
 		</Parallax>
 	</div>
@@ -123,24 +117,19 @@
 import SkewBox from "@/components/SkewBox.vue";
 import Parallax from "@/components/Parallax.vue";
 import Quote from "@/components/Quote.vue";
-import SocialLink from '@/components/SocialLink.vue';
+import SocialLink from "@/components/SocialLink.vue";
 
 export default {
 	components: {
 		SkewBox,
 		Parallax,
 		Quote,
-        SocialLink,
+		SocialLink,
 	},
 	data() {
 		return {
-			workspace: {
-				pfp: "https://www.w3schools.com/w3images/avatar2.png",
-				name: "John Doe",
-				email: "jdoe@example.com",
-				phone: "123-456-7890",
-				bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare urna odio, ut varius orci molestie rutrum. Etiam nulla nulla, imperdiet vitae urna quis, ultrices imperdiet enim. Aenean hendrerit neque vitae mauris ornare volutpat. Fusce convallis eu lorem nec laoreet. In feugiat accumsan tincidunt. Suspendisse sed sodales urna. In facilisis ultrices tristique. Morbi at odio rutrum massa porttitor rutrum sit amet nec tellus. Cras ac cursus eros. Vivamus in tellus non neque iaculis faucibus nec vel est. Cras tempus sit amet dui a semper. In eget libero scelerisque metus tristique elementum. Ut rhoncus commodo sem, in semper ipsum venenatis eget. Etiam ultricies, ligula vel suscipit iaculis, justo nibh pellentesque orci, id scelerisque ipsum lectus mattis lorem. Ut vel nibh magna. Vestibulum non lorem iaculis, dictum ligula id, aliquet velit.",
-			},
+			workspace: null,
+			blendCard: null,
 			windowHeight: 0,
 			windowWidth: 0,
 		};
@@ -149,6 +138,36 @@ export default {
 		getWindowSize() {
 			this.windowHeight = window.innerHeight;
 			this.windowWidth = window.innerWidth;
+		},
+		convertToReadableValue(value) {
+			if (value >= 1000000000) {
+				return (
+					(value / 1000000000)
+						.toFixed(1)
+						.substring(
+							0,
+							(value / 1000000000).toFixed(1).indexOf(".")
+						) + "B"
+				);
+			} else if (value >= 1000000) {
+				return (
+					(value / 1000000)
+						.toFixed(1)
+						.substring(
+							0,
+							(value / 1000000).toFixed(1).indexOf(".")
+						) + "M"
+				);
+			} else if (value >= 1000) {
+				return (
+					(value / 1000)
+						.toFixed(1)
+						.substring(0, (value / 1000).toFixed(1).indexOf(".")) +
+					"K"
+				);
+			} else {
+				return value;
+			}
 		},
 	},
 	created() {
@@ -159,15 +178,26 @@ export default {
 	},
 	async beforeMount() {
 		this.getWindowSize();
+
+		// Get workspaceID from the URL
+		const workspaceID = this.$route.params.id;
+
+		console.log("Workspace ID: ", workspaceID);
+
+		// Fetch workspace from db
+		await this.$store.dispatch("fetchWorkspace", workspaceID);
+
+		// Set the workspace data
+		this.workspace = this.$store.getters.workspace;
+		this.blendCard = this.$store.getters.blendCard;
+		var page = document.querySelector(":root");
+		page.style.setProperty("--top", this.blendCard.topColor);
+		page.style.setProperty("--bottom", this.blendCard.bottomColor);
 	},
 };
 </script>
 
 <style scoped>
-#profilePage {
-	--top: rgba(255, 149, 56, 1);
-	--bottom: rgba(114, 203, 255, 0.5);
-}
 .white-hr {
 	margin: 0 0 15px 0;
 	border-bottom: 4px solid white;
@@ -198,7 +228,6 @@ export default {
 	width: fit-content !important;
 }
 
-
 .workspacePic {
 	height: 250px;
 	width: 250px;
@@ -209,5 +238,31 @@ export default {
 
 img.workspacePic {
 	border: 5px solid grey;
+}
+
+.right {
+	overflow-y: scroll;
+    overflow-x: visible;
+	height: 100%;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+    padding-left: 1rem;
+    transform: translateX(1rem);
+}
+.right::-webkit-scrollbar {
+	display: none;
+}
+
+:deep(.poly-content.poly-right) {
+    padding-top: 0;
+    padding-bottom: 2.5rem;
+}
+
+/* media query for when screen is udner 1200px wide */
+@media (max-width: 1200px) {
+    .right {
+        padding-left: 0;
+        transform: translateX(0);
+    }
 }
 </style>
