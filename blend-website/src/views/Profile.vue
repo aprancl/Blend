@@ -139,7 +139,7 @@ export default {
 				name: "John Doe",
 				email: "jdoe@example.com",
 				phone: "123-456-7890",
-				bio: "As educators, we care, and we are deeply passionate about student-engaged learning. My teaching philosophy is to exude this, to truly live out this care, passion, and dedication, which inevitably serves to motivate, to inspire, and to awaken in students a sincere interest in learning. While effective transmission of knowledge is arguably a key ingredient in successful teaching, my goal is to guide and inspire students to discover their goals, their purpose, and their potential.",
+				bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ornare urna odio, ut varius orci molestie rutrum. Etiam nulla nulla, imperdiet vitae urna quis, ultrices imperdiet enim. Aenean hendrerit neque vitae mauris ornare volutpat. Fusce convallis eu lorem nec laoreet. In feugiat accumsan tincidunt. Suspendisse sed sodales urna. In facilisis ultrices tristique. Morbi at odio rutrum massa porttitor rutrum sit amet nec tellus. Cras ac cursus eros. Vivamus in tellus non neque iaculis faucibus nec vel est. Cras tempus sit amet dui a semper. In eget libero scelerisque metus tristique elementum. Ut rhoncus commodo sem, in semper ipsum venenatis eget. Etiam ultricies, ligula vel suscipit iaculis, justo nibh pellentesque orci, id scelerisque ipsum lectus mattis lorem. Ut vel nibh magna. Vestibulum non lorem iaculis, dictum ligula id, aliquet velit.",
 			},
 			windowHeight: 0,
 			windowWidth: 0,

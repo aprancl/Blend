@@ -1,6 +1,6 @@
 <template>
 	<div class="container py-2">
-		<div
+		<a
 			style="
 				width: 100%;
 				height: 5rem;
@@ -10,11 +10,15 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
+				color: white;
+				text-decoration: none;
 			"
 			:style="backgroundStyle"
+			:href="link"
+			target="_blank"
 		>
-			{{ title }}
-		</div>
+			<div>{{ title }}</div>
+		</a>
 	</div>
 </template>
 
