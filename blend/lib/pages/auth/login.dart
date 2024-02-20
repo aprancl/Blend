@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:blend/global_provider.dart';
 import 'package:provider/provider.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -58,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
     void forgotPassword(String email) async {
       if (email.isEmpty) {
         setState(() {
-          emailErrorText = 'Emaiv    l is required!';
+          emailErrorText = 'Email is required!';
         });
       } else {
         provider.forgotPassword(email);
@@ -85,20 +87,59 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Colors.blue),
         title: Text('Sign In'),
       ),
-      body: Padding(
+      body: Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/login.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
+            fit: BoxFit.cover,
+          ),
+      ),
+      child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          
           children: [
+            SizedBox(height: 50.0),
+            Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Welcome', // Header text
+                  style: TextStyle(
+                    fontSize: 42.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Color of the text
+                  ),
+                ),
+                
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Back!', // Header text
+                  style: TextStyle(
+                    fontSize: 42.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Color of the text
+                  ),
+                ),
+                
+              ),
+            SizedBox(height: 180.0),
             TextField(
               controller: emailController,
+              style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 labelText: 'Email',
                 errorText: emailErrorText,
               ),
@@ -106,8 +147,12 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 16.0),
             TextField(
               controller: passwordController,
+              style: TextStyle(color: Colors.black),
               obscureText: true,
               decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 labelText: 'Password',
                 errorText: passwordErrorText,
               ),
@@ -140,11 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: Ink(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xff374ABE), Color.fromARGB(255, 27, 109, 181)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
+                    color: const Color.fromARGB(255, 18, 93, 154),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Container(
@@ -162,45 +203,89 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 16.0),
-        child: SizedBox(
-          height: 70.0,
-          width: MediaQuery.of(context).size.width,
-          child: ClipPath(
-            clipper: Clip1Clipper(),
-            child: Ink(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color.fromARGB(255, 41, 119, 255), Color.fromARGB(255, 39, 48, 151)],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
-              ),
-              child: Container( // Add a container as a child of Ink
-                height: 20,
-                width: 20,
-                color: Colors.transparent, // Set transparent color to avoid covering the gradient
-              ),
-            ),
-          ),
-        ),
-      ),
+     ),
     );
   }
 }
 
+// floatingActionButton: Align(
+//         alignment: Alignment.topRight,
+//         child: Padding(
+//           padding: EdgeInsets.only(top: 16.0, right: 16.0),
+//           child: ClipPath(
+//             clipper: Clip1Clipper(),
+//             child: ElevatedButton(
+//               onPressed: () async {
+//                 // Add your onPressed logic here
+//               },
+//               style: ElevatedButton.styleFrom(
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(80.0), // Same as the Clip1Clipper
+//                 ),
+//               ),
+//               child: Ink(
+//                 decoration: BoxDecoration(
+//                   gradient: LinearGradient(
+//                     colors: [Color.fromARGB(255, 41, 119, 255), Color.fromARGB(255, 39, 48, 151)],
+//                     begin: Alignment.centerLeft,
+//                     end: Alignment.centerRight,
+//                   ),
+//                   borderRadius: BorderRadius.circular(80.0), // Same as the Clip1Clipper
+//                 ),
+//                 child: Container(
+//                   height: 70.0,
+//                   width: MediaQuery.of(context).size.width * 0.3,
+//                   alignment: Alignment.center,
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+
+
+
 class Clip1Clipper extends CustomClipper<Path>{
-  @override
-  Path getClip(Size size){
-    Path path = Path();
-    path.lineTo(0,size.height);
-    path.lineTo(size.width, size.height);
-    path.quadraticBezierTo(size.width, 0, 0, 0);
+  Path getClip(Size size) {
+      var height = size.height;
+    var width = size.width;
+    var path = new Path();
+
+    path.lineTo(0, size.height );
+    path.lineTo(size.width , height);
+    path.lineTo(size.width , 0);
+  
+     /// [Top Left corner]
+    var secondControlPoint =  Offset(0  ,0);
+    var secondEndPoint = Offset(width * .2  , height *.3);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
+
+
+
+     /// [Left Middle]
+    var fifthControlPoint =  Offset(width * .3  ,height * .5);
+    var fiftEndPoint = Offset(  width * .23, height *.6);
+    path.quadraticBezierTo(fifthControlPoint.dx, fifthControlPoint.dy, fiftEndPoint.dx, fiftEndPoint.dy);
+
+
+     /// [Bottom Left corner]
+    var thirdControlPoint =  Offset(0  ,height);
+    var thirdEndPoint = Offset(width , height  );
+    path.quadraticBezierTo(thirdControlPoint.dx, thirdControlPoint.dy, thirdEndPoint.dx, thirdEndPoint.dy);
+
+   
+
+    path.lineTo(0, size.height  );
+    path.close();
+
     return path;
   }
 
   @override
-  bool shouldReclip (CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    // TODO: implement shouldReclip
+    return true;
+  }
+
 
 }

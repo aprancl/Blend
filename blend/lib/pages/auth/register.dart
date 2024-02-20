@@ -169,16 +169,56 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text('Create an Accout'),
+        backgroundColor: Color.fromARGB(255, 96, 95, 95),
+        iconTheme: IconThemeData(color: Colors.blue),
+        title: Text('Create an Account'),
       ),
-      body: Padding(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/register.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
+            fit: BoxFit.cover,
+          ),
+      ),
+      child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(height: 50.0),
+            Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Create', // Header text
+                  style: TextStyle(
+                    fontSize: 42.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Color of the text
+                  ),
+                ),
+                
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Account', // Header text
+                  style: TextStyle(
+                    fontSize: 42.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Color of the text
+                  ),
+                ),
+                
+              ),
+            SizedBox(height: 100.0),
             TextField(
               decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 labelText: 'First Name',
                 errorText: this.fnameErrorText,
               ),
@@ -186,6 +226,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             TextField(
               decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 labelText: 'Last Name',
                 errorText: this.lnameErrorText,
               ),
@@ -193,6 +236,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             TextField(
               decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 labelText: 'Email',
                 errorText: this.emailErrorText,
               ),
@@ -201,6 +247,9 @@ class _RegisterPageState extends State<RegisterPage> {
             TextField(
               obscureText: true,
               decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 labelText: 'Password',
                 errorText: this.passwordErrorText,
               ),
@@ -209,6 +258,9 @@ class _RegisterPageState extends State<RegisterPage> {
             TextField(
               obscureText: true,
               decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ), 
                 labelText: 'Confirm Password',
                 errorText: this.confirmErrorText,
               ),
@@ -260,6 +312,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ],
         ),
+      )
       ),
     );
   }
