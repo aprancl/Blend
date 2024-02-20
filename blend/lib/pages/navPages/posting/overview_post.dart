@@ -51,10 +51,18 @@ class PostingOverviewPage extends StatelessWidget {
                           Radius.circular(20.0),
                         ),
                       ),
-                      child: Text(
-                        provider.postCaption,
-                        style: TextStyle(fontSize: 14.0),
-                      ),
+                      
+                      child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 10,
+                          decoration: const InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 40, horizontal: 15),
+                            border: OutlineInputBorder(),
+                            labelText: "Add your caption here",
+                            alignLabelWithHint: true,
+                          ),
+                        ),
                     ),
                     SizedBox(height: 10,),
                     Container(
