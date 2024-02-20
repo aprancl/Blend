@@ -209,18 +209,19 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/register.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
+            image: AssetImage(
+                'images/register.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
             fit: BoxFit.cover,
           ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: 50.0),
-            Align(
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: 50.0),
+              Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   'Create', // Header text
@@ -230,7 +231,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: Colors.white, // Color of the text
                   ),
                 ),
-                
               ),
               Align(
                 alignment: Alignment.topLeft,
@@ -242,58 +242,58 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: Colors.white, // Color of the text
                   ),
                 ),
-                
               ),
-            SizedBox(height: 100.0),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+              SizedBox(height: 100.0),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'First Name',
+                  errorText: this.fnameErrorText,
                 ),
-                labelText: 'First Name',
-                errorText: this.fnameErrorText,
+                controller: fnameController,
               ),
-              controller: fnameController,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'Last Name',
+                  errorText: this.lnameErrorText,
                 ),
-                labelText: 'Last Name',
-                errorText: this.lnameErrorText,
+                controller: lnameController,
               ),
-              controller: lnameController,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'Email',
+                  errorText: this.emailErrorText,
                 ),
-                labelText: 'Email',
-                errorText: this.emailErrorText,
+                controller: emailController,
               ),
-              controller: emailController,
-            ),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'Password',
+                  errorText: this.passwordErrorText,
                 ),
-                labelText: 'Password',
-                errorText: this.passwordErrorText,
+                controller: passwordController,
               ),
-              controller: passwordController,
-            ),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ), 
-                labelText: 'Confirm Password',
-                errorText: this.confirmErrorText,
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'Confirm Password',
+                  errorText: this.confirmErrorText,
+                ),
               ),
               TextField(
                 obscureText: true,
@@ -303,7 +303,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 controller: confirmController,
               ),
-              SizedBox(height: 16.0),
+              // SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
                   if (await validate(
@@ -364,7 +364,6 @@ class _RegisterPageState extends State<RegisterPage> {
             ],
           ),
         ),
-      )
       ),
     );
   }

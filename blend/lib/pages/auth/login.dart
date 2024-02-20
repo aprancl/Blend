@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:blend/global_provider.dart';
 import 'package:provider/provider.dart';
-
 
 class LoginPage extends StatefulWidget {
   @override
@@ -83,9 +81,9 @@ class _LoginPageState extends State<LoginPage> {
             );
           },
         );
-
       }
     }
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -94,21 +92,21 @@ class _LoginPageState extends State<LoginPage> {
         title: Text('Sign In'),
       ),
       body: Container(
-      decoration: BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/login.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
+            image: AssetImage(
+                'images/login.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
             fit: BoxFit.cover,
           ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          
-          children: [
-            SizedBox(height: 50.0),
-            Align(
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: 50.0),
+              Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   'Welcome', // Header text
@@ -118,7 +116,6 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white, // Color of the text
                   ),
                 ),
-                
               ),
               Align(
                 alignment: Alignment.topLeft,
@@ -130,31 +127,31 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white, // Color of the text
                   ),
                 ),
-                
               ),
-            SizedBox(height: 180.0),
-            TextField(
-              controller: emailController,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+              SizedBox(height: 180.0),
+              TextField(
+                controller: emailController,
+                style: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'Email',
+                  errorText: emailErrorText,
                 ),
-                labelText: 'Email',
-                errorText: emailErrorText,
               ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              controller: passwordController,
-              style: TextStyle(color: Colors.black),
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+              SizedBox(height: 16.0),
+              TextField(
+                controller: passwordController,
+                style: TextStyle(color: Colors.black),
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  labelText: 'Password',
+                  errorText: passwordErrorText,
                 ),
-                labelText: 'Password',
-                errorText: passwordErrorText,
               ),
               // forgot password
               Row(
@@ -169,6 +166,17 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               SizedBox(height: 16.0),
+              // SizedBox(
+              //   height: 50.0,
+              //   width: double.infinity,
+              //   child: ElevatedButton(
+              //     onPressed: () async {
+              //       signIn();
+              //     },
+              //     child: Text("Forgot password?"),
+              //   ),
+              // ),
+              SizedBox(height: 16.0),
               SizedBox(
                 height: 50.0,
                 width: double.infinity,
@@ -176,45 +184,38 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () async {
                     signIn();
                   },
-                  child: Text("Forgot password?"),
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            SizedBox(
-              height: 50.0,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () async {
-                  signIn();
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(80.0),
-                  ),
-                  padding: EdgeInsets.all(0.0),
-                ),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 18, 93, 154),
-                    borderRadius: BorderRadius.circular(30.0),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(80.0),
+                    ),
+                    padding: EdgeInsets.all(0.0),
                   ),
                   child: Ink(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xff374ABE), Color.fromARGB(255, 27, 109, 181)],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
+                      color: const Color.fromARGB(255, 18, 93, 154),
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    child: Container(
-                      constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Sign In",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xff374ABE),
+                            Color.fromARGB(255, 27, 109, 181)
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: Container(
+                        constraints:
+                            BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Sign In",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -224,7 +225,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-     ),
     );
   }
 }
@@ -264,39 +264,35 @@ class _LoginPageState extends State<LoginPage> {
 //         ),
 //       ),
 
-
-
-class Clip1Clipper extends CustomClipper<Path>{
+class Clip1Clipper extends CustomClipper<Path> {
   Path getClip(Size size) {
-      var height = size.height;
+    var height = size.height;
     var width = size.width;
     var path = new Path();
 
-    path.lineTo(0, size.height );
-    path.lineTo(size.width , height);
-    path.lineTo(size.width , 0);
-  
-     /// [Top Left corner]
-    var secondControlPoint =  Offset(0  ,0);
-    var secondEndPoint = Offset(width * .2  , height *.3);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, height);
+    path.lineTo(size.width, 0);
 
+    /// [Top Left corner]
+    var secondControlPoint = Offset(0, 0);
+    var secondEndPoint = Offset(width * .2, height * .3);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
 
+    /// [Left Middle]
+    var fifthControlPoint = Offset(width * .3, height * .5);
+    var fiftEndPoint = Offset(width * .23, height * .6);
+    path.quadraticBezierTo(fifthControlPoint.dx, fifthControlPoint.dy,
+        fiftEndPoint.dx, fiftEndPoint.dy);
 
-     /// [Left Middle]
-    var fifthControlPoint =  Offset(width * .3  ,height * .5);
-    var fiftEndPoint = Offset(  width * .23, height *.6);
-    path.quadraticBezierTo(fifthControlPoint.dx, fifthControlPoint.dy, fiftEndPoint.dx, fiftEndPoint.dy);
+    /// [Bottom Left corner]
+    var thirdControlPoint = Offset(0, height);
+    var thirdEndPoint = Offset(width, height);
+    path.quadraticBezierTo(thirdControlPoint.dx, thirdControlPoint.dy,
+        thirdEndPoint.dx, thirdEndPoint.dy);
 
-
-     /// [Bottom Left corner]
-    var thirdControlPoint =  Offset(0  ,height);
-    var thirdEndPoint = Offset(width , height  );
-    path.quadraticBezierTo(thirdControlPoint.dx, thirdControlPoint.dy, thirdEndPoint.dx, thirdEndPoint.dy);
-
-   
-
-    path.lineTo(0, size.height  );
+    path.lineTo(0, size.height);
     path.close();
 
     return path;
@@ -307,6 +303,4 @@ class Clip1Clipper extends CustomClipper<Path>{
     // TODO: implement shouldReclip
     return true;
   }
-
-
 }
