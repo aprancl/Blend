@@ -77,10 +77,11 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                               ),
                             ),
                           ),
-                          
-                          SizedBox(height: 30,),
+                          SizedBox(
+                            height: 30,
+                          ),
                           Container(
-                            height: 100.0, 
+                            height: 100.0,
                             color: Colors.grey,
                             child: Text("Place holder"),
                           )
@@ -97,6 +98,16 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     indent: 12.0,
                     endIndent: 12.0,
                   ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      children: [
+                        PlatformEntry(
+                            mediaName: "Youtube",
+                            icon: Icons.arrow_forward_outlined)
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -104,5 +115,25 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
         ),
       ),
     );
+  }
+}
+
+class PlatformEntry extends StatelessWidget {
+  String mediaName;
+  IconData icon;
+  PlatformEntry({required this.mediaName, required this.icon});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: Colors.grey[500],
+        child: Row(
+          children: [
+            Icon(icon),
+            Text("Place graphic here"),
+            Column(
+              children: [Text("Place title here")],
+            )
+          ],
+        ));
   }
 }
