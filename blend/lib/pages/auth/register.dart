@@ -200,99 +200,120 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Create an Accout'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'First Name',
-                errorText: this.fnameErrorText,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'First Name',
+                  errorText: this.fnameErrorText,
+                ),
+                controller: fnameController,
               ),
-              controller: fnameController,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Last Name',
-                errorText: this.lnameErrorText,
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Last Name',
+                  errorText: this.lnameErrorText,
+                ),
+                controller: lnameController,
               ),
-              controller: lnameController,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Email',
-                errorText: this.emailErrorText,
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  errorText: this.emailErrorText,
+                ),
+                controller: emailController,
               ),
-              controller: emailController,
-            ),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                errorText: this.passwordErrorText,
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  errorText: this.usernameErrorText,
+                ),
+                controller: usernameController,
               ),
-              controller: passwordController,
-            ),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Confirm Password',
-                errorText: this.confirmErrorText,
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  errorText: this.passwordErrorText,
+                ),
+                controller: passwordController,
               ),
-              controller: confirmController,
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () async {
-                if (await validate(
-                  fnameController.text.trim(),
-                  lnameController.text.trim(),
-                  emailController.text.trim(),
-                  usernameController.text.trim(),
-                  passwordController.text.trim(),
-                  confirmController.text.trim(),
-                )) {
-                  FirebaseAuthException? e = await provider.signUp(
-                      fnameController.text.trim(),
-                      lnameController.text.trim(),
-                      emailController.text.trim(),
-                      usernameController.text.trim(),
-                      passwordController.text.trim());
-
-                  if (e == null) {
-                    Navigator.popUntil(
-                        context, (route) => route.settings.name == '/');
-                  } else {
-                    if (e.code == 'weak-password') {
-                      print('The password provided is too weak.');
-                    } else if (e.code == 'email-already-in-use') {
-                      print('The account already exists for that email.');
-                      // Launch alert dialog
-                      _accountAlreadyExists(context, emailController.text);
-                    }
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  errorText: this.confirmErrorText,
+                ),
+                controller: confirmController,
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () async {
+                  if (await validate(
+                    fnameController.text.trim(),
+                    lnameController.text.trim(),
+                    emailController.text.trim(),
+                    usernameController.text.trim(),
+                    passwordController.text.trim(),
+                    confirmController.text.trim(),
+                  )) {
+                    await provider
+                        .signUp(
+                            fnameController.text.trim(),
+                            lnameController.text.trim(),
+                            emailController.text.trim(),
+                            usernameController.text.trim(),
+                            passwordController.text.trim())
+                        .then((e) => {
+                              if (e == null)
+                                {
+                                  Navigator.popUntil(context,
+                                      (route) => route.settings.name == '/'),
+                                }
+                              else
+                                {
+                                  if (e.code == 'weak-password')
+                                    {
+                                      print(
+                                          'The password provided is too weak.'),
+                                    }
+                                  else if (e.code == 'email-already-in-use')
+                                    {
+                                      print(
+                                          'The account already exists for that email.'),
+                                      // Launch alert dialog
+                                      _accountAlreadyExists(
+                                          context, emailController.text),
+                                    }
+                                }
+                            });
                   }
-                }
-              },
-              child: Text('Sign Up'),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              // Google sign in button
-              onPressed: () async {
-                try {
-                  await signInWithGoogle();
-                  print("works as expected...");
-                } on Exception catch (e) {
-                  print(e);
-                }
-              },
-              child: Text('Sign Up With Google'),
-            ),
-          ],
+                },
+                child: Text('Sign Up'),
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                // Google sign in button
+                onPressed: () async {
+                  try {
+                    await signInWithGoogle();
+                    print("works as expected...");
+                  } on Exception catch (e) {
+                    print(e);
+                  }
+                },
+                child: Text('Sign Up With Google'),
+              ),
+            ],
+          ),
         ),
       ),
     );

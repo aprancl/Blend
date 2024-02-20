@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class BlendUser {
-  String? id;
   String? fname;
   String? lname;
   String? email;
@@ -17,7 +16,6 @@ class BlendUser {
   List<BlendWorkspace>? workspaces;
 
   BlendUser({
-    this.id,
     this.fname,
     this.lname,
     this.email,
@@ -36,7 +34,6 @@ class BlendUser {
     final data = snapshot.data();
 
     return BlendUser(
-      id: data?['id'],
       fname: data?['fname'],
       lname: data?['lname'],
       email: data?['email'],
@@ -52,7 +49,6 @@ class BlendUser {
 
   Map<String, dynamic> toFirestore() {
     return {
-      if (id != null) "id": id,
       if (fname != null) "fname": fname,
       if (lname != null) "lname": lname,
       if (email != null) "email": email,

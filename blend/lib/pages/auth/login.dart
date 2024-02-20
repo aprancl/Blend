@@ -85,81 +85,84 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Colors.blue),
         title: Text('Sign In'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                errorText: emailErrorText,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  errorText: emailErrorText,
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                errorText: passwordErrorText,
+              SizedBox(height: 16.0),
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  errorText: passwordErrorText,
+                ),
               ),
-            ),
-            // forgot password
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    forgotPassword(emailController.text);
+              // forgot password
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      forgotPassword(emailController.text);
+                    },
+                    child: Text("Forgot password?"),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16.0),
+              SizedBox(
+                height: 50.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    signIn();
                   },
-                  child: Text("Forgot password?"),
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            SizedBox(
-              height: 50.0,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () async {
-                  signIn();
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(80.0),
-                  ),
-                  padding: EdgeInsets.all(0.0),
-                ),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xff374ABE), Color.fromARGB(255, 27, 109, 181)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(80.0),
                     ),
-                    borderRadius: BorderRadius.circular(30.0),
+                    padding: EdgeInsets.all(0.0),
                   ),
-                  child: Container(
-                    constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Sign In",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xff374ABE), Color.fromARGB(255, 27, 109, 181)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Sign In",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: Padding(
