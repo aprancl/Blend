@@ -8,6 +8,8 @@
 :root {
     --primary: rgb(255, 149, 56);
     --primaryRGB: 255, 149, 56;
+    --top: rgba(255, 149, 56, 1);
+	--bottom: rgba(114, 203, 255, 0.5);
 }
 
 #app {

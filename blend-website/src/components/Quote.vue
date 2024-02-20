@@ -34,7 +34,7 @@
 	.quote {
 		background-color: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(1.5px);
-		border-left: 10px solid var(--primary);
+		border-left: 10px solid var(--top);
 		margin: 1.5em 0 1.5em 2rem;
 		padding: 2rem 2rem 4rem;
 		quotes: "\201C""\201D";
@@ -45,7 +45,7 @@
         text-align: left;
 	}
 	.quote:before {
-		color: var(--primary);
+		color: var(--top);
 		content: open-quote;
 		font-size: 8em;
 		line-height: 0.1em;
@@ -69,7 +69,7 @@
 	.author {
 		width: calc(100% + 3rem);
 		clip-path: polygon(0 0, 100% 0%, 100% 100%, 2% 100%);
-		background-color: var(--primary);
+		background-color: var(--top);
 		padding-left: 5rem;
 		position: absolute;
 		transform: translateY(-1rem);
