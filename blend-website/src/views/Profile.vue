@@ -14,11 +14,11 @@
 					:height="Math.max(windowHeight, 600)"
 					:padding="'0 0 0 0'"
 					:divisionPosition="40"
-					:leftColor="'linear-gradient(to bottom, var(--top), rgba(var(--bottom), 0.5) 60%, transparent); backdrop-filter: blur(1.5px)'"
+					:leftColor="'linear-gradient(to bottom, var(--top), var(--bottom) 60%, transparent); backdrop-filter: blur(1.5px)'"
 					:rightColor="'transparent'"
 					:maintainSkewbox="false"
 					:pictureSide="'right'"
-					:mobileColor="'linear-gradient(to bottom, var(--top), rgba(var(--bottom), 0.5) 60%, transparent)'"
+					:mobileColor="'linear-gradient(to bottom, var(--top), var(--bottom) 60%, transparent)'"
 				>
 					<template v-slot:left>
 						<div class="pb-5 h-100">
@@ -165,8 +165,8 @@ export default {
 
 <style scoped>
 #profilePage {
-	--top: rgb(255, 149, 56);
-	--bottom: 114, 203, 255;
+	--top: rgba(255, 149, 56, 1);
+	--bottom: rgba(114, 203, 255, 0.5);
 }
 .white-hr {
 	margin: 0 0 15px 0;

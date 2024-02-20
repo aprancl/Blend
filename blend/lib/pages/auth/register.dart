@@ -13,24 +13,30 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
 
   String? fnameErrorText = null;
   String? lnameErrorText = null;
   String? emailErrorText = null;
+  String? usernameErrorText = null;
   String? passwordErrorText = null;
   String? confirmErrorText = null;
 
   @override
   void dispose() {
+    fnameController.dispose();
+    lnameController.dispose();
     emailController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
     confirmController.dispose();
     super.dispose();
   }
 
-  bool validate(fname, lname, email, password, confirm) {
+  Future<bool> validate(
+      fname, lname, email, username, password, confirm) async {
     bool isValid = true;
 
     // Confirm first name is not empty
@@ -59,6 +65,31 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         this.lnameErrorText = null;
       });
+    }
+
+    // Confirm username is not empty
+    if (username.isEmpty) {
+      print('Username is empty');
+      setState(() {
+        this.usernameErrorText = 'This field is required';
+        isValid = false;
+      });
+    } else {
+      // Confirm username is not taken
+      // call method from global provider
+      if (await Provider.of<GlobalProvider>(context, listen: false)
+          .isUsernameAvailable(username)) {
+        print('Username is taken');
+        setState(() {
+          this.usernameErrorText = 'Username is taken';
+          isValid = false;
+        });
+      } else {
+        // Clear username error text
+        setState(() {
+          this.usernameErrorText = null;
+        });
+      }
     }
 
     // Confirm email is valid
@@ -217,16 +248,19 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () async {
-                if (validate(
-                    fnameController.text.trim(),
-                    lnameController.text.trim(),
-                    emailController.text.trim(),
-                    passwordController.text.trim(),
-                    confirmController.text.trim())) {
+                if (await validate(
+                  fnameController.text.trim(),
+                  lnameController.text.trim(),
+                  emailController.text.trim(),
+                  usernameController.text.trim(),
+                  passwordController.text.trim(),
+                  confirmController.text.trim(),
+                )) {
                   FirebaseAuthException? e = await provider.signUp(
                       fnameController.text.trim(),
                       lnameController.text.trim(),
                       emailController.text.trim(),
+                      usernameController.text.trim(),
                       passwordController.text.trim());
 
                   if (e == null) {
