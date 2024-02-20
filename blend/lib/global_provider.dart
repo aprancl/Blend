@@ -1,8 +1,8 @@
 // Flutter
 import 'dart:async';
 
-import 'package:blend/objects/blendUser.dart';
-import 'package:blend/objects/blendWorkspace.dart';
+import 'package:blend/models/blendUser.dart';
+import 'package:blend/models/blendWorkspace.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -108,9 +108,8 @@ class GlobalProvider with ChangeNotifier {
           print('User is currently signed out!');
         } else {
           print('User is signed in!');
-          // Call your function here
           await getAuthUser();
-          await getBlendUser(); // Replace getAuthUser() with the actual function call
+          await getBlendUser();
         }
       },
     );
@@ -140,6 +139,7 @@ class GlobalProvider with ChangeNotifier {
 
       var blendWorkspaces = <BlendWorkspace>[];
 
+      // print("WORKSPACE REFS: ${blendUser}")
       for (var workspace in blendUser!.workspaceRefs!) {
         blendWorkspaces.add(await getBlendWorkspace(workspace));
       }
@@ -187,9 +187,20 @@ class GlobalProvider with ChangeNotifier {
     String fname,
     String lname,
     String email,
+    String username,
     String password,
   ) async {
     try {
+      // Check if username is taken
+      final usernameRef = db.collection("users").doc(username);
+      final usernameDoc = await usernameRef.get();
+      if (usernameDoc.exists) {
+        return FirebaseAuthException(
+          code: "username-taken",
+          message: "Username is already taken",
+        );
+      }
+
       // Create auth account
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -198,16 +209,31 @@ class GlobalProvider with ChangeNotifier {
 
       // Reload authUser
       authUser = FirebaseAuth.instance.currentUser;
-      authUser!.updateDisplayName("$fname $lname");
+      await authUser!.updateDisplayName("$fname $lname");
+
+      // Create personal blendCard
+      final blendCard = <String, dynamic>{
+        "bio": "",
+        "platforms": [],
+        "background":
+            "https://images.pexels.com/photos/15334615/pexels-photo-15334615.jpeg",
+        "topColor": "rgba(255, 149, 56, 1)",
+        "bottomColor": "rgba(114, 203, 255, 0.5)",
+      };
+
+      var blendCardDocRef = await db.collection("blendCards").add(blendCard);
 
       // Create personal workspace
       final workspace = <String, dynamic>{
-        "name": "$fname $lname's Workspace",
+        "name": "$username's Workspace",
+        "followers": 0,
+        "following": 0,
         "pfp":
             "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
         "users": [
           {"user": db.doc('users/${authUser!.uid}'), "role": "owner"}
         ],
+        "blendCard": db.doc('blendCards/${blendCardDocRef.id}'),
         "instagram": {},
         "tiktok": {},
         "youtube": {},
@@ -220,9 +246,10 @@ class GlobalProvider with ChangeNotifier {
       var workspaceDocRef = await db.collection("workspaces").add(workspace);
 
       final user = <String, dynamic>{
-        "email": email,
         "fname": fname,
         "lname": lname,
+        "email": email,
+        "username": username,
         "pfp":
             "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
         "theme": "default",
@@ -231,7 +258,11 @@ class GlobalProvider with ChangeNotifier {
         "workspaces": [db.doc('workspaces/${workspaceDocRef.id}')],
       };
 
-      await db.collection("users").doc(authUser!.uid).set(user);
+      await db
+          .collection("users")
+          .doc(authUser!.uid)
+          .set(user)
+          .catchError((e) => print("CREATING USER ERROR: " + e));
 
       getAuthUser();
 
@@ -241,6 +272,20 @@ class GlobalProvider with ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       return e;
     }
+  }
+
+  Future<bool> isUsernameAvailable(String username) async {
+    final usernameRef = db.collection("users").doc(username);
+
+    await usernameRef.get().then((doc) {
+      if (doc.exists) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+
+    return false;
   }
 
   void forgotPassword(String email) async {

@@ -156,14 +156,25 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: 'Password',
                 errorText: passwordErrorText,
               ),
-            ),
-            // forgot password
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    forgotPassword(emailController.text);
+              // forgot password
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      forgotPassword(emailController.text);
+                    },
+                    child: Text("Forgot password?"),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16.0),
+              SizedBox(
+                height: 50.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    signIn();
                   },
                   child: Text("Forgot password?"),
                 ),
@@ -188,19 +199,29 @@ class _LoginPageState extends State<LoginPage> {
                     color: const Color.fromARGB(255, 18, 93, 154),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  child: Container(
-                    constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Sign In",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xff374ABE), Color.fromARGB(255, 27, 109, 181)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Sign In",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
      ),
