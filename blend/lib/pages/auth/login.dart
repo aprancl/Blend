@@ -91,137 +91,139 @@ class _LoginPageState extends State<LoginPage> {
         iconTheme: IconThemeData(color: Colors.blue),
         title: Text('Sign In'),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-                'images/login.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
-            fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                  'images/login.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 50.0),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Welcome', // Header text
-                  style: TextStyle(
-                    fontSize: 42.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white, // Color of the text
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Back!', // Header text
-                  style: TextStyle(
-                    fontSize: 42.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white, // Color of the text
-                  ),
-                ),
-              ),
-              SizedBox(height: 180.0),
-              TextField(
-                controller: emailController,
-                style: TextStyle(color: Colors.black),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  labelText: 'Email',
-                  errorText: emailErrorText,
-                ),
-              ),
-              SizedBox(height: 16.0),
-              TextField(
-                controller: passwordController,
-                style: TextStyle(color: Colors.black),
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  labelText: 'Password',
-                  errorText: passwordErrorText,
-                ),
-              ),
-              // forgot password
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      forgotPassword(emailController.text);
-                    },
-                    child: Text("Forgot password?"),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.0),
-              // SizedBox(
-              //   height: 50.0,
-              //   width: double.infinity,
-              //   child: ElevatedButton(
-              //     onPressed: () async {
-              //       signIn();
-              //     },
-              //     child: Text("Forgot password?"),
-              //   ),
-              // ),
-              SizedBox(height: 16.0),
-              SizedBox(
-                height: 50.0,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    signIn();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(80.0),
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 50.0),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Welcome', // Header text
+                    style: TextStyle(
+                      fontSize: 42.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // Color of the text
                     ),
-                    padding: EdgeInsets.all(0.0),
                   ),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 18, 93, 154),
-                      borderRadius: BorderRadius.circular(30.0),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Back!', // Header text
+                    style: TextStyle(
+                      fontSize: 42.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // Color of the text
+                    ),
+                  ),
+                ),
+                SizedBox(height: 180.0),
+                TextField(
+                  controller: emailController,
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Email',
+                    errorText: emailErrorText,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                TextField(
+                  controller: passwordController,
+                  style: TextStyle(color: Colors.black),
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Password',
+                    errorText: passwordErrorText,
+                  ),
+                ),
+                // forgot password
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        forgotPassword(emailController.text);
+                      },
+                      child: Text("Forgot password?"),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.0),
+                // SizedBox(
+                //   height: 50.0,
+                //   width: double.infinity,
+                //   child: ElevatedButton(
+                //     onPressed: () async {
+                //       signIn();
+                //     },
+                //     child: Text("Forgot password?"),
+                //   ),
+                // ),
+                SizedBox(height: 16.0),
+                SizedBox(
+                  height: 50.0,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      signIn();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(80.0),
+                      ),
+                      padding: EdgeInsets.all(0.0),
                     ),
                     child: Ink(
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xff374ABE),
-                            Color.fromARGB(255, 27, 109, 181)
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
+                        color: const Color.fromARGB(255, 18, 93, 154),
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      child: Container(
-                        constraints:
-                            BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Sign In",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xff374ABE),
+                              Color.fromARGB(255, 27, 109, 181)
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        child: Container(
+                          constraints:
+                              BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Sign In",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
