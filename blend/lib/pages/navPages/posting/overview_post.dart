@@ -57,7 +57,7 @@ class PostingOverviewPage extends StatelessWidget {
                           maxLines: 10,
                           decoration: const InputDecoration(
                             contentPadding:
-                                EdgeInsets.symmetric(vertical: 40, horizontal: 15),
+                                EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                             border: OutlineInputBorder(),
                             labelText: "Add your caption here",
                             alignLabelWithHint: true,
