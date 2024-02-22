@@ -200,168 +200,174 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 96, 95, 95),
         iconTheme: IconThemeData(color: Colors.blue),
         title: Text('Create an Account'),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-                'images/register.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
-            fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                  'images/register.png'), // Replace 'path_to_your_image.jpg' with the actual path to your image file
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 50.0),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Create', // Header text
-                  style: TextStyle(
-                    fontSize: 42.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white, // Color of the text
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 50.0),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Create', // Header text
+                    style: TextStyle(
+                      fontSize: 42.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // Color of the text
+                    ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Account', // Header text
-                  style: TextStyle(
-                    fontSize: 42.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white, // Color of the text
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Account', // Header text
+                    style: TextStyle(
+                      fontSize: 42.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // Color of the text
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 100.0),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                SizedBox(height: 100.0),
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'First Name',
+                    errorText: this.fnameErrorText,
                   ),
-                  labelText: 'First Name',
-                  errorText: this.fnameErrorText,
+                  controller: fnameController,
                 ),
-                controller: fnameController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Last Name',
+                    errorText: this.lnameErrorText,
                   ),
-                  labelText: 'Last Name',
-                  errorText: this.lnameErrorText,
+                  controller: lnameController,
                 ),
-                controller: lnameController,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Email',
+                    errorText: this.emailErrorText,
                   ),
-                  labelText: 'Email',
-                  errorText: this.emailErrorText,
+                  controller: emailController,
                 ),
-                controller: emailController,
-              ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Username',
+                    errorText: this.usernameErrorText,
                   ),
-                  labelText: 'Password',
-                  errorText: this.passwordErrorText,
+                  controller: usernameController,
                 ),
-                controller: passwordController,
-              ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Password',
+                    errorText: this.passwordErrorText,
                   ),
-                  labelText: 'Confirm Password',
-                  errorText: this.confirmErrorText,
+                  controller: passwordController,
                 ),
-              ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Confirm Password',
-                  errorText: this.confirmErrorText,
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Confirm Password',
+                    errorText: this.confirmErrorText,
+                  ),
+                  controller: confirmController,
                 ),
-                controller: confirmController,
-              ),
-              // SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () async {
-                  if (await validate(
-                    fnameController.text.trim(),
-                    lnameController.text.trim(),
-                    emailController.text.trim(),
-                    usernameController.text.trim(),
-                    passwordController.text.trim(),
-                    confirmController.text.trim(),
-                  )) {
-                    await provider
-                        .signUp(
-                            fnameController.text.trim(),
-                            lnameController.text.trim(),
-                            emailController.text.trim(),
-                            usernameController.text.trim(),
-                            passwordController.text.trim())
-                        .then((e) => {
-                              if (e == null)
-                                {
-                                  Navigator.popUntil(context,
-                                      (route) => route.settings.name == '/'),
-                                }
-                              else
-                                {
-                                  if (e.code == 'weak-password')
-                                    {
-                                      print(
-                                          'The password provided is too weak.'),
-                                    }
-                                  else if (e.code == 'email-already-in-use')
-                                    {
-                                      print(
-                                          'The account already exists for that email.'),
-                                      // Launch alert dialog
-                                      _accountAlreadyExists(
-                                          context, emailController.text),
-                                    }
-                                }
-                            });
-                  }
-                },
-                child: Text('Sign Up'),
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                // Google sign in button
-                onPressed: () async {
-                  try {
-                    await signInWithGoogle();
-                    print("works as expected...");
-                  } on Exception catch (e) {
-                    print(e);
-                  }
-                },
-                child: Text('Sign Up With Google'),
-              ),
-            ],
+                // SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (await validate(
+                      fnameController.text.trim(),
+                      lnameController.text.trim(),
+                      emailController.text.trim(),
+                      usernameController.text.trim(),
+                      passwordController.text.trim(),
+                      confirmController.text.trim(),
+                    )) {
+                      await provider
+                          .signUp(
+                              fnameController.text.trim(),
+                              lnameController.text.trim(),
+                              emailController.text.trim(),
+                              usernameController.text.trim(),
+                              passwordController.text.trim())
+                          .then((e) => {
+                                if (e == null)
+                                  {
+                                    Navigator.popUntil(context,
+                                        (route) => route.settings.name == '/'),
+                                  }
+                                else
+                                  {
+                                    if (e.code == 'weak-password')
+                                      {
+                                        print(
+                                            'The password provided is too weak.'),
+                                      }
+                                    else if (e.code == 'email-already-in-use')
+                                      {
+                                        print(
+                                            'The account already exists for that email.'),
+                                        // Launch alert dialog
+                                        _accountAlreadyExists(
+                                            context, emailController.text),
+                                      }
+                                  }
+                              });
+                    }
+                  },
+                  child: Text('Sign Up'),
+                ),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  // Google sign in button
+                  onPressed: () async {
+                    try {
+                      await signInWithGoogle();
+                      print("works as expected...");
+                    } on Exception catch (e) {
+                      print(e);
+                    }
+                  },
+                  child: Text('Sign Up With Google'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

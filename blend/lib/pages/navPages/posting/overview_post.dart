@@ -74,7 +74,7 @@ class PostingOverviewPage extends StatelessWidget {
                             child: Text('Back'),
                             onPressed: () {
                               print('We want to go back!');
-                              provider.goToPage(4);
+                              provider.goToPage(5);
                             },
                           ),
                           Spacer(),
