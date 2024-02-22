@@ -129,7 +129,7 @@ class GlobalProvider with ChangeNotifier {
 
   Future<BlendUser> getBlendUser() async {
     print("getAuthUserDoc");
-    if (FirebaseAuth.instance.currentUser != null) {
+    if (FirebaseAuth.instance.currentUser != null && FirebaseAuth.instance.currentUser!.emailVerified) {
       final ref = db.collection("users").doc(authUser!.uid).withConverter(
             fromFirestore: BlendUser.fromFirestore,
             toFirestore: (BlendUser blendUser, _) => blendUser.toFirestore(),
