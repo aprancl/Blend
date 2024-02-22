@@ -24,6 +24,7 @@ import 'pages/auth/register.dart';
 import 'pages/navPages/posting/platforms.dart';
 import 'pages/navPages/posting/caption.dart';
 import 'pages/navPages/posting/media.dart';
+import 'pages/navPages/posting/media_insta.dart';
 import 'pages/navPages/posting/overview_post.dart';
 
 void main() async {
@@ -83,7 +84,8 @@ class _MyAppState extends State<MyApp> {
                         PostingCaptionPage(), //4
                         PostingMediaPage(), //5
                         PostingOverviewPage(), //6
-                        // UserProfilePage(), //7
+                        MultiplePicker()  //7
+                        // UserProfilePage(),  //7
                       ],
                     ),
                     bottomNavigationBar: CurvedNavigationBar(
