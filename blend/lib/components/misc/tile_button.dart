@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 
 class TileButton extends StatelessWidget {
   final String title;
-  final String route;
-  const TileButton({super.key, required this.title, required this.route});
+  final Function() onTap;
+  const TileButton({super.key, required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +21,7 @@ class TileButton extends StatelessWidget {
           // account linking
           ListTile(
             title: Text(title),
-            onTap: () {
-              Navigator.pushNamed(
-                  context, route);
-            },
+            onTap: onTap,
           ),
         ],
       ),
