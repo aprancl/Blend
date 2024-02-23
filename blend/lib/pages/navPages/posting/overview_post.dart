@@ -84,7 +84,7 @@ class PostingOverviewPage extends StatelessWidget {
                             child: Text('Post Content'),
                             onPressed: () {
                               print('Post the Content');
-                              // provider.goToPage(6);
+                              // provider.goToPage(5);
                             },
                           ),
                         ],

@@ -81,10 +81,9 @@ class _MyAppState extends State<MyApp> {
                         PostingPlatformsPage(), //1
                         AnalyticsPage(), //2
                         WorkspaceProfilePage(), //3
-                        PostingCaptionPage(), //4
-                        PostingMediaPage(), //5
-                        PostingOverviewPage(), //6
-                        MultiplePicker()  //7
+                        PostingMediaPage(), //4
+                        PostingOverviewPage(), //5
+                        MultiplePicker()  //6
                         // UserProfilePage(),  //7
                       ],
                     ),
