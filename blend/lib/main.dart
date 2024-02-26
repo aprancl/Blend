@@ -1,9 +1,9 @@
 // Import dependencies
 // Flutter
 import 'package:blend/pages/auth/verify.dart';
-import 'package:blend/pages/navPages/analytics/analytics.dart';
-import 'package:blend/pages/navPages/user/user_profile.dart';
-import 'package:blend/pages/navPages/workspace/workspace_profile.dart';
+import 'package:blend/pages/analytics/analytics.dart';
+import 'package:blend/pages/user/user_profile.dart';
+import 'package:blend/pages/workspace/workspace_profile.dart';
 import 'package:blend/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'router/router.dart' as router;
@@ -21,11 +21,11 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'pages/home.dart';
 import 'pages/auth/login.dart';
 import 'pages/auth/register.dart';
-import 'pages/navPages/posting/platforms.dart';
-import 'pages/navPages/posting/caption.dart';
-import 'pages/navPages/posting/media.dart';
+import 'pages/posting/platforms.dart';
+import 'pages/posting/caption.dart';
+import 'pages/posting/media.dart';
 // import 'pages/navPages/posting/media_insta.dart';
-import 'pages/navPages/posting/overview_post.dart';
+import 'pages/posting/overview_post.dart';
 
 void main() async {
   // Make sure everything is loaded
