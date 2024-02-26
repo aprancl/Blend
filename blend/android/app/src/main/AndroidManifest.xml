@@ -1,13 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.blend">
+    package="com.baristas.blend">
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> <!-- allows app to access Facebook app features -->
         <provider android:authorities="com.facebook.orca.provider.PlatformProvider" /> <!-- allows sharing to Messenger app -->
     </queries>
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="blend"
+        android:label="Blend"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data 

@@ -69,7 +69,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '438579021661',
     projectId: 'barista-blend',
     storageBucket: 'barista-blend.appspot.com',
-    iosBundleId: 'com.example.blend',
+    iosBundleId: 'com.baristas.blend',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -78,6 +78,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '438579021661',
     projectId: 'barista-blend',
     storageBucket: 'barista-blend.appspot.com',
-    iosBundleId: 'com.example.blend.RunnerTests',
+    iosBundleId: 'com.baristas.blend.RunnerTests',
   );
 }
