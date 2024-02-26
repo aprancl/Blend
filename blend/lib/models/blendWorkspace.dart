@@ -13,7 +13,7 @@ class BlendWorkspace {
   final Object? facebook;
   final Object? linkedin;
   final List<Object>? users;
-  final DocumentReference<Map<String, dynamic>>? blendCard;
+  final Object? blendCard;
 
   BlendWorkspace({
     this.name,

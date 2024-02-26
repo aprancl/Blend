@@ -25,16 +25,15 @@ class WorkspaceSettingsPage extends StatelessWidget {
               // horizontal line
               TileButton(
                 title: "Workspace Information",
-                onTap: () => Navigator.pushNamed(context, "/undefined"),
+                route: "/undefined",
               ),
               TileButton(
                 title: "Account Linking",
-                onTap: () => Navigator.pushNamed(
-                    context, "/workspace/settings/account-linking"),
+                route: "/workspace/settings/account-linking",
               ),
               TileButton(
                 title: "Some other settings page",
-                onTap: () => Navigator.pushNamed(context, "/undefined"),
+                route: "/undefined",
               ),
               Divider(
                 color: provider.theme.dividerColor,

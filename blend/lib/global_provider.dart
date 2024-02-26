@@ -1,7 +1,6 @@
 // Flutter
 import 'dart:async';
 
-import 'package:blend/models/blendCard.dart';
 import 'package:blend/models/blendUser.dart';
 import 'package:blend/models/blendWorkspace.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -130,8 +129,7 @@ class GlobalProvider with ChangeNotifier {
 
   Future<BlendUser> getBlendUser() async {
     print("getAuthUserDoc");
-    if (FirebaseAuth.instance.currentUser != null &&
-        FirebaseAuth.instance.currentUser!.emailVerified) {
+    if (FirebaseAuth.instance.currentUser != null && FirebaseAuth.instance.currentUser!.emailVerified) {
       final ref = db.collection("users").doc(authUser!.uid).withConverter(
             fromFirestore: BlendUser.fromFirestore,
             toFirestore: (BlendUser blendUser, _) => blendUser.toFirestore(),
@@ -160,17 +158,6 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
-  Future<BlendUser> getBlendUserByRef(
-      DocumentReference<Map<String, dynamic>> blendUserRef) async {
-    final ref = blendUserRef.withConverter(
-      fromFirestore: BlendUser.fromFirestore,
-      toFirestore: (BlendUser blendUser, _) => blendUser.toFirestore(),
-    );
-    final blendUserDocSnap = await ref.get();
-    final blendUser = blendUserDocSnap.data();
-    return blendUser!;
-  }
-
   Future<BlendWorkspace> getBlendWorkspace(
       DocumentReference<Map<String, dynamic>> workspaceRef) async {
     final ref = workspaceRef.withConverter(
@@ -181,17 +168,6 @@ class GlobalProvider with ChangeNotifier {
     final workspaceDocSnap = await ref.get();
     final blendWorkspace = workspaceDocSnap.data();
     return blendWorkspace!;
-  }
-
-  Future<BlendCard> getBlendCard(
-      DocumentReference<Map<String, dynamic>> blendCardRef) async {
-    final ref = blendCardRef.withConverter(
-      fromFirestore: BlendCard.fromFirestore,
-      toFirestore: (BlendCard blendCard, _) => blendCard.toFirestore(),
-    );
-    final blendCardDocSnap = await ref.get();
-    final blendCard = blendCardDocSnap.data();
-    return blendCard!;
   }
 
   Future<FirebaseAuthException?> signIn(String email, String password) async {
@@ -216,14 +192,14 @@ class GlobalProvider with ChangeNotifier {
   ) async {
     try {
       // Check if username is taken
-      isUsernameAvailable(username).then((value) {
-        if (!value) {
-          return FirebaseAuthException(
-            code: "username-taken",
-            message: "Username is already taken",
-          );
-        }
-      });
+      final usernameRef = db.collection("users").doc(username);
+      final usernameDoc = await usernameRef.get();
+      if (usernameDoc.exists) {
+        return FirebaseAuthException(
+          code: "username-taken",
+          message: "Username is already taken",
+        );
+      }
 
       // Create auth account
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -306,7 +282,7 @@ class GlobalProvider with ChangeNotifier {
   }
 
   Future<bool> isUsernameAvailable(String username) async {
-    final usernameRef = db.collection("usernames").doc(username);
+    final usernameRef = db.collection("users").doc(username);
 
     await usernameRef.get().then((doc) {
       if (doc.exists) {
@@ -328,54 +304,7 @@ class GlobalProvider with ChangeNotifier {
     getAuthUser();
     notifyListeners();
   }
-
-  Future<void> deleteAccount() async {
-    // Step 1: Get the user's blendUser document
-    BlendUser? user = await getBlendUser();
-
-    // Step 2: Loop through all of the user's workspaces
-    for (var workspaceRef in user.workspaceRefs!) {
-      // Step 3: Get the workspace document
-      BlendWorkspace workspace = await getBlendWorkspace(workspaceRef);
-
-      // Step 3: Delete the workspace's blendCard
-      await workspace.blendCard!.delete();
-
-      // Step 4: For each workspace, loop through the users
-      for (var workspaceUserIndex in workspace.users!) {
-        var workspaceUserObject = workspaceUserIndex as Map<String, dynamic>;
-
-        // Step 5: For all users, get the user's blendUser document and remove 
-        // this workspace from it
-        if (workspaceUserObject['role'] == "owner") {
-          continue;
-        } else {
-          BlendUser workspaceUser =
-              await getBlendUserByRef(workspaceUserObject['user']);
-          await workspaceUser.removeWorkspace(workspaceRef);
-        }
-      }
-
-      // Step 6: Delete the workspace
-      await workspaceRef.delete();
-    }
-
-    // Step 7: Delete the user's username from the usernames table
-    await db.collection("usernames").doc(user.username).delete();
-
-    // Step 8: Delete the user's blendUser document
-    await db.collection("users").doc(authUser!.uid).delete();
-
-    // Step 9: Delete the user's auth account
-    await authUser!.delete();
-
-    // Step 10: Sign out
-    signOut();
-
-    this.authUser = null;
-    this.blendUser = BlendUser();
-    notifyListeners();
-  }
+  // getAuthUser()
 
 // ██████   ██████  ███████ ████████ ██ ███    ██  ██████
 // ██   ██ ██    ██ ██         ██    ██ ████   ██ ██

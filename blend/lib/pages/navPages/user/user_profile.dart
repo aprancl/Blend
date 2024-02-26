@@ -17,7 +17,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
     return Container(
       child: Scaffold(
-          appBar: SettingsAppBar(settingsRoute: "/user/settings", title: "Profile",).build(context),
+          appBar: SettingsAppBar(settingsRoute: "/undefined", title: "Profile",).build(context),
           body: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
