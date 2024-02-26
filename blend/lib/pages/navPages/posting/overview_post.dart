@@ -74,7 +74,7 @@ class PostingOverviewPage extends StatelessWidget {
                             child: Text('Back'),
                             onPressed: () {
                               print('We want to go back!');
-                              provider.goToPage(4);
+                              provider.goToPage(5);
                             },
                           ),
                           Spacer(),
@@ -84,7 +84,7 @@ class PostingOverviewPage extends StatelessWidget {
                             child: Text('Post Content'),
                             onPressed: () {
                               print('Post the Content');
-                              // provider.goToPage(5);
+                              // provider.goToPage(6);
                             },
                           ),
                         ],
