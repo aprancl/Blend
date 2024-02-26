@@ -67,11 +67,7 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
                       child: Text('Next'),
                       onPressed: () {
                         print('We want to go next!');
-<<<<<<< HEAD
                         provider.goToPage(6);
-=======
-                        provider.goToPage(7);
->>>>>>> bf8a193a062825271af95e784e54c75e870e1a16
                       },
                     ),
                   ],
