@@ -211,13 +211,6 @@ class GlobalProvider with ChangeNotifier {
       authUser = FirebaseAuth.instance.currentUser;
       await authUser!.updateDisplayName("$fname $lname");
 
-      // Add username to database
-      final usernameRecord = <String, dynamic>{
-        "uid": authUser!.uid,
-      };
-
-      await db.collection("usernames").doc(username).set(usernameRecord);
-
       // Create personal blendCard
       final blendCard = <String, dynamic>{
         "bio": "",

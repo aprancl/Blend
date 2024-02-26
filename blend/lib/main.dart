@@ -24,7 +24,10 @@ import 'pages/auth/register.dart';
 import 'pages/navPages/posting/platforms.dart';
 import 'pages/navPages/posting/caption.dart';
 import 'pages/navPages/posting/media.dart';
+<<<<<<< HEAD
 import 'pages/navPages/posting/media_insta.dart';
+=======
+>>>>>>> parent of 351e22ca ( important: kotlin downgraded to support changes; instagram image picker working, just need to fix permissions)
 import 'pages/navPages/posting/overview_post.dart';
 
 void main() async {
@@ -81,10 +84,17 @@ class _MyAppState extends State<MyApp> {
                         PostingPlatformsPage(), //1
                         AnalyticsPage(), //2
                         WorkspaceProfilePage(), //3
+<<<<<<< HEAD
                         PostingMediaPage(), //4
                         PostingOverviewPage(), //5
                         MultiplePicker()  //6
                         // UserProfilePage(),  //7
+=======
+                        PostingCaptionPage(), //4
+                        PostingMediaPage(), //5
+                        PostingOverviewPage(), //6
+                        // UserProfilePage(), //7
+>>>>>>> parent of 351e22ca ( important: kotlin downgraded to support changes; instagram image picker working, just need to fix permissions)
                       ],
                     ),
                     bottomNavigationBar: CurvedNavigationBar(

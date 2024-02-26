@@ -57,7 +57,11 @@ class PostingOverviewPage extends StatelessWidget {
                           maxLines: 10,
                           decoration: const InputDecoration(
                             contentPadding:
+<<<<<<< HEAD
                                 EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+=======
+                                EdgeInsets.symmetric(vertical: 40, horizontal: 15),
+>>>>>>> parent of 351e22ca ( important: kotlin downgraded to support changes; instagram image picker working, just need to fix permissions)
                             border: OutlineInputBorder(),
                             labelText: "Add your caption here",
                             alignLabelWithHint: true,
@@ -84,7 +88,11 @@ class PostingOverviewPage extends StatelessWidget {
                             child: Text('Post Content'),
                             onPressed: () {
                               print('Post the Content');
+<<<<<<< HEAD
                               // provider.goToPage(5);
+=======
+                              // provider.goToPage(6);
+>>>>>>> parent of 351e22ca ( important: kotlin downgraded to support changes; instagram image picker working, just need to fix permissions)
                             },
                           ),
                         ],
