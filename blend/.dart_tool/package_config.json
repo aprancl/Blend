@@ -537,13 +537,7 @@
     },
     {
       "name": "photo_manager",
-      "rootUri": "file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/photo_manager-3.0.0-dev.5",
-      "packageUri": "lib/",
-      "languageVersion": "2.13"
-    },
-    {
-      "name": "photo_manager_image_provider",
-      "rootUri": "file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/photo_manager_image_provider-2.1.0",
+      "rootUri": "file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/photo_manager-2.8.1",
       "packageUri": "lib/",
       "languageVersion": "2.13"
     },
@@ -675,9 +669,9 @@
     },
     {
       "name": "wechat_assets_picker",
-      "rootUri": "file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/wechat_assets_picker-8.9.0-dev.1",
+      "rootUri": "file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/wechat_assets_picker-8.8.1+1",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.1"
     },
     {
       "name": "win32",
@@ -698,7 +692,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-02-22T14:14:24.943282Z",
+  "generated": "2024-02-26T16:08:04.155870Z",
   "generator": "pub",
   "generatorVersion": "3.2.4"
 }
