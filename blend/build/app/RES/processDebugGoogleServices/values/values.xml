@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">438579021661-rmp2ul5vs72fm58eoh0u8btjk0taf7pm.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">438579021661</string>
+    <string name="google_api_key" translatable="false">AIzaSyAyml-YViM4Uoin5ms6q-4sZwAE_X86Z8k</string>
+    <string name="google_app_id" translatable="false">1:438579021661:android:076b2dcdbda560e27a0ab4</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAyml-YViM4Uoin5ms6q-4sZwAE_X86Z8k</string>
+    <string name="google_storage_bucket" translatable="false">barista-blend.appspot.com</string>
+    <string name="project_id" translatable="false">barista-blend</string>
+</resources>
