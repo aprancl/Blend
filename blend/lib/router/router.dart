@@ -2,6 +2,7 @@ import 'package:blend/pages/auth/verify.dart';
 import 'package:blend/pages/posting/overview_post.dart';
 import 'package:blend/pages/user/settings/user_settings.dart';
 import 'package:blend/pages/user/user_profile.dart';
+import 'package:blend/pages/workspace/blendcard.dart';
 import 'package:blend/pages/workspace/settings/workspace_account_linking.dart';
 import 'package:blend/pages/workspace/settings/workspace_settings.dart';
 import 'package:blend/pages/workspace/workspace_profile.dart';
@@ -42,6 +43,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           return MaterialPageRoute(builder: (context) => PostingOverviewPage());
         case '/workspace/profile':
           return MaterialPageRoute(builder: (context) => WorkspaceProfilePage());
+        case '/workspace/blendcard':
+          return MaterialPageRoute(builder: (context) => BlendCardPage());
         case '/workspace/settings':
           return MaterialPageRoute(builder: (context) => WorkspaceSettingsPage());
         case '/workspace/settings/account-linking':

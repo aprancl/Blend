@@ -40,6 +40,12 @@ class _HomePageState extends State<HomePage> {
               },
               child: Text('Sign Out'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/workspace/blendcard');
+              },
+              child: Text('Blend Card'),
+            )
           ],
         ),
       ),
