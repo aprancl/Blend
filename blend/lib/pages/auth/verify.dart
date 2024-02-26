@@ -30,7 +30,6 @@ class VerifyPage extends StatelessWidget {
                 await provider.auth.currentUser!.reload();
                 if (provider.auth.currentUser!.emailVerified) {
                   provider.getAuthUser();
-                  provider.getBlendUser();
                 } else {
                   // show dialog
                   showDialog(

@@ -35,8 +35,7 @@ class UserSettingsPage extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   await provider.deleteAccount();
-                  // pop to route /login
-                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                  Navigator.pop(context);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith(

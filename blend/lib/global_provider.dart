@@ -237,10 +237,10 @@ class GlobalProvider with ChangeNotifier {
 
       // Add username to database
       final usernameRecord = <String, dynamic>{
-        "uid": authUser!.uid,
+        "uid": authUser,
       };
 
-      await db.collection("usernames").doc(username).set(usernameRecord);
+      await db.collection("usernames").add(usernameRecord);
 
       // Create personal blendCard
       final blendCard = <String, dynamic>{
