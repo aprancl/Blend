@@ -55,22 +55,14 @@ class PostingCaptionPage extends StatelessWidget {
                               print('We want to go back!');
                               provider.postCaption = captionController.text;
                               print(provider.postCaption);
-<<<<<<< HEAD
-                              provider.goToPage(4);
-=======
                               provider.goToPage(5);
->>>>>>> parent of 351e22ca ( important: kotlin downgraded to support changes; instagram image picker working, just need to fix permissions)
                             },
                           ),
                           ElevatedButton(
                             child: Text('Next'),
                             onPressed: () {
                               print('We want to go next!');
-<<<<<<< HEAD
-                              provider.goToPage(5);
-=======
                               provider.goToPage(6);
->>>>>>> parent of 351e22ca ( important: kotlin downgraded to support changes; instagram image picker working, just need to fix permissions)
                               provider.postCaption = captionController.text;
                               print(provider.postCaption);
                             },

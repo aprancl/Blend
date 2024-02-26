@@ -73,11 +73,7 @@ class PostingPlatformsPage extends StatelessWidget {
                     child: Text('Next'),
                     onPressed: () {
                       print('We want to go next!');
-<<<<<<< HEAD
-                      provider.goToPage(4);
-=======
                       provider.goToPage(5);
->>>>>>> parent of 351e22ca ( important: kotlin downgraded to support changes; instagram image picker working, just need to fix permissions)
                     },
                   ),
                 ],

@@ -30,10 +30,7 @@ class VerifyPage extends StatelessWidget {
                 await provider.auth.currentUser!.reload();
                 if (provider.auth.currentUser!.emailVerified) {
                   provider.getAuthUser();
-<<<<<<< HEAD
                   provider.getBlendUser();
-=======
->>>>>>> parent of 351e22ca ( important: kotlin downgraded to support changes; instagram image picker working, just need to fix permissions)
                 } else {
                   // show dialog
                   showDialog(
