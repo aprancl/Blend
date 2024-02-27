@@ -1,4 +1,9 @@
 import 'package:blend/components/appBars/main_app_bar.dart';
+import 'package:blend/models/blendCard.dart';
+import 'package:blend/models/blendUser.dart';
+import 'package:blend/models/blendWorkspace.dart';
+import 'package:blend/pages/workspace/edit_blendCard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
@@ -42,7 +47,10 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/workspace/blendcard');
+                Navigator.pushNamed(
+                  context,
+                  '/workspace/blendcard',
+                );
               },
               child: Text('Blend Card'),
             )
@@ -52,5 +60,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
 
 // this class contains all the data the user sets for the posting process

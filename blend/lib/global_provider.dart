@@ -21,6 +21,7 @@ class GlobalProvider with ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
   late StreamSubscription<User?> _authStateChanges;
+  int currentWorkspace = 0;
 
   GlobalProvider() {
     _initializeAuthStateListener();
