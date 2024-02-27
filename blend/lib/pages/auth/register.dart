@@ -295,6 +295,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     labelText: 'Confirm Password',
                     errorText: this.confirmErrorText,
                   ),
+                  controller: this.confirmController,
                 ),
                 // SizedBox(height: 16.0),
                 ElevatedButton(

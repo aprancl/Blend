@@ -1,12 +1,17 @@
+import 'dart:ui';
+
+import 'package:animated_list_plus/transitions.dart';
 import 'package:blend/components/misc/skewbox.dart';
 import 'package:blend/global_provider.dart';
 import 'package:blend/models/blendCard.dart';
+import 'package:blend/models/blendCardPlatform.dart';
 import 'package:blend/models/blendUser.dart';
 import 'package:blend/models/blendWorkspace.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:animated_list_plus/animated_list_plus.dart';
 
 class EditBlendCardPage extends StatefulWidget {
   EditBlendCardPage({super.key});
@@ -273,11 +278,82 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
               SizedBox(
                 height: 5,
               ),
-              
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildPlatformList() {
+    return ImplicitlyAnimatedReorderableList<BlendCardPlatform>(
+      items: widget.cardData!.card!.platforms!,
+      areItemsTheSame: (oldItem, newItem) => oldItem.equals(newItem),
+      onReorderFinished: (item, from, to, newItems) {
+        // Remember to update the underlying data when the list has been
+        // reordered.
+        setState(() {
+          widget.cardData!.card!.platforms!
+            ..clear()
+            ..addAll(newItems);
+        });
+      },
+      itemBuilder: (context, itemAnimation, item, index) {
+        // Each item must be wrapped in a Reorderable widget.
+        return Reorderable(
+          // Each item must have an unique key.
+          key: ValueKey(item),
+          // The animation of the Reorderable builder can be used to
+          // change to appearance of the item between dragged and normal
+          // state. For example to add elevation when the item is being dragged.
+          // This is not to be confused with the animation of the itemBuilder.
+          // Implicit animations (like AnimatedContainer) are sadly not yet supported.
+          builder: (context, dragAnimation, inDrag) {
+            final t = dragAnimation.value;
+            final elevation = lerpDouble(0, 8, t);
+            final color =
+                Color.lerp(Colors.white, Colors.white.withOpacity(0.8), t);
+
+            return SizeFadeTransition(
+              sizeFraction: 0.7,
+              curve: Curves.easeInOut,
+              animation: itemAnimation,
+              child: Material(
+                color: color,
+                elevation: elevation!,
+                type: MaterialType.transparency,
+                child: ListTile(
+                  title: Text(item.title!),
+                  // The child of a Handle can initialize a drag/reorder.
+                  // This could for example be an Icon or the whole item itself. You can
+                  // use the delay parameter to specify the duration for how long a pointer
+                  // must press the child, until it can be dragged.
+                  trailing: Handle(
+                    delay: const Duration(milliseconds: 100),
+                    child: Icon(
+                      Icons.list,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+      // Since version 0.2.0 you can also display a widget
+      // before the reorderable items...
+      header: Container(
+        height: 200,
+        color: Colors.red,
+      ),
+      // ...and after. Note that this feature - as the list itself - is still in beta!
+      footer: Container(
+        height: 200,
+        color: Colors.green,
+      ),
+      // If you want to use headers or footers, you should set shrinkWrap to true
+      shrinkWrap: true,
     );
   }
 }

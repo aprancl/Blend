@@ -8,6 +8,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "animated_list_plus",
+      "rootUri": "file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/animated_list_plus-0.5.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "async",
       "rootUri": "file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.11.0",
       "packageUri": "lib/",
@@ -698,7 +704,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-02-27T18:51:33.196588Z",
+  "generated": "2024-02-27T20:35:04.600729Z",
   "generator": "pub",
   "generatorVersion": "3.2.4"
 }
