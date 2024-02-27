@@ -177,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                 //     child: Text("Forgot password?"),
                 //   ),
                 // ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 20.0),
                 SizedBox(
                   height: 50.0,
                   width: double.infinity,
@@ -222,6 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+               SizedBox(height: 300.0),
               ],
             ),
           ),
