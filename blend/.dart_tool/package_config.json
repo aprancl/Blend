@@ -212,6 +212,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "flex_color_picker",
+      "rootUri": "file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/flex_color_picker-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "flex_color_scheme",
       "rootUri": "file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/flex_color_scheme-7.3.1",
       "packageUri": "lib/",
@@ -692,7 +698,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-02-26T17:13:49.161974Z",
+  "generated": "2024-02-27T18:51:33.196588Z",
   "generator": "pub",
   "generatorVersion": "3.2.4"
 }
