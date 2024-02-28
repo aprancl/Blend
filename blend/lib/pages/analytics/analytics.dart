@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:blend/components/appBars/main_app_bar.dart';
+import 'package:syncfusion_flutter_charts/charts.dart' as sfc;
 
 class AnalyticsPage extends StatefulWidget {
   @override
@@ -103,8 +104,11 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                     child: Column(
                       children: [
                         PlatformEntry(
-                            mediaName: "Youtube",
-                            icon: Icons.arrow_forward_outlined)
+                          mediaName: "Youtube",
+                          icon: Icons.arrow_forward_outlined,
+                        ),
+                        sfc.SfCartesianChart(
+                        )
                       ],
                     ),
                   )
@@ -136,4 +140,11 @@ class PlatformEntry extends StatelessWidget {
           ],
         ));
   }
+}
+
+
+class SalesData {
+  SalesData(this.year, this.sales);
+  final String year;
+  final double sales;
 }
