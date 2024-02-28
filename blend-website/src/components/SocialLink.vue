@@ -1,31 +1,31 @@
 <template>
-	<div class="py-2">
-		<a
-			style="
-				width: 100%;
-				height: 5rem;
-				margin: auto;
-				border-radius: 1rem;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: white;
-				text-decoration: none;
-			"
-			:style="backgroundStyle"
-			:href="link"
-			target="_blank"
-		>
-			<div class="row w-100">
-				<div class="col-1" id="icon">
-					<i :class="icon"></i>
-				</div>
-				<div class="col-10" id="title">
-					<h3>{{ title }}</h3>
-				</div>
-			</div>
-		</a>
-	</div>
+    <div class="py-2">
+        <a
+        style="
+            width: 100%;
+            height: 5rem;
+            margin: auto;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+        "
+        :style="backgroundStyle"
+        :href="link"
+        target="_blank"
+    >
+        <div class="row w-100">
+            <div class="col-1" id="icon">
+                <i :class="icon"></i>
+            </div>
+            <div class="col-10" id="title">
+                <h3>{{ title }}</h3>
+            </div>
+        </div>
+    </a>
+    </div>
 </template>
 
 <script>
@@ -131,7 +131,7 @@ export default {
 					break;
 				case "snapchat":
 					this.backgroundStyle =
-						this.generateStyle(["#FFFC00", "#ffffff", "#000000"]) +
+						this.generateStyle(["#FFFC00", "#ffffff", "#000000",]) +
 						" color: black!important;";
 					this.icon = "fab fa-snapchat-ghost";
 					break;
@@ -242,6 +242,12 @@ export default {
 						this.generateStyle(["#25d865", "#ffffff", "#000000"]) +
 						" color: black!important;";
                     this.icon = "fab fa-spotify";
+					break;
+                case "email":
+                    this.backgroundStyle =
+						this.generateStyle(["#ffffff", "#000000"]) +
+						" color: black!important;";
+                    this.icon = "fa-solid fa-envelope";
 					break;
 				default:
 					this.backgroundStyle =

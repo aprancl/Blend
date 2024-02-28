@@ -100,7 +100,7 @@
 										class="col-md-6 col-12"
 										:key="platform"
 										:platform="platform.type"
-										:link="platform.link"
+										:link="platform.type == 'email' ? `mailto:${platform.url}` : (platform.url.startsWith('http://') || platform.url.startsWith('https://') ? platform.url : `https://${platform.url}`)"
 										:title="platform.title"
 									></SocialLink>
 								</div>
