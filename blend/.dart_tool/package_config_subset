@@ -352,8 +352,12 @@ file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_wind
 file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_windows-2.2.1/lib/
 photo_manager
 2.13
-file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/photo_manager-2.8.1/
-file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/photo_manager-2.8.1/lib/
+file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/photo_manager-3.0.0/
+file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/photo_manager-3.0.0/lib/
+photo_manager_image_provider
+2.13
+file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/photo_manager_image_provider-2.1.1/
+file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/photo_manager_image_provider-2.1.1/lib/
 pie_chart
 2.12
 file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/pie_chart-5.4.0/
@@ -435,9 +439,9 @@ web
 file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/web-0.3.0/
 file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/web-0.3.0/lib/
 wechat_assets_picker
-3.1
-file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/wechat_assets_picker-8.8.1+1/
-file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/wechat_assets_picker-8.8.1+1/lib/
+3.2
+file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/wechat_assets_picker-8.9.0-dev.1/
+file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/wechat_assets_picker-8.9.0-dev.1/lib/
 win32
 3.2
 file:///C:/Users/ibrah/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.2.0/
