@@ -9,8 +9,8 @@ class MultiplePicker extends StatelessWidget with InstaPickerInterface {
 
   @override
   PickerDescription get description => const PickerDescription(
-        icon: '🖼️',
-        label: 'Multiple Mode Picker',
+        icon: '📷',
+        label: 'Select Media',
         description:
             'Picker for selecting multiple images (max $_kMultiplePickerMax).',
       );
