@@ -1,3 +1,4 @@
+import 'package:blend/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_assets_picker/insta_assets_picker.dart';
 import 'package:blend/components/imageProcessing/crop_result_view.dart';
@@ -27,6 +28,7 @@ mixin InstaPickerInterface on Widget {
   }
 
   AppBar get _appBar => AppBar(title: Text(description.fullLabel));
+  // GlobalProvider provider = Provider.of<GlobalProvider>(context);
 
   Column pickerColumn({
     String? text,

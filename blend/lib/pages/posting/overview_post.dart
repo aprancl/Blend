@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
@@ -52,17 +54,7 @@ class PostingOverviewPage extends StatelessWidget {
                         ),
                       ),
                       
-                      child: TextField(
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 10,
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(vertical: 40, horizontal: 15),
-                            border: OutlineInputBorder(),
-                            labelText: "Add your caption here",
-                            alignLabelWithHint: true,
-                          ),
-                        ),
+                      child: Text(provider.postCaption)
                     ),
                     SizedBox(height: 10,),
                     Container(

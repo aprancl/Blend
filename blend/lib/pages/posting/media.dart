@@ -67,6 +67,21 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
                       child: Text('Next'),
                       onPressed: () {
                         print('We want to go next!');
+                        provider.goToPage(4);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      child: Text('To Instagram Media Picker'),
+                      onPressed: () {
+                        print('We want to go back!');
                         provider.goToPage(7);
                       },
                     ),
