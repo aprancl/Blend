@@ -101,15 +101,27 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      children: [
-                        PlatformEntry(
-                          mediaName: "Youtube",
-                          icon: Icons.arrow_forward_outlined,
-                        ),
-                        sfc.SfCartesianChart(
-                        )
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          PlatformEntry(
+                            mediaName: "Youtube",
+                            icon: Icons.arrow_forward_outlined,
+                          ),
+                          PlatformEntry(
+                            mediaName: "Instagram",
+                            icon: Icons.arrow_forward_outlined,
+                          ),
+                          PlatformEntry(
+                            mediaName: "TikTok",
+                            icon: Icons.arrow_forward_outlined,
+                          ),
+                          PlatformEntry(
+                            mediaName: "SnapChat",
+                            icon: Icons.arrow_forward_outlined,
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -129,19 +141,27 @@ class PlatformEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.grey[500],
+        margin: EdgeInsets.only(bottom: 10.0),
+        padding: EdgeInsets.only(left: 20.0, right: 10.0),
+        color: Color.fromARGB(255, 143, 172, 243),
         child: Row(
           children: [
             Icon(icon),
-            Text("Place graphic here"),
+            Container(
+              width: 175.0,
+              height: 100.0,
+              child: sfc.SfCartesianChart(),
+            ),
             Column(
-              children: [Text("Place title here")],
-            )
+              children: [Text("Example")],
+            ),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ));
   }
 }
-
 
 class SalesData {
   SalesData(this.year, this.sales);
