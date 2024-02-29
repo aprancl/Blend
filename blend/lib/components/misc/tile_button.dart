@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 class TileButton extends StatelessWidget {
   final String title;
   final Function() onTap;
-  const TileButton({super.key, required this.title, required this.onTap});
+  final Icon? icon;
+  const TileButton({super.key, required this.title, required this.onTap, this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class TileButton extends StatelessWidget {
           // account linking
           ListTile(
             title: Text(title),
+            trailing: icon,
             onTap: onTap,
           ),
         ],

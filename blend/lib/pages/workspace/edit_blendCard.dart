@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:animated_list_plus/transitions.dart';
 import 'package:blend/components/misc/skewbox.dart';
+import 'package:blend/components/misc/tile_button.dart';
 import 'package:blend/global_provider.dart';
 import 'package:blend/models/blendCard.dart';
 import 'package:blend/models/blendCardPlatform.dart';
@@ -16,16 +17,18 @@ import 'package:animated_list_plus/animated_list_plus.dart';
 class EditBlendCardPage extends StatefulWidget {
   EditBlendCardPage({super.key});
   BlendCardData? cardData = BlendCardData(
-      card: BlendCard(
-        background:
-            "https://upload.wikimedia.org/wikipedia/commons/c/ca/1x1.png",
-        topColor: "rgba(0, 0, 0, 0)",
-        bottomColor: "rgba(0, 0, 0, 0)",
-        bio: "Loading...",
-        platforms: [],
-      ),
-      workspaceRef: null,
-      blendCardRef: null);
+    card: BlendCard(
+      background: "https://upload.wikimedia.org/wikipedia/commons/c/ca/1x1.png",
+      topColor: "rgba(0, 0, 0, 0)",
+      bottomColor: "rgba(0, 0, 0, 0)",
+      bio: "Loading...",
+      platforms: [],
+    ),
+    workspaceRef: null,
+    blendCardRef: null,
+  );
+  String? newPlatformType = "website";
+  String? editPlatformType = "";
 
   @override
   State<EditBlendCardPage> createState() => _EditBlendCardPageState();
@@ -34,6 +37,10 @@ class EditBlendCardPage extends StatefulWidget {
 class _EditBlendCardPageState extends State<EditBlendCardPage> {
   TextEditingController _backgroundController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
+  TextEditingController _platformNameController = TextEditingController();
+  TextEditingController _platformUrlController = TextEditingController();
+  TextEditingController _editNameController = TextEditingController();
+  TextEditingController _editUrlController = TextEditingController();
 
   @override
   void initState() {
@@ -47,6 +54,7 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
           .getBlendCard(workspace.blendCard!);
       _backgroundController.text = card.background!;
       _bioController.text = card.bio!;
+      print("BLEND CARD PLATFORMS: ${card.platforms}");
       setState(() {
         widget.cardData = BlendCardData(
           card: card,
@@ -151,7 +159,7 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
       body: SingleChildScrollView(
         child: Center(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SkewBox(
                 topColor: cssToColor(widget.cardData!.card!.topColor!),
@@ -166,7 +174,7 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
               // "Edit Blend Card" title
               Text(
                 "Edit Colors",
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               // --------- COLORS SECTION ---------
               ListTile(
@@ -229,7 +237,7 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
 
               // --------- BACKGROUND SECTION ---------
               Text("Edit Background Image",
-                  style: Theme.of(context).textTheme.titleSmall),
+                  style: Theme.of(context).textTheme.titleMedium),
               SizedBox(
                 height: 5,
               ),
@@ -251,7 +259,10 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
               ),
 
               // --------- BIO SECTION ---------
-              Text("Edit Bio", style: Theme.of(context).textTheme.titleSmall),
+              SizedBox(
+                height: 10,
+              ),
+              Text("Edit Bio", style: Theme.of(context).textTheme.titleMedium),
               SizedBox(
                 height: 5,
               ),
@@ -273,11 +284,162 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
               ),
 
               // --------- PLATFORMS SECTION ---------
-              Text("Edit Platforms",
-                  style: Theme.of(context).textTheme.titleSmall),
               SizedBox(
                 height: 5,
               ),
+              Text("Edit Links",
+                  style: Theme.of(context).textTheme.titleMedium),
+              // Add link button
+              TileButton(
+                title: "Add Link",
+                icon: Icon(Icons.add_box_outlined),
+                onTap: () {
+                  // Show dialog to add a new platform
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Add a new platform"),
+                        content: SizedBox(
+                          height: 250,
+                          width: 250,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Name',
+                                  ),
+                                  controller: _platformNameController,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'URL',
+                                  ),
+                                  controller: _platformUrlController,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              // Dropdown selection for platform type
+                              DropdownButtonFormField<String>(
+                                value: widget.newPlatformType,
+                                items: <String>[
+                                  'discord',
+                                  'douyin',
+                                  'email',
+                                  'facebook',
+                                  'github',
+                                  'instagram',
+                                  'linkedin',
+                                  'messenger',
+                                  'myspace',
+                                  'pinterest',
+                                  'quora',
+                                  'reddit',
+                                  'researchgate',
+                                  'skype',
+                                  'snapchat',
+                                  'soundcloud',
+                                  'spotify',
+                                  'stackoverflow',
+                                  'steam',
+                                  'telegram',
+                                  'threads',
+                                  'tiktok',
+                                  'tumblr',
+                                  'twitch',
+                                  'vk',
+                                  'website',
+                                  'wechat',
+                                  'whatsapp',
+                                  'x',
+                                  'youtube',
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    widget.newPlatformType = value;
+                                  });
+                                },
+                                onSaved: (String? value) {
+                                  setState(() {
+                                    widget.newPlatformType = value;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text("Add"),
+                            onPressed: () {
+                              setState(() {
+                                if (_platformNameController.text.isEmpty ||
+                                    _platformUrlController.text.isEmpty) {
+                                  // Show dialog saying that one or more fields are empty
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Error"),
+                                        content: Text(
+                                            "One or more fields are empty"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text("Close"),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  widget.cardData!.card!.platforms!.add(
+                                    BlendCardPlatform(
+                                      title: _platformNameController.text,
+                                      url: _platformUrlController.text,
+                                      type: widget.newPlatformType,
+                                    ),
+                                  );
+                                  _platformNameController.clear();
+                                  _platformUrlController.clear();
+                                  widget.newPlatformType = "website";
+                                  Navigator.of(context).pop();
+                                }
+                              });
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+              buildPlatformList(),
             ],
           ),
         ),
@@ -323,12 +485,179 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                 elevation: elevation!,
                 type: MaterialType.transparency,
                 child: ListTile(
+                  trailing: SizedBox(
+                    width: 100,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            setState(() {
+                              widget.cardData!.card!.platforms!.removeAt(index);
+                            });
+                          },
+                        ),
+                        // Edit button
+                        IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            widget.editPlatformType =
+                                widget.cardData!.card!.platforms![index].type;
+                            _editNameController.text =
+                                widget.cardData!.card!.platforms![index].title!;
+                            _editUrlController.text =
+                                widget.cardData!.card!.platforms![index].url!;
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Edit Link"),
+                                  content: SizedBox(
+                                    height: 250,
+                                    width: 250,
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: TextField(
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              labelText: 'Name',
+                                            ),
+                                            controller: _editNameController,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: TextField(
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              labelText: 'URL',
+                                            ),
+                                            controller: _editUrlController,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        // Dropdown selection for platform type
+                                        DropdownButtonFormField<String>(
+                                          value: widget.editPlatformType,
+                                          items: <String>[
+                                            'discord',
+                                            'douyin',
+                                            'email',
+                                            'facebook',
+                                            'github',
+                                            'instagram',
+                                            'linkedin',
+                                            'messenger',
+                                            'myspace',
+                                            'pinterest',
+                                            'quora',
+                                            'reddit',
+                                            'researchgate',
+                                            'skype',
+                                            'snapchat',
+                                            'soundcloud',
+                                            'spotify',
+                                            'stackoverflow',
+                                            'steam',
+                                            'telegram',
+                                            'threads',
+                                            'tiktok',
+                                            'tumblr',
+                                            'twitch',
+                                            'vk',
+                                            'website',
+                                            'wechat',
+                                            'whatsapp',
+                                            'x',
+                                            'youtube',
+                                          ].map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                          onChanged: (String? value) {
+                                            setState(() {
+                                              widget.editPlatformType = value;
+                                            });
+                                          },
+                                          onSaved: (String? value) {
+                                            setState(() {
+                                              widget.editPlatformType = value;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text("Close"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text("Add"),
+                                      onPressed: () {
+                                        setState(() {
+                                          if (_editNameController
+                                                  .text.isEmpty ||
+                                              _editUrlController.text.isEmpty) {
+                                            // Show dialog saying that one or more fields are empty
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text("Error"),
+                                                  content: Text(
+                                                      "One or more fields are empty"),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child: Text("Close"),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          } else {
+                                            widget.cardData!.card!
+                                                .platforms![index]
+                                              ..title = _editNameController.text
+                                              ..url = _editUrlController.text
+                                              ..type = widget.editPlatformType;
+                                            Navigator.of(context).pop();
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  ),
                   title: Text(item.title!),
                   // The child of a Handle can initialize a drag/reorder.
                   // This could for example be an Icon or the whole item itself. You can
                   // use the delay parameter to specify the duration for how long a pointer
                   // must press the child, until it can be dragged.
-                  trailing: Handle(
+                  leading: Handle(
                     delay: const Duration(milliseconds: 100),
                     child: Icon(
                       Icons.list,
@@ -343,15 +672,7 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
       },
       // Since version 0.2.0 you can also display a widget
       // before the reorderable items...
-      header: Container(
-        height: 200,
-        color: Colors.red,
-      ),
-      // ...and after. Note that this feature - as the list itself - is still in beta!
-      footer: Container(
-        height: 200,
-        color: Colors.green,
-      ),
+
       // If you want to use headers or footers, you should set shrinkWrap to true
       shrinkWrap: true,
     );
