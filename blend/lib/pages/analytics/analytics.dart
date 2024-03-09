@@ -3,9 +3,10 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
-import 'package:pie_chart/pie_chart.dart';
+import 'package:pie_chart/pie_chart.dart' as pie;
 import 'package:blend/components/appBars/main_app_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as sfc;
+import 'package:fl_chart/fl_chart.dart';
 
 class AnalyticsPage extends StatefulWidget {
   @override
@@ -53,16 +54,16 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      PieChart(
+                      pie.PieChart(
                         ringStrokeWidth: 20,
                         dataMap: dataMap,
                         chartLegendSpacing: 20,
-                        chartType: ChartType.ring,
+                        chartType: pie.ChartType.ring,
                         chartRadius: MediaQuery.of(context).size.width / 2.5,
-                        legendOptions: LegendOptions(
+                        legendOptions: pie.LegendOptions(
                             showLegends: false,
                             showLegendsInRow: true,
-                            legendPosition: LegendPosition.bottom),
+                            legendPosition: pie.LegendPosition.bottom),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,15 +144,19 @@ class PlatformEntry extends StatelessWidget {
     return Container(
         margin: EdgeInsets.only(bottom: 10.0),
         padding: EdgeInsets.only(left: 20.0, right: 10.0),
-        color: Color.fromARGB(255, 143, 172, 243),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Color.fromARGB(255, 143, 172, 243),
+        ),
         child: Row(
           children: [
             Icon(icon),
             Container(
-              width: 175.0,
-              height: 100.0,
-              child: sfc.SfCartesianChart(),
-            ),
+                width: 175.0,
+                height: 100.0,
+                child: LineChart(LineChartData(
+                  gridData: FlGridData(),
+                ))),
             Column(
               children: [Text("Example")],
             ),
