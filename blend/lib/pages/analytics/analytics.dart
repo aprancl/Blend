@@ -138,6 +138,14 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 class PlatformEntry extends StatelessWidget {
   String mediaName;
   IconData icon;
+  // final List<SalesData> chartData = [
+  //   SalesData(2010, 35),
+  //   SalesData(2011, 28),
+  //   SalesData(2012, 34),
+  //   SalesData(2013, 32),
+  //   SalesData(2014, 40)
+  // ];
+
   PlatformEntry({required this.mediaName, required this.icon});
   @override
   Widget build(BuildContext context) {
@@ -145,21 +153,46 @@ class PlatformEntry extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 10.0),
         padding: EdgeInsets.only(left: 20.0, right: 10.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(90.0),
           color: Color.fromARGB(255, 143, 172, 243),
         ),
         child: Row(
           children: [
-            Icon(icon),
-            Container(
-                width: 175.0,
-                height: 100.0,
-                child: LineChart(LineChartData(
-                  gridData: FlGridData(),
-                ))),
-            Column(
-              children: [Text("Example")],
+            ClipOval(
+              child: Image.asset(
+                'images/lime.png',
+                width: 80,
+                height: 80,
+              ),
             ),
+            Expanded(
+              child: Container(
+                width: 150.0,
+                height: 100.0,
+                child: sfc.SfCartesianChart(
+                  // Initialize category axis
+                  primaryXAxis: sfc.CategoryAxis(),
+              
+                  series: <sfc.LineSeries<SalesData, String>>[
+                    sfc.LineSeries<SalesData, String>(
+                      // Bind data source
+                      dataSource: <SalesData>[
+                        SalesData('Jan', 75),
+                        SalesData('Feb', 8),
+                        SalesData('Mar', 64),
+                        SalesData('Apr', 60),
+                        SalesData('May', 70)
+                      ],
+                      xValueMapper: (SalesData sales, _) => sales.year,
+                      yValueMapper: (SalesData sales, _) => sales.sales,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Column(
+            //   children: [Text("Example")],
+            // ),
             SizedBox(
               height: 20,
             ),
