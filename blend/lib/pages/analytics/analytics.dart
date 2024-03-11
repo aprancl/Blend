@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +5,6 @@ import 'package:blend/global_provider.dart';
 import 'package:pie_chart/pie_chart.dart' as pie;
 import 'package:blend/components/appBars/main_app_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as sfc;
-import 'package:fl_chart/fl_chart.dart';
 
 class AnalyticsPage extends StatefulWidget {
   @override
@@ -138,66 +136,68 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
 class PlatformEntry extends StatelessWidget {
   String mediaName;
   IconData icon;
-  // final List<SalesData> chartData = [
-  //   SalesData(2010, 35),
-  //   SalesData(2011, 28),
-  //   SalesData(2012, 34),
-  //   SalesData(2013, 32),
-  //   SalesData(2014, 40)
-  // ];
 
   PlatformEntry({required this.mediaName, required this.icon});
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(bottom: 10.0),
-        padding: EdgeInsets.only(left: 20.0, right: 10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(90.0),
-          color: Color.fromARGB(255, 143, 172, 243),
-        ),
-        child: Row(
-          children: [
-            ClipOval(
-              child: Image.asset(
-                'images/lime.png',
-                width: 80,
-                height: 80,
-              ),
-            ),
-            Expanded(
-              child: Container(
-                width: 150.0,
-                height: 100.0,
-                child: sfc.SfCartesianChart(
-                  // Initialize category axis
-                  primaryXAxis: sfc.CategoryAxis(),
-              
-                  series: <sfc.LineSeries<SalesData, String>>[
-                    sfc.LineSeries<SalesData, String>(
-                      // Bind data source
-                      dataSource: <SalesData>[
-                        SalesData('Jan', 75),
-                        SalesData('Feb', 8),
-                        SalesData('Mar', 64),
-                        SalesData('Apr', 60),
-                        SalesData('May', 70)
-                      ],
-                      xValueMapper: (SalesData sales, _) => sales.year,
-                      yValueMapper: (SalesData sales, _) => sales.sales,
-                    ),
-                  ],
+    final provider = Provider.of<GlobalProvider>(context);
+    return GestureDetector(
+      onTap: () {
+        print("banana");
+        print("${mediaName}");
+        provider.goToPage(8);
+        
+      },
+      child: Container(
+          margin: EdgeInsets.only(bottom: 10.0),
+          padding: EdgeInsets.only(left: 20.0, right: 10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(90.0),
+            color: Color.fromARGB(255, 143, 172, 243),
+          ),
+          child: Row(
+            children: [
+              ClipOval(
+                child: Image.asset(
+                  'images/lime.png',
+                  width: 80,
+                  height: 80,
                 ),
               ),
-            ),
-            // Column(
-            //   children: [Text("Example")],
-            // ),
-            SizedBox(
-              height: 20,
-            ),
-          ],
-        ));
+              Expanded(
+                child: Container(
+                  width: 150.0,
+                  height: 100.0,
+                  child: sfc.SfCartesianChart(
+                    // Initialize category axis
+                    primaryXAxis: sfc.CategoryAxis(),
+
+                    series: <sfc.LineSeries<SalesData, String>>[
+                      sfc.LineSeries<SalesData, String>(
+                        // Bind data source
+                        dataSource: <SalesData>[
+                          SalesData('Jan', 75),
+                          SalesData('Feb', 8),
+                          SalesData('Mar', 64),
+                          SalesData('Apr', 60),
+                          SalesData('May', 70)
+                        ],
+                        xValueMapper: (SalesData sales, _) => sales.year,
+                        yValueMapper: (SalesData sales, _) => sales.sales,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // Column(
+              //   children: [Text("Example")],
+              // ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          )),
+    );
   }
 }
 

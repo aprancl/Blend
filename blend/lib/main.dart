@@ -26,6 +26,8 @@ import 'pages/posting/caption.dart';
 import 'pages/posting/media.dart';
 import 'package:blend/pages/posting/media_insta.dart';
 import 'pages/posting/overview_post.dart';
+import 'pages/analytics/platform_analytics.dart';
+
 
 void main() async {
   // Make sure everything is loaded
@@ -84,7 +86,8 @@ class _MyAppState extends State<MyApp> {
                         PostingCaptionPage(), //4
                         PostingMediaPage(), //5
                         PostingOverviewPage(), //6
-                        MultiplePicker() // 7
+                        MultiplePicker(), // 7
+                        PlatformAnalyticsPage(), // 8
                         // UserProfilePage(),
                       ],
                     ),
