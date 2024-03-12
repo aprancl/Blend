@@ -119,6 +119,14 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                             mediaName: "SnapChat",
                             icon: Icons.arrow_forward_outlined,
                           ),
+                          PlatformEntry(
+                            mediaName: "X",
+                            icon: Icons.arrow_forward_outlined,
+                          ),
+                          PlatformEntry(
+                            mediaName: "LinkedIn",
+                            icon: Icons.arrow_forward_outlined,
+                          ),
                         ],
                       ),
                     ),

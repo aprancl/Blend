@@ -1,9 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
-import 'package:pie_chart/pie_chart.dart' as pie;
 import 'package:blend/components/appBars/main_app_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as sfc;
+import 'package:pie_chart/pie_chart.dart' as pie;
+import 'package:animated_digit/animated_digit.dart';
 
 class PlatformAnalyticsPage extends StatefulWidget {
   @override
@@ -46,8 +49,8 @@ class _PlatformAnalyticsPageState extends State<PlatformAnalyticsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
-                        width: 150.0,
-                        height: 100.0,
+                        // width: 150.0,
+                        height: 150.0,
                         child: sfc.SfCartesianChart(
                           // Initialize category axis
                           primaryXAxis: sfc.CategoryAxis(),
@@ -70,30 +73,6 @@ class _PlatformAnalyticsPageState extends State<PlatformAnalyticsPage> {
                       ),
                     ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Title(
-                        color: Color(0xFFFFFFFF),
-                        child: Text(
-                          "Followers",
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Container(
-                        height: 100.0,
-                        color: Colors.grey,
-                        child: Text("Place holder"),
-                      )
-                    ],
-                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -103,6 +82,55 @@ class _PlatformAnalyticsPageState extends State<PlatformAnalyticsPage> {
                     indent: 12.0,
                     endIndent: 12.0,
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(35.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.green[200],
+                                  border: Border.all(
+                                    color: Colors.green,
+                                    width: 10,
+                                  ),
+                                ),
+                                child: AnimatedDigitWidget(
+                                  value: 12332,
+                                  textStyle: TextStyle(
+                                    color: Colors.green[800],
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ),
+                              pie.PieChart(
+                                ringStrokeWidth: 20,
+                                dataMap: <String, double>{
+                                  "instagram": 223,
+                                  "TikTok": 150,
+                                  "Youtube": 21,
+                                  "other": 120,
+                                },
+                                chartLegendSpacing: 20,
+                                chartType: pie.ChartType.ring,
+                                chartRadius:
+                                    MediaQuery.of(context).size.width / 2.8,
+                                legendOptions: pie.LegendOptions(
+                                    showLegends: false,
+                                    showLegendsInRow: true,
+                                    legendPosition: pie.LegendPosition.bottom),
+                              ),
+                            ],
+                          )
+                        ],
+                      ))
                 ],
               ),
             ),

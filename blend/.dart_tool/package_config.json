@@ -8,6 +8,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "animated_digit",
+      "rootUri": "file:///Users/anthonyprancl/.pub-cache/hosted/pub.dev/animated_digit-3.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "animated_list_plus",
       "rootUri": "file:///Users/anthonyprancl/.pub-cache/hosted/pub.dev/animated_list_plus-0.5.2",
       "packageUri": "lib/",
@@ -722,7 +728,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-03-09T04:34:12.853176Z",
+  "generated": "2024-03-12T03:15:51.674845Z",
   "generator": "pub",
   "generatorVersion": "3.2.4"
 }
