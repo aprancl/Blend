@@ -5,6 +5,12 @@ blend_android_build/private_key.pepk
 keystore/upload-keystore.jks
 blend/.flutter-plugins-dependencies
 blend/.flutter-plugins
-blend/.dart_tool/package_config_subset
-blend/.dart_tool/package_config.json
 blend/android/local.properties
+build/
+doc/api/
+.dart_tool/
+*.iml
+*.ipr
+*.iws
+.idea/
+.DS_Store
