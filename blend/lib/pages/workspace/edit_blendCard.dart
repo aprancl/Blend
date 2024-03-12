@@ -10,6 +10,7 @@ import 'package:blend/models/blendUser.dart';
 import 'package:blend/models/blendWorkspace.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:animated_list_plus/animated_list_plus.dart';
@@ -27,6 +28,7 @@ class EditBlendCardPage extends StatefulWidget {
     workspaceRef: null,
     blendCardRef: null,
   );
+  String? workspaceID = "";
   String? newPlatformType = "website";
   String? editPlatformType = "";
 
@@ -49,6 +51,8 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
       print('BlendCardPage: initState');
       BlendUser user = await Provider.of<GlobalProvider>(context, listen: false)
           .getBlendUser();
+      // Get the id of the first workspace
+      widget.workspaceID = user.workspaceRefs![0].id;
       BlendWorkspace workspace = user.workspaces![0];
       BlendCard card = await Provider.of<GlobalProvider>(context, listen: false)
           .getBlendCard(workspace.blendCard!);
@@ -168,10 +172,28 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                 width: MediaQuery.of(context).size.width,
                 image: widget.cardData!.card!.background!,
               ),
-              SizedBox(
-                height: 20,
+              
+
+              // Full-width button to copy link for blendcard
+              TileButton(
+                title: "Copy Link",
+                icon: Icon(Icons.link),
+                onTap: () {
+                  // Copy link to clipboard
+                  Clipboard.setData(
+                    ClipboardData(
+                      text:
+                          "https://barista-blend.web.app/profile/${widget.cardData!.workspaceRef!.id}",
+                    ),
+                  );
+                  // Show snackbar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Link copied to clipboard"),
+                    ),
+                  );
+                },
               ),
-              // "Edit Blend Card" title
               Text(
                 "Edit Colors",
                 style: Theme.of(context).textTheme.titleMedium,
@@ -486,7 +508,7 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                 type: MaterialType.transparency,
                 child: ListTile(
                   trailing: SizedBox(
-                    width: 100,
+                    width: 97,
                     child: Row(
                       children: [
                         IconButton(
@@ -500,6 +522,7 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                         // Edit button
                         IconButton(
                           icon: Icon(Icons.edit),
+                          padding: EdgeInsets.only(right: 0),
                           onPressed: () {
                             widget.editPlatformType =
                                 widget.cardData!.card!.platforms![index].type;
