@@ -14,4 +14,13 @@ class BlendCardPlatform {
   bool equals(BlendCardPlatform platform) {
     return platform.title == title && platform.type == type && platform.url == url;
   }
+
+  // toMap function
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'type': type,
+      'url': url,
+    };
+  }
 }

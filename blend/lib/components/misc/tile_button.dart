@@ -6,7 +6,13 @@ class TileButton extends StatelessWidget {
   final String title;
   final Function() onTap;
   final Icon? icon;
-  const TileButton({super.key, required this.title, required this.onTap, this.icon});
+  final bool useDivider;
+  const TileButton(
+      {super.key,
+      required this.title,
+      required this.onTap,
+      this.icon,
+      this.useDivider = true});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +21,12 @@ class TileButton extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Divider(
-            color: provider.theme.dividerColor,
-            thickness: 1,
-          ),
+          // divider
+          if (useDivider)
+            Divider(
+              color: provider.theme.dividerColor,
+              thickness: 1,
+            ),
           // account linking
           ListTile(
             title: Text(title),

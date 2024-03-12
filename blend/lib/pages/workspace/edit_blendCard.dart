@@ -28,6 +28,18 @@ class EditBlendCardPage extends StatefulWidget {
     workspaceRef: null,
     blendCardRef: null,
   );
+  BlendCardData? originalCard = BlendCardData(
+    card: BlendCard(
+      background: "https://upload.wikimedia.org/wikipedia/commons/c/ca/1x1.png",
+      topColor: "rgba(0, 0, 0, 0)",
+      bottomColor: "rgba(0, 0, 0, 0)",
+      bio: "Loading...",
+      platforms: [],
+    ),
+    workspaceRef: null,
+    blendCardRef: null,
+  );
+  bool unsavedChanges = false;
   String? workspaceID = "";
   String? newPlatformType = "website";
   String? editPlatformType = "";
@@ -46,7 +58,7 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
 
   @override
   void initState() {
-    super.initState();
+    // super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       print('BlendCardPage: initState');
       BlendUser user = await Provider.of<GlobalProvider>(context, listen: false)
@@ -56,12 +68,34 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
       BlendWorkspace workspace = user.workspaces![0];
       BlendCard card = await Provider.of<GlobalProvider>(context, listen: false)
           .getBlendCard(workspace.blendCard!);
+      card.topColor = colorToCss(cssToColor(card.topColor!));
+      card.bottomColor = colorToCss(cssToColor(card.bottomColor!));
       _backgroundController.text = card.background!;
       _bioController.text = card.bio!;
       print("BLEND CARD PLATFORMS: ${card.platforms}");
       setState(() {
         widget.cardData = BlendCardData(
           card: card,
+          workspaceRef: user.workspaceRefs![0],
+          blendCardRef: workspace.blendCard!,
+        );
+        List<BlendCardPlatform> platforms = [];
+
+        for (var platform in card.platforms!) {
+          platforms.add(BlendCardPlatform(
+            title: platform.title,
+            type: platform.type,
+            url: platform.url,
+          ));
+        }
+        widget.originalCard = BlendCardData(
+          card: BlendCard(
+            background: card.background,
+            topColor: card.topColor,
+            bottomColor: card.bottomColor,
+            bio: card.bio,
+            platforms: platforms,
+          ),
           workspaceRef: user.workspaceRefs![0],
           blendCardRef: workspace.blendCard!,
         );
@@ -80,6 +114,12 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
           widget.cardData!.card!.topColor = colorToCss(color);
         } else {
           widget.cardData!.card!.bottomColor = colorToCss(color);
+        }
+
+        if (widget.cardData!.equals(widget.originalCard!)) {
+          widget.unsavedChanges = false;
+        } else {
+          widget.unsavedChanges = true;
         }
       }),
       width: 40,
@@ -156,10 +196,45 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Blend Card'),
-      ),
+          title: Text('Edit Blend Card'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              if (widget.unsavedChanges) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Unsaved Changes"),
+                      content: Text(
+                          "If you leave this page, your changes will be lost. Are you sure you want to leave?"),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text("Discard Changes"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                Navigator.of(context).pop();
+              }
+            },
+          )),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -172,12 +247,51 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                 width: MediaQuery.of(context).size.width,
                 image: widget.cardData!.card!.background!,
               ),
-              
+
+              SizedBox(
+                height: 10,
+              ),
+              // Full-width save changes button
+              ElevatedButton(
+                onPressed: (!widget.unsavedChanges)
+                    ? null
+                    : () async {
+                        // Save changes to the database
+                        await widget.cardData!.blendCardRef!.update({
+                          "background": widget.cardData!.card!.background,
+                          "topColor": widget.cardData!.card!.topColor,
+                          "bottomColor": widget.cardData!.card!.bottomColor,
+                          "bio": widget.cardData!.card!.bio,
+                          "platforms": widget.cardData!.card!.platforms
+                              ?.map((e) => e.toMap())
+                              .toList(),
+                        });
+                        // Show snackbar
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Changes saved"),
+                          ),
+                        );
+
+                        initState();
+                      },
+                child: Text("Save Changes"),
+                // full width
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(10),
+                  minimumSize: Size(MediaQuery.of(context).size.width - 20, 50),
+                  // border radius
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
 
               // Full-width button to copy link for blendcard
               TileButton(
                 title: "Copy Link",
                 icon: Icon(Icons.link),
+                useDivider: false,
                 onTap: () {
                   // Copy link to clipboard
                   Clipboard.setData(
@@ -193,6 +307,10 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                     ),
                   );
                 },
+              ),
+              Divider(
+                color: provider.theme.dividerColor,
+                thickness: 1,
               ),
               Text(
                 "Edit Colors",
@@ -224,6 +342,12 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                             colorToCss(colorBeforeDialog);
                       });
                     }
+
+                    if (widget.cardData!.equals(widget.originalCard!)) {
+                      widget.unsavedChanges = false;
+                    } else {
+                      widget.unsavedChanges = true;
+                    }
                   },
                 ),
               ),
@@ -253,6 +377,12 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                             colorToCss(colorBeforeDialog);
                       });
                     }
+
+                    if (widget.cardData!.equals(widget.originalCard!)) {
+                      widget.unsavedChanges = false;
+                    } else {
+                      widget.unsavedChanges = true;
+                    }
                   },
                 ),
               ),
@@ -273,6 +403,12 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                   onChanged: (value) {
                     setState(() {
                       widget.cardData!.card!.background = value;
+
+                      if (widget.cardData!.equals(widget.originalCard!)) {
+                        widget.unsavedChanges = false;
+                      } else {
+                        widget.unsavedChanges = true;
+                      }
                     });
                   },
                   // starting value
@@ -299,6 +435,12 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                   onChanged: (value) {
                     setState(() {
                       widget.cardData!.card!.bio = value;
+
+                      if (widget.cardData!.equals(widget.originalCard!)) {
+                        widget.unsavedChanges = false;
+                      } else {
+                        widget.unsavedChanges = true;
+                      }
                     });
                   },
                   controller: _bioController,
@@ -447,6 +589,14 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                                       type: widget.newPlatformType,
                                     ),
                                   );
+
+                                  if (widget.cardData!
+                                      .equals(widget.originalCard!)) {
+                                    widget.unsavedChanges = false;
+                                  } else {
+                                    widget.unsavedChanges = true;
+                                  }
+
                                   _platformNameController.clear();
                                   _platformUrlController.clear();
                                   widget.newPlatformType = "website";
@@ -481,6 +631,12 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
             ..clear()
             ..addAll(newItems);
         });
+
+        if (widget.cardData!.equals(widget.originalCard!)) {
+          widget.unsavedChanges = false;
+        } else {
+          widget.unsavedChanges = true;
+        }
       },
       itemBuilder: (context, itemAnimation, item, index) {
         // Each item must be wrapped in a Reorderable widget.
@@ -517,6 +673,12 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                             setState(() {
                               widget.cardData!.card!.platforms!.removeAt(index);
                             });
+
+                            if (widget.cardData!.equals(widget.originalCard!)) {
+                              widget.unsavedChanges = false;
+                            } else {
+                              widget.unsavedChanges = true;
+                            }
                           },
                         ),
                         // Edit button
@@ -661,6 +823,12 @@ class _EditBlendCardPageState extends State<EditBlendCardPage> {
                                               ..title = _editNameController.text
                                               ..url = _editUrlController.text
                                               ..type = widget.editPlatformType;
+                                            if (widget.cardData!
+                                                .equals(widget.originalCard!)) {
+                                              widget.unsavedChanges = false;
+                                            } else {
+                                              widget.unsavedChanges = true;
+                                            }
                                             Navigator.of(context).pop();
                                           }
                                         });
@@ -712,4 +880,23 @@ class BlendCardData {
     required this.workspaceRef,
     required this.blendCardRef,
   });
+
+  bool equals(BlendCardData data) {
+    if (data.card!.platforms!.length != card!.platforms!.length) {
+      return false;
+    }
+
+    for (var i = 0; i < data.card!.platforms!.length; i++) {
+      if (!data.card!.platforms![i].equals(card!.platforms![i])) {
+        return false;
+      }
+    }
+
+    return data.card!.background == card!.background &&
+        data.card!.topColor == card!.topColor &&
+        data.card!.bottomColor == card!.bottomColor &&
+        data.card!.bio == card!.bio &&
+        data.workspaceRef == workspaceRef &&
+        data.blendCardRef == blendCardRef;
+  }
 }
