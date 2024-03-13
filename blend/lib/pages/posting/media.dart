@@ -17,7 +17,7 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
   void initState() {
     super.initState();
     provider = Provider.of<GlobalProvider>(context, listen: false);
-    loadGalleryImages();
+    // loadGalleryImages();
   }
 
   Future<void> loadGalleryImages() async {

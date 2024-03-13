@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
+import 'package:blend/models/platformSelection.dart';
 
 class PostingPlatformsPage extends StatelessWidget {
-  var eachPlatform = <String>[
-    "Instagram",
-    "TikTok",
-    "Youtube",
-    "Snapchat",
-    "X",
-    "Facebook",
-    "LinkedIn"
-  ];
-  var eachPlatformIcon = <IconData>[
-    Icons.camera_alt_sharp,
-    Icons.music_note,
-    Icons.play_arrow_sharp,
-    Icons.snapchat,
-    Icons.cancel_presentation,
-    Icons.facebook,
-    Icons.language_sharp
+  var platforms = <PlatformSelection>[
+    PlatformSelection("Instagram", Icons.camera_alt_sharp),
+    PlatformSelection("TikTok", Icons.music_note),
+    PlatformSelection("Youtube", Icons.play_arrow_sharp),
+    PlatformSelection("Snapchat", Icons.snapchat),
+    PlatformSelection("X", Icons.cancel_presentation),
+    PlatformSelection("Facebook", Icons.facebook),
+    PlatformSelection("LinkedIn", Icons.language_sharp),
   ];
 
   @override
@@ -52,11 +44,10 @@ class PostingPlatformsPage extends StatelessWidget {
             SizedBox(height: 20),
             Column(
               children: List.generate(
-                eachPlatform.length,
+                platforms.length,
                 (index) {
                   return MediaSelectionButton(
-                    eachPlatformIcon[index],
-                    eachPlatform[index],
+                    platforms[index],
                     provider.selectedPlatforms,
                   );
                 },
@@ -87,11 +78,10 @@ class PostingPlatformsPage extends StatelessWidget {
 }
 
 class MediaSelectionButton extends StatefulWidget {
-  final IconData buttonIcon;
-  final String label;
-  final Set<String> selectedPlatforms;
+  final PlatformSelection platform;
+  final Set<PlatformSelection> selectedPlatforms;
 
-  MediaSelectionButton(this.buttonIcon, this.label, this.selectedPlatforms);
+  MediaSelectionButton(this.platform, this.selectedPlatforms);
 
   @override
   _MediaSelectionButtonState createState() => _MediaSelectionButtonState();
@@ -108,11 +98,11 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
           _isTapped = !_isTapped;
         });
         if (_isTapped) {
-          widget.selectedPlatforms.add(widget.label);
+          widget.selectedPlatforms.add(widget.platform);
         } else {
-          widget.selectedPlatforms.remove(widget.label);
+          widget.selectedPlatforms.remove(widget.platform);
         }
-        print(widget.selectedPlatforms);
+        print(List.generate(widget.selectedPlatforms.length, (index) => widget.selectedPlatforms.elementAt(index).name));
       },
       child: Column(
         children: <Widget>[
@@ -138,9 +128,9 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
             ),
             child: ListTile(
               contentPadding: EdgeInsets.all(0),
-              leading: Icon(widget.buttonIcon),
+              leading: Icon(widget.platform.icon),
               title: Text(
-                widget.label,
+                widget.platform.name,
                 style: TextStyle(
                   color: _isTapped ? Colors.white : Colors.black,
                 ),

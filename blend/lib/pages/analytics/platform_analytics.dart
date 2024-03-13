@@ -17,7 +17,13 @@ class _PlatformAnalyticsPageState extends State<PlatformAnalyticsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar().build(context),
+      appBar: AppBar(
+          leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pushNamed(context , '/lib/pages/analytics/');
+        },
+      )),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(

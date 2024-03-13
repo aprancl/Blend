@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
@@ -69,7 +68,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                           Title(
                             color: Color(0xFFFFFFFF),
                             child: Text(
-                              "Followers",
+                              "Top Followers",
                               style: TextStyle(
                                 fontSize: 22.0,
                                 fontWeight: FontWeight.bold,
@@ -81,10 +80,35 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                             height: 30,
                           ),
                           Container(
-                            height: 100.0,
-                            color: Colors.grey,
-                            child: Text("Place holder"),
-                          )
+                              height: 100.0,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "\u2022 Instagram",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "\u2022 Youtube",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "\u2022 TikTok",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "\u2022 SnapChat",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ))
                         ],
                       )
                     ],
@@ -154,7 +178,7 @@ class PlatformEntry extends StatelessWidget {
         print("banana");
         print("${mediaName}");
         provider.goToPage(8);
-        
+        Navigator.pushNamed(context, '/lib/pages/analytics/platforms');
       },
       child: Container(
           margin: EdgeInsets.only(bottom: 10.0),

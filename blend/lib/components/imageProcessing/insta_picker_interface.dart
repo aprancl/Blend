@@ -38,19 +38,13 @@ mixin InstaPickerInterface on Widget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Center(
-            child: Text(
-              text ??
-                  'The ${description.label} will push result in a new screen',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 18),
-            ),
-          ),
-          TextButton(
-            onPressed: onPressed,
-            child: FittedBox(
-              child: Text(
-                'Open the ${description.label}',
-                style: const TextStyle(fontSize: 20),
+            child: TextButton(
+              onPressed: onPressed,
+              child: FittedBox(
+                child: Text(
+                  'Select media from gallery',
+                  style: const TextStyle(fontSize: 20),
+                ),
               ),
             ),
           ),
