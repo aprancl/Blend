@@ -1,3 +1,5 @@
+import 'package:blend/pages/analytics/analytics.dart';
+import 'package:blend/pages/analytics/platform_analytics.dart';
 import 'package:blend/pages/auth/verify.dart';
 import 'package:blend/pages/posting/overview_post.dart';
 import 'package:blend/pages/user/settings/user_settings.dart';
@@ -7,6 +9,7 @@ import 'package:blend/pages/workspace/settings/workspace_account_linking.dart';
 import 'package:blend/pages/workspace/settings/workspace_settings.dart';
 import 'package:blend/pages/workspace/workspace_profile.dart';
 import 'package:blend/pages/splash.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import '../pages/home.dart';
 import '../pages/undefined.dart';
@@ -58,6 +61,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           return MaterialPageRoute(builder: (context) => UserProfilePage());
         case '/user/settings':
           return MaterialPageRoute(builder: (context) => UserSettingsPage());
+        case '/lib/pages/analytics/':
+          return MaterialPageRoute(builder: (context) => AnalyticsPage());
+        case '/lib/pages/analytics/platforms':
+          return MaterialPageRoute(builder: (context) => PlatformAnalyticsPage());
         default:
           return MaterialPageRoute(builder: (context) => UndefinedPage());
       }

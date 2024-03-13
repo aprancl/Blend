@@ -154,6 +154,7 @@ class PlatformEntry extends StatelessWidget {
         print("banana");
         print("${mediaName}");
         provider.goToPage(8);
+        Navigator.pushNamed(context, '/lib/pages/analytics/platforms');
         
       },
       child: Container(

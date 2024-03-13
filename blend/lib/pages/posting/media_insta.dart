@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:blend/components/imageProcessing/insta_picker_interface.dart';
 
-
 const _kMultiplePickerMax = 4;
 
 class MultiplePicker extends StatelessWidget with InstaPickerInterface {
