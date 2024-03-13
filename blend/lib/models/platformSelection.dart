@@ -6,6 +6,7 @@ class PlatformSelection {
   final String name;
   final IconData icon;
 
+  PlatformSelection(this.name, this.icon);
 
   // STATICS 
   // character limites for making posts
@@ -29,9 +30,4 @@ class PlatformSelection {
 
 
 
-
-  PlatformSelection({
-    required this.name,
-    required this.icon,
-  });
 }

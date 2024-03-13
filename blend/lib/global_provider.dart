@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:blend/models/blendCard.dart';
 import 'package:blend/models/blendUser.dart';
 import 'package:blend/models/blendWorkspace.dart';
+import 'package:blend/models/platformSelection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -383,7 +384,7 @@ class GlobalProvider with ChangeNotifier {
 // ██████  ██    ██ ███████    ██    ██ ██ ██  ██ ██   ███
 // ██      ██    ██      ██    ██    ██ ██  ██ ██ ██    ██
 // ██       ██████  ███████    ██    ██ ██   ████  ██████
-  Set<String> selectedPlatforms = {};
+  Set<PlatformSelection> selectedPlatforms = {};
   var postCaption = "";
   var defaultImagePath = "images/lime.png";
   File? selectedMedia;
