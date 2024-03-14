@@ -65,6 +65,10 @@ class GlobalProvider with ChangeNotifier {
     ),
   );
 
+  void setTheme(ThemeData newTheme) {
+    theme = newTheme;
+    notifyListeners();
+  }
 // ███    ██  █████  ██    ██ ██  ██████   █████  ████████ ██  ██████  ███    ██
 // ████   ██ ██   ██ ██    ██ ██ ██       ██   ██    ██    ██ ██    ██ ████   ██
 // ██ ██  ██ ███████ ██    ██ ██ ██   ███ ███████    ██    ██ ██    ██ ██ ██  ██

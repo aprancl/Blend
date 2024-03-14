@@ -271,37 +271,35 @@ class _UserThemePageState extends State<UserThemePage> {
               ListTile(
                 title: const Text('Primary'),
                 subtitle: Text(
-                  ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.primary),
+                  ColorTools.nameThatColor(provider.theme.colorScheme.primary),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.primary,
+                  color: provider.theme.colorScheme.primary,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.primary;
+                        provider.theme.colorScheme.primary;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.primary);
+                        provider.theme.colorScheme.primary);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             primary: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -313,36 +311,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Primary'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onPrimary),
+                      provider.theme.colorScheme.onPrimary),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onPrimary,
+                  color: provider.theme.colorScheme.onPrimary,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onPrimary;
+                        provider.theme.colorScheme.onPrimary;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onPrimary);
+                        provider.theme.colorScheme.onPrimary);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onPrimary: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -354,36 +351,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('Primary Container'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.primaryContainer),
+                      provider.theme.colorScheme.primaryContainer),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.primaryContainer,
+                  color: provider.theme.colorScheme.primaryContainer,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.primaryContainer;
+                        provider.theme.colorScheme.primaryContainer;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.primaryContainer);
+                        provider.theme.colorScheme.primaryContainer);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             primaryContainer: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -395,36 +391,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Primary Container'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onPrimaryContainer),
+                      provider.theme.colorScheme.onPrimaryContainer),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onPrimaryContainer,
+                  color: provider.theme.colorScheme.onPrimaryContainer,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onPrimaryContainer;
+                        provider.theme.colorScheme.onPrimaryContainer;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onPrimaryContainer);
+                        provider.theme.colorScheme.onPrimaryContainer);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onPrimaryContainer: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -436,36 +431,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('Secondary'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.secondary),
+                      provider.theme.colorScheme.secondary),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.secondary,
+                  color: provider.theme.colorScheme.secondary,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.secondary;
+                        provider.theme.colorScheme.secondary;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.secondary);
+                        provider.theme.colorScheme.secondary);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             secondary: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -477,36 +471,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Secondary'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onSecondary),
+                      provider.theme.colorScheme.onSecondary),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onSecondary,
+                  color: provider.theme.colorScheme.onSecondary,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onSecondary;
+                        provider.theme.colorScheme.onSecondary;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onSecondary);
+                        provider.theme.colorScheme.onSecondary);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onSecondary: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -518,36 +511,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('Secondary Container'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.secondaryContainer),
+                      provider.theme.colorScheme.secondaryContainer),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.secondaryContainer,
+                  color: provider.theme.colorScheme.secondaryContainer,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.secondaryContainer;
+                        provider.theme.colorScheme.secondaryContainer;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.secondaryContainer);
+                        provider.theme.colorScheme.secondaryContainer);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             secondaryContainer: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -559,36 +551,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Secondary Container'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onSecondaryContainer),
+                      provider.theme.colorScheme.onSecondaryContainer),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onSecondaryContainer,
+                  color: provider.theme.colorScheme.onSecondaryContainer,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onSecondaryContainer;
+                        provider.theme.colorScheme.onSecondaryContainer;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onSecondaryContainer);
+                        provider.theme.colorScheme.onSecondaryContainer);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onSecondaryContainer: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -599,37 +590,35 @@ class _UserThemePageState extends State<UserThemePage> {
               ListTile(
                 title: const Text('Tertiary'),
                 subtitle: Text(
-                  ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.tertiary),
+                  ColorTools.nameThatColor(provider.theme.colorScheme.tertiary),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.tertiary,
+                  color: provider.theme.colorScheme.tertiary,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.tertiary;
+                        provider.theme.colorScheme.tertiary;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.tertiary);
+                        provider.theme.colorScheme.tertiary);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             tertiary: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -641,36 +630,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Tertiary'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onTertiary),
+                      provider.theme.colorScheme.onTertiary),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onTertiary,
+                  color: provider.theme.colorScheme.onTertiary,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onTertiary;
+                        provider.theme.colorScheme.onTertiary;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onTertiary);
+                        provider.theme.colorScheme.onTertiary);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onTertiary: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -682,36 +670,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('Tertiary Container'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.tertiaryContainer),
+                      provider.theme.colorScheme.tertiaryContainer),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.tertiaryContainer,
+                  color: provider.theme.colorScheme.tertiaryContainer,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.tertiaryContainer;
+                        provider.theme.colorScheme.tertiaryContainer;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.tertiaryContainer);
+                        provider.theme.colorScheme.tertiaryContainer);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             tertiaryContainer: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -723,36 +710,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Tertiary Container'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onTertiaryContainer),
+                      provider.theme.colorScheme.onTertiaryContainer),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onTertiaryContainer,
+                  color: provider.theme.colorScheme.onTertiaryContainer,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onTertiaryContainer;
+                        provider.theme.colorScheme.onTertiaryContainer;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onTertiaryContainer);
+                        provider.theme.colorScheme.onTertiaryContainer);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onTertiaryContainer: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -763,36 +749,35 @@ class _UserThemePageState extends State<UserThemePage> {
               ListTile(
                 title: const Text('Error'),
                 subtitle: Text(
-                  ColorTools.nameThatColor(widget.themeData!.colorScheme.error),
+                  ColorTools.nameThatColor(provider.theme.colorScheme.error),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.error,
+                  color: provider.theme.colorScheme.error,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.error;
+                        provider.theme.colorScheme.error;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.error);
+                        provider.theme.colorScheme.error);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             error: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -803,37 +788,35 @@ class _UserThemePageState extends State<UserThemePage> {
               ListTile(
                 title: const Text('On Error'),
                 subtitle: Text(
-                  ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onError),
+                  ColorTools.nameThatColor(provider.theme.colorScheme.onError),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onError,
+                  color: provider.theme.colorScheme.onError,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onError;
+                        provider.theme.colorScheme.onError;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onError);
+                        provider.theme.colorScheme.onError);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onError: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -845,36 +828,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('Error Container'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.errorContainer),
+                      provider.theme.colorScheme.errorContainer),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.errorContainer,
+                  color: provider.theme.colorScheme.errorContainer,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.errorContainer;
+                        provider.theme.colorScheme.errorContainer;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.errorContainer);
+                        provider.theme.colorScheme.errorContainer);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             errorContainer: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -886,36 +868,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Error Container'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onErrorContainer),
+                      provider.theme.colorScheme.onErrorContainer),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onErrorContainer,
+                  color: provider.theme.colorScheme.onErrorContainer,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onErrorContainer;
+                        provider.theme.colorScheme.onErrorContainer;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onErrorContainer);
+                        provider.theme.colorScheme.onErrorContainer);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onErrorContainer: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -926,37 +907,35 @@ class _UserThemePageState extends State<UserThemePage> {
               ListTile(
                 title: const Text('Outline'),
                 subtitle: Text(
-                  ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.outline),
+                  ColorTools.nameThatColor(provider.theme.colorScheme.outline),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.outline,
+                  color: provider.theme.colorScheme.outline,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.outline;
+                        provider.theme.colorScheme.outline;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.outline);
+                        provider.theme.colorScheme.outline);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             outline: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -968,36 +947,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('Background'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.background),
+                      provider.theme.colorScheme.background),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.background,
+                  color: provider.theme.colorScheme.background,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.background;
+                        provider.theme.colorScheme.background;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.background);
+                        provider.theme.colorScheme.background);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             background: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -1009,36 +987,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Background'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onBackground),
+                      provider.theme.colorScheme.onBackground),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onBackground,
+                  color: provider.theme.colorScheme.onBackground,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onBackground;
+                        provider.theme.colorScheme.onBackground;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onBackground);
+                        provider.theme.colorScheme.onBackground);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onBackground: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -1049,37 +1026,35 @@ class _UserThemePageState extends State<UserThemePage> {
               ListTile(
                 title: const Text('Surface'),
                 subtitle: Text(
-                  ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.surface),
+                  ColorTools.nameThatColor(provider.theme.colorScheme.surface),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.surface,
+                  color: provider.theme.colorScheme.surface,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.surface;
+                        provider.theme.colorScheme.surface;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.surface);
+                        provider.theme.colorScheme.surface);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             surface: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -1091,36 +1066,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Surface'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onSurface),
+                      provider.theme.colorScheme.onSurface),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onSurface,
+                  color: provider.theme.colorScheme.onSurface,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onSurface;
+                        provider.theme.colorScheme.onSurface;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onSurface);
+                        provider.theme.colorScheme.onSurface);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onSurface: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -1132,36 +1106,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('Surface Variant'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.surfaceVariant),
+                      provider.theme.colorScheme.surfaceVariant),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.surfaceVariant,
+                  color: provider.theme.colorScheme.surfaceVariant,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.surfaceVariant;
+                        provider.theme.colorScheme.surfaceVariant;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.surfaceVariant);
+                        provider.theme.colorScheme.surfaceVariant);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             surfaceVariant: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -1173,36 +1146,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('On Surface Variant'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onSurfaceVariant),
+                      provider.theme.colorScheme.onSurfaceVariant),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onSurfaceVariant,
+                  color: provider.theme.colorScheme.onSurfaceVariant,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onSurfaceVariant;
+                        provider.theme.colorScheme.onSurfaceVariant;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onSurfaceVariant);
+                        provider.theme.colorScheme.onSurfaceVariant);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             onSurfaceVariant: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -1214,77 +1186,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('Inverse Surface'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.inverseSurface),
+                      provider.theme.colorScheme.inverseSurface),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.inverseSurface,
+                  color: provider.theme.colorScheme.inverseSurface,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.inverseSurface;
+                        provider.theme.colorScheme.inverseSurface;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.inverseSurface);
+                        provider.theme.colorScheme.inverseSurface);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             inverseSurface: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
-                      widget.unsavedChanges = true;
-                    } else {
-                      widget.unsavedChanges = false;
-                    }
-                  },
-                ),
-              ),
-              ListTile(
-                title: const Text('On Inverse Surface'),
-                subtitle: Text(
-                  ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.onInverseSurface),
-                ),
-                trailing: ColorIndicator(
-                  hasBorder: true,
-                  width: 44,
-                  height: 44,
-                  borderRadius: 4,
-                  color: widget.themeData!.colorScheme.onInverseSurface,
-                  onSelectFocus: false,
-                  onSelect: () async {
-                    // Store current color before we open the dialog.
-                    final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.onInverseSurface;
-                    // Wait for the picker to close, if dialog was dismissed,
-                    // then restore the color we had before it was opened.
-                    Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.onInverseSurface);
-                    if (newColor != colorBeforeDialog) {
-                      setState(() {
-                        ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
-                            onInverseSurface: newColor,
-                          ),
-                        );
-                        widget.themeData = newTheme;
-                      });
-                    }
-
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -1296,36 +1226,35 @@ class _UserThemePageState extends State<UserThemePage> {
                 title: const Text('Inverse Primary'),
                 subtitle: Text(
                   ColorTools.nameThatColor(
-                      widget.themeData!.colorScheme.inversePrimary),
+                      provider.theme.colorScheme.inversePrimary),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.colorScheme.inversePrimary,
+                  color: provider.theme.colorScheme.inversePrimary,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.colorScheme.inversePrimary;
+                        provider.theme.colorScheme.inversePrimary;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
                     Color newColor = await colorPickerDialog(
-                        widget.themeData!.colorScheme.inversePrimary);
+                        provider.theme.colorScheme.inversePrimary);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
                         ThemeData newTheme = ThemeData(
-                          colorScheme: widget.themeData!.colorScheme.copyWith(
+                          colorScheme: provider.theme.colorScheme.copyWith(
                             inversePrimary: newColor,
                           ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
@@ -1336,34 +1265,35 @@ class _UserThemePageState extends State<UserThemePage> {
               ListTile(
                 title: const Text('Shadow'),
                 subtitle: Text(
-                  ColorTools.nameThatColor(widget.themeData!.shadowColor),
+                  ColorTools.nameThatColor(provider.theme.colorScheme.shadow),
                 ),
                 trailing: ColorIndicator(
                   hasBorder: true,
                   width: 44,
                   height: 44,
                   borderRadius: 4,
-                  color: widget.themeData!.shadowColor,
+                  color: provider.theme.colorScheme.shadow,
                   onSelectFocus: false,
                   onSelect: () async {
                     // Store current color before we open the dialog.
                     final Color colorBeforeDialog =
-                        widget.themeData!.shadowColor;
+                        provider.theme.colorScheme.shadow;
                     // Wait for the picker to close, if dialog was dismissed,
                     // then restore the color we had before it was opened.
-                    Color newColor =
-                        await colorPickerDialog(widget.themeData!.shadowColor);
+                    Color newColor = await colorPickerDialog(
+                        provider.theme.colorScheme.shadow);
                     if (newColor != colorBeforeDialog) {
                       setState(() {
-                        ThemeData newTheme = widget.themeData!.copyWith(
-                          shadowColor: newColor,
+                        ThemeData newTheme = ThemeData(
+                          colorScheme: provider.theme.colorScheme.copyWith(
+                            shadow: newColor,
+                          ),
                         );
-                        widget.themeData = newTheme;
+                        provider.setTheme(newTheme);
                       });
                     }
 
-                    if (!areThemesEqual(
-                        widget.themeData!, widget.originalTheme)) {
+                    if (!areThemesEqual(provider.theme, widget.originalTheme)) {
                       widget.unsavedChanges = true;
                     } else {
                       widget.unsavedChanges = false;
