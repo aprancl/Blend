@@ -3,6 +3,7 @@ import 'package:blend/pages/analytics/platform_analytics.dart';
 import 'package:blend/pages/auth/verify.dart';
 import 'package:blend/pages/posting/overview_post.dart';
 import 'package:blend/pages/user/settings/user_settings.dart';
+import 'package:blend/pages/user/settings/user_theme.dart';
 import 'package:blend/pages/user/user_profile.dart';
 import 'package:blend/pages/workspace/edit_blendCard.dart';
 import 'package:blend/pages/workspace/settings/workspace_account_linking.dart';
@@ -71,7 +72,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         case '/user/profile':
           return MaterialPageRoute(builder: (context) => UserProfilePage());
         case '/user/settings':
-          return MaterialPageRoute(builder: (context) => UserSettingsPage())
+          return MaterialPageRoute(builder: (context) => UserSettingsPage());
+        case '/user/settings/theme':
+          return MaterialPageRoute(builder: (context) => UserThemePage());
           
         // ANALYTICS
         case '/analytics':

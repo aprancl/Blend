@@ -72,7 +72,10 @@ class _MyAppState extends State<MyApp> {
       title: "Blend",
       onGenerateRoute: router.generateRoute,
       initialRoute: '/',
+      // The Mandy red, light theme.
       theme: provider.theme,
+      // Use dark or light theme based on system setting.
+      themeMode: ThemeMode.system, 
       home: (authUser == null)
           ? SplashPage()
           : (!authUser.emailVerified)
