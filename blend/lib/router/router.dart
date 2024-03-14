@@ -32,9 +32,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => VerifyPage());
     } else {
       print("Oh cool, yo email is verified! :))))))");
+
+      // ATTENTION!! ATTENTION!! ATTENTION!! ATTENTION!! ATTENTION!! ATTENTION!! 
+      // --- If you are adding a new route for LOGGED IN USERS, add it here!
+      // ATTENTION!! ATTENTION!! ATTENTION!! ATTENTION!! ATTENTION!! ATTENTION!! 
       switch (settings.name) {
+        // HOME
         case '/home':
           return MaterialPageRoute(builder: (context) => HomePage());
+
+        // POSTING
         case '/posting/platforms':
           return MaterialPageRoute(
               builder: (context) => PostingPlatformsPage());
@@ -44,6 +51,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           return MaterialPageRoute(builder: (context) => PostingMediaPage());
         case '/posting/overview':
           return MaterialPageRoute(builder: (context) => PostingOverviewPage());
+
+        // WORKSPACE
         case '/workspace/profile':
           return MaterialPageRoute(
               builder: (context) => WorkspaceProfilePage());
@@ -57,13 +66,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         case '/workspace/settings/account-linking':
           return MaterialPageRoute(
               builder: (context) => WorkspaceAccountLinkingPage());
+          
+        // USER
         case '/user/profile':
           return MaterialPageRoute(builder: (context) => UserProfilePage());
         case '/user/settings':
-          return MaterialPageRoute(builder: (context) => UserSettingsPage());
-        case '/lib/pages/analytics/':
+          return MaterialPageRoute(builder: (context) => UserSettingsPage())
+          
+        // ANALYTICS
+        case '/analytics':
           return MaterialPageRoute(builder: (context) => AnalyticsPage());
-        case '/lib/pages/analytics/platforms':
+        case '/analytics/platforms':
           return MaterialPageRoute(builder: (context) => PlatformAnalyticsPage());
         default:
           return MaterialPageRoute(builder: (context) => UndefinedPage());
