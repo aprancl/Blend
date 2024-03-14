@@ -9,6 +9,7 @@ import 'package:blend/models/blendCardPlatform.dart';
 import 'package:blend/models/blendUser.dart';
 import 'package:blend/models/blendWorkspace.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -234,6 +235,94 @@ class _UserThemePageState extends State<UserThemePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: (widget.unsavedChanges)
+                    ? null
+                    : () async {
+                        // Save changes to the database
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(provider.getAuthUser()!.uid)
+                            .update({
+                          'customTheme': {
+                            'brightness':
+                                '0x${provider.theme.colorScheme.brightness.toString()}',
+                            'primary':
+                                '0x${provider.theme.colorScheme.primary.hexCode}',
+                            'onPrimary':
+                                '0x${provider.theme.colorScheme.onPrimary.hexCode}',
+                            'primaryContainer':
+                                '0x${provider.theme.colorScheme.primaryContainer.hexCode}',
+                            'onPrimaryContainer':
+                                '0x${provider.theme.colorScheme.onPrimaryContainer.hexCode}',
+                            'secondary':
+                                '0x${provider.theme.colorScheme.secondary.hexCode}',
+                            'onSecondary':
+                                '0x${provider.theme.colorScheme.onSecondary.hexCode}',
+                            'secondaryContainer':
+                                '0x${provider.theme.colorScheme.secondaryContainer.hexCode}',
+                            'onSecondaryContainer':
+                                '0x${provider.theme.colorScheme.onSecondaryContainer.hexCode}',
+                            'tertiary':
+                                '0x${provider.theme.colorScheme.tertiary.hexCode}',
+                            'onTertiary':
+                                '0x${provider.theme.colorScheme.onTertiary.hexCode}',
+                            'tertiaryContainer':
+                                '0x${provider.theme.colorScheme.tertiaryContainer.hexCode}',
+                            'onTertiaryContainer':
+                                '0x${provider.theme.colorScheme.onTertiaryContainer.hexCode}',
+                            'error':
+                                '0x${provider.theme.colorScheme.error.hexCode}',
+                            'onError':
+                                '0x${provider.theme.colorScheme.onError.hexCode}',
+                            'errorContainer':
+                                '0x${provider.theme.colorScheme.errorContainer.hexCode}',
+                            'onErrorContainer':
+                                '0x${provider.theme.colorScheme.onErrorContainer.hexCode}',
+                            'outline':
+                                '0x${provider.theme.colorScheme.outline.hexCode}',
+                            'background':
+                                '0x${provider.theme.colorScheme.background.hexCode}',
+                            'onBackground':
+                                '0x${provider.theme.colorScheme.onBackground.hexCode}',
+                            'surface':
+                                '0x${provider.theme.colorScheme.surface.hexCode}',
+                            'onSurface':
+                                '0x${provider.theme.colorScheme.onSurface.hexCode}',
+                            'surfaceVariant':
+                                '0x${provider.theme.colorScheme.surfaceVariant.hexCode}',
+                            'onSurfaceVariant':
+                                '0x${provider.theme.colorScheme.onSurfaceVariant.hexCode}',
+                            'inverseSurface':
+                                '0x${provider.theme.colorScheme.inverseSurface.hexCode}',
+                            'onInverseSurface':
+                                '0x${provider.theme.colorScheme.onInverseSurface.hexCode}',
+                            'inversePrimary':
+                                '0x${provider.theme.colorScheme.inversePrimary.hexCode}',
+                            'shadow':
+                                '0x${provider.theme.colorScheme.shadow.hexCode}',
+                          },
+                        });
+                        // Show snackbar
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Changes saved"),
+                          ),
+                        );
+
+                        initState();
+                      },
+                child: Text("Save Changes"),
+                // full width
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(10),
+                  minimumSize: Size(MediaQuery.of(context).size.width - 20, 50),
+                  // border radius
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
               Text(
                 "Edit Colors",
                 style: Theme.of(context).textTheme.titleMedium,

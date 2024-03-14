@@ -10,7 +10,7 @@ class BlendUser {
   String? username;
   String? pfp;
   String? theme;
-  Object? customTheme;
+  Map<String, dynamic>? customTheme;
   DocumentReference<Map<String, dynamic>>? personalWorkspaceRef;
   BlendWorkspace? personalWorkspace;
   List<DocumentReference<Map<String, dynamic>>>? workspaceRefs;
