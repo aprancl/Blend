@@ -16,7 +16,6 @@ import 'firebase_options.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-
 // Import pages
 import 'pages/home.dart';
 import 'pages/auth/login.dart';
@@ -28,6 +27,12 @@ import 'package:blend/pages/posting/media_insta.dart';
 import 'pages/posting/overview_post.dart';
 import 'pages/analytics/platform_analytics.dart';
 
+// Convert to dart imports
+// import com.facebook.FacebookSdk;
+
+// import com.facebook.appevents.AppEventsLogger;
+
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 void main() async {
   // Make sure everything is loaded
@@ -67,13 +72,16 @@ class _MyAppState extends State<MyApp> {
       title: "Blend",
       onGenerateRoute: router.generateRoute,
       initialRoute: '/',
+      // The Mandy red, light theme.
       theme: provider.theme,
+      // Use dark or light theme based on system setting.
+      themeMode: ThemeMode.system, 
       home: (authUser == null)
           ? SplashPage()
           : (!authUser.emailVerified)
               ? VerifyPage()
               : SafeArea(
-                child: Scaffold(
+                  child: Scaffold(
                     extendBody: true,
                     body: PageView(
                       controller: _pageController,
@@ -136,8 +144,7 @@ class _MyAppState extends State<MyApp> {
                       letIndexChange: (index) => true,
                     ),
                   ),
-              ),
-      
+                ),
     );
   }
 }

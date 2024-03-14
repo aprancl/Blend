@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'dart:io';
 
 class GlobalProvider with ChangeNotifier {
@@ -46,7 +45,7 @@ class GlobalProvider with ChangeNotifier {
       onSecondaryContainer: Color(0xffd0f5f8),
       tertiary: Color(0xff86d2e1),
       onTertiary: Color(0xff151e1e),
-      tertiaryContainer: Color(0xff004e59),
+      tertiaryContainer: Color.fromARGB(255, 0, 78, 89),
       onTertiaryContainer: Color(0xffd0e2e5),
       error: Color(0xffffb4a9),
       onError: Color(0xff680003),
@@ -61,7 +60,7 @@ class GlobalProvider with ChangeNotifier {
       onSurfaceVariant: Color(0xffe2e3e4),
       inverseSurface: Color(0xfff8fbff),
       onInverseSurface: Color(0xff0e0e0f),
-      inversePrimary: Color(0xff0e4673),
+      inversePrimary: Color.fromARGB(255, 14, 70, 115),
       shadow: Color(0xff000000),
     ),
   );

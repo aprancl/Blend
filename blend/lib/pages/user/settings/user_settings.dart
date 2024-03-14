@@ -63,6 +63,12 @@ class UserSettingsPage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               TileButton(
+                title: "Edit theme",
+                onTap: () {
+                  Navigator.pushNamed(context, '/user/settings/theme');
+                },
+              ),
+              TileButton(
                 title: "Delete your account",
                 onTap: deleteAccount,
               ),
