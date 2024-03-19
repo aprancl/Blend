@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:blend/models/blendCard.dart';
+import 'package:blend/models/blendTheme.dart';
 import 'package:blend/models/blendUser.dart';
 import 'package:blend/models/blendWorkspace.dart';
 import 'package:blend/models/platformSelection.dart';
@@ -64,6 +65,11 @@ class GlobalProvider with ChangeNotifier {
       shadow: Color(0xff000000),
     ),
   );
+
+  void setTheme(ThemeData newTheme) {
+    theme = newTheme;
+    notifyListeners();
+  }
 
 // ███    ██  █████  ██    ██ ██  ██████   █████  ████████ ██  ██████  ███    ██
 // ████   ██ ██   ██ ██    ██ ██ ██       ██   ██    ██    ██ ██    ██ ████   ██
@@ -152,10 +158,80 @@ class GlobalProvider with ChangeNotifier {
           await getBlendWorkspace(blendUser.personalWorkspaceRef!);
 
       this.blendUser = blendUser!;
+
+      if (blendUser.theme == "custom") {
+        // Extract JSON from the theme string
+        BlendTheme blendTheme = BlendTheme.fromJson(blendUser.customTheme!);
+        // Convert the JSON to a ThemeData object
+        this.theme = ThemeData.from(
+          colorScheme: ColorScheme(
+            brightness: blendTheme.brightness!,
+            primary: blendTheme.primary!,
+            onPrimary: blendTheme.onPrimary!,
+            primaryContainer: blendTheme.primaryContainer!,
+            onPrimaryContainer: blendTheme.onPrimaryContainer!,
+            secondary: blendTheme.secondary!,
+            onSecondary: blendTheme.onSecondary!,
+            secondaryContainer: blendTheme.secondaryContainer!,
+            onSecondaryContainer: blendTheme.onSecondaryContainer!,
+            tertiary: blendTheme.tertiary!,
+            onTertiary: blendTheme.onTertiary!,
+            tertiaryContainer: blendTheme.tertiaryContainer!,
+            onTertiaryContainer: blendTheme.onTertiaryContainer!,
+            error: blendTheme.error!,
+            onError: blendTheme.onError!,
+            errorContainer: blendTheme.errorContainer!,
+            onErrorContainer: blendTheme.onErrorContainer!,
+            outline: blendTheme.outline!,
+            background: blendTheme.background!,
+            onBackground: blendTheme.onBackground!,
+            surface: blendTheme.surface!,
+            onSurface: blendTheme.onSurface!,
+            surfaceVariant: blendTheme.surfaceVariant!,
+            onSurfaceVariant: blendTheme.onSurfaceVariant!,
+            inverseSurface: blendTheme.inverseSurface!,
+            onInverseSurface: blendTheme.onInverseSurface!,
+            inversePrimary: blendTheme.inversePrimary!,
+            shadow: blendTheme.shadow!,
+          ),
+        );
+      }
       notifyListeners();
       return blendUser;
     } else {
       this.blendUser = BlendUser();
+      this.theme = ThemeData(
+        colorScheme: ColorScheme(
+          brightness: Brightness.dark,
+          primary: Color(0xFFD5DCE7),
+          onPrimary: Color(0xFF009DFF),
+          primaryContainer: Color(0xff0028ff),
+          onPrimaryContainer: Color(0xffd0d9ff),
+          secondary: Color(0xff00d3ff),
+          onSecondary: Color(0xff061e1e),
+          secondaryContainer: Color(0xff009fad),
+          onSecondaryContainer: Color(0xffd0f5f8),
+          tertiary: Color(0xff86d2e1),
+          onTertiary: Color(0xff151e1e),
+          tertiaryContainer: Color(0xFF004E59),
+          onTertiaryContainer: Color(0xffd0e2e5),
+          error: Color(0xffffb4a9),
+          onError: Color(0xff680003),
+          errorContainer: Color(0xff930006),
+          onErrorContainer: Color(0xffffb4a9),
+          outline: Color(0xff93969a),
+          background: Color(0xFF0B2966),
+          onBackground: Color(0xFFFFFFFF),
+          surface: Color(0xFF000730),
+          onSurface: Color(0xfff0f1f1),
+          surfaceVariant: Color(0xff10171e),
+          onSurfaceVariant: Color(0xffe2e3e4),
+          inverseSurface: Color(0xfff8fbff),
+          onInverseSurface: Color(0xff0e0e0f),
+          inversePrimary: Color(0xFF0E4673),
+          shadow: Color(0xff000000),
+        ),
+      );
       notifyListeners();
       return BlendUser();
     }
@@ -346,7 +422,7 @@ class GlobalProvider with ChangeNotifier {
       for (var workspaceUserIndex in workspace.users!) {
         var workspaceUserObject = workspaceUserIndex as Map<String, dynamic>;
 
-        // Step 5: For all users, get the user's blendUser document and remove 
+        // Step 5: For all users, get the user's blendUser document and remove
         // this workspace from it
         if (workspaceUserObject['role'] == "owner") {
           continue;
