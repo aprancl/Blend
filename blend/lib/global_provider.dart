@@ -463,6 +463,7 @@ class GlobalProvider with ChangeNotifier {
   var postCaption = "";
   var defaultImagePath = "images/lime.png";
   File? selectedMedia;
+  List<File> medias = [];
 
   Future selectImage() async {
     try {

@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:insta_assets_picker/insta_assets_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:blend/global_provider.dart';
 
 class PickerCropResultScreen extends StatelessWidget {
   const PickerCropResultScreen({super.key, required this.cropStream});
@@ -39,6 +41,8 @@ class CropResultView extends StatelessWidget {
   });
 
   final List<AssetEntity> selectedAssets;
+
+  // TODO This is the file that I need to save
   final List<File> croppedFiles;
   final double? progress;
   final double heightFiles;
@@ -160,6 +164,10 @@ class CropResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final provider = Provider.of<GlobalProvider>(context);
+
+    provider.medias = croppedFiles;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
