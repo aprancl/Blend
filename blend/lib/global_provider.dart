@@ -7,6 +7,7 @@ import 'package:blend/models/blendUser.dart';
 import 'package:blend/models/blendWorkspace.dart';
 import 'package:blend/models/platformSelection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -108,6 +109,12 @@ class GlobalProvider with ChangeNotifier {
   var existingEmail = null;
   var authUser = FirebaseAuth.instance.currentUser;
   BlendUser blendUser = BlendUser();
+  BlendCard blendCard = BlendCard(
+    topColor: "rgba(255, 149, 56, 1)",
+    bottomColor: "rgba(114, 203, 255, 0.5)",
+    background:
+        "https://images.pexels.com/photos/15334615/pexels-photo-15334615.jpeg",
+  );
 
   void _initializeAuthStateListener() {
     _authStateChanges = FirebaseAuth.instance.authStateChanges().listen(
@@ -118,6 +125,8 @@ class GlobalProvider with ChangeNotifier {
           print('User is signed in!');
           await getAuthUser();
           await getBlendUser();
+          await getBlendCard(blendUser.workspaces![0].blendCard!);
+          notifyListeners();
         }
       },
     );
@@ -268,6 +277,7 @@ class GlobalProvider with ChangeNotifier {
     );
     final blendCardDocSnap = await ref.get();
     final blendCard = blendCardDocSnap.data();
+    this.blendCard = blendCard!;
     return blendCard!;
   }
 

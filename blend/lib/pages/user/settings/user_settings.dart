@@ -63,6 +63,13 @@ class UserSettingsPage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               TileButton(
+                title: "Sign Out",
+                onTap: () {
+                  provider.signOut();
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                },
+              ),
+              TileButton(
                 title: "Edit theme",
                 onTap: () {
                   Navigator.pushNamed(context, '/user/settings/theme');
