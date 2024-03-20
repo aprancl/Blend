@@ -9,6 +9,7 @@ class PostingOverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
+    TextEditingController captionController = TextEditingController();
 
     return Scaffold(
       body: SafeArea(
@@ -43,20 +44,22 @@ class PostingOverviewPage extends StatelessWidget {
                     ImageContainer(provider: provider),
                     SizedBox(height: 25),
                     Container(
-                      padding: EdgeInsets.all(10.0),
-                      width: 350,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 35, 70, 198).withOpacity(0.3),
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20.0),
+                      child: TextField(
+                        controller: captionController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 10,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 40, horizontal: 15),
+                          border: OutlineInputBorder(),
+                          labelText: "Add your caption here",
+                          alignLabelWithHint: true,
                         ),
                       ),
-                      
-                      child: Text(provider.postCaption)
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 15.0),
                       child: Row(
@@ -66,7 +69,7 @@ class PostingOverviewPage extends StatelessWidget {
                             child: Text('Back'),
                             onPressed: () {
                               print('We want to go back!');
-                              provider.goToPage(4);
+                              provider.goToPage(7);
                             },
                           ),
                           Spacer(),
@@ -77,6 +80,7 @@ class PostingOverviewPage extends StatelessWidget {
                             onPressed: () {
                               print('Post the Content');
                               // provider.goToPage(6);
+                              provider.postCaption = captionController.text;
                             },
                           ),
                         ],
@@ -92,4 +96,3 @@ class PostingOverviewPage extends StatelessWidget {
     );
   }
 }
-

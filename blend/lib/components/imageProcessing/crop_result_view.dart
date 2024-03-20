@@ -15,7 +15,7 @@ class PickerCropResultScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height - kToolbarHeight;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Insta picker result')),
+      appBar: AppBar(title: const Text('Selected Media')),
       body: StreamBuilder<InstaAssetsExportDetails>(
         stream: cropStream,
         builder: (context, snapshot) => CropResultView(
