@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:438579021661:android:076b2dcdbda560e27a0ab4",
+        "mobilesdk_app_id": "1:438579021661:android:e92e5f50e9cae9e77a0ab4",
         "android_client_info": {
           "package_name": "com.baristas.blend"
         }
       },
       "oauth_client": [
         {
-          "client_id": "438579021661-lhf0l63o4hqseo0fcud07n6spqr9f4r6.apps.googleusercontent.com",
+          "client_id": "438579021661-b9gpj3bk88kie39i6lh04vmon624p1sr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.baristas.blend",
-            "certificate_hash": "39da0e6fcbc88bd574928ee22c723086c378d78b"
+            "certificate_hash": "b6cdce4a6658b48100f4ce460d4733dda91317b7"
           }
         },
         {
@@ -42,7 +42,51 @@
               "client_id": "438579021661-an8na66nku1kgdfagtgt4vrc2inpurhi.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.baristas.blend"
+                "bundle_id": "com.example.blend"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438579021661:android:076b2dcdbda560e27a0ab4",
+        "android_client_info": {
+          "package_name": "com.example.blend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "438579021661-6ciujj02v8eva03f30u2qald2vhl3jkr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.blend",
+            "certificate_hash": "b6cdce4a6658b48100f4ce460d4733dda91317b7"
+          }
+        },
+        {
+          "client_id": "438579021661-rmp2ul5vs72fm58eoh0u8btjk0taf7pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyml-YViM4Uoin5ms6q-4sZwAE_X86Z8k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "438579021661-rmp2ul5vs72fm58eoh0u8btjk0taf7pm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "438579021661-an8na66nku1kgdfagtgt4vrc2inpurhi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.blend"
               }
             }
           ]
