@@ -57,6 +57,7 @@ dependencies:
   animated_list_plus: ^0.5.2
   fl_chart: ^0.66.2
   animated_digit: ^3.2.3
+  webview_flutter: ^4.7.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  jnigen: ^0.7.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
