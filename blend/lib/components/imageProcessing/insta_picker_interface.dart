@@ -1,13 +1,17 @@
+import 'dart:ffi';
+
 import 'package:blend/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_assets_picker/insta_assets_picker.dart';
 import 'package:blend/components/imageProcessing/crop_result_view.dart';
 // import 'package:insta_assets_picker_demo/main.dart';
+import 'package:provider/provider.dart';
 
 class PickerDescription {
   final String icon;
   final String label;
   final String? description;
+  // final provider = Provider.of<GlobalProvider>(contxet);
 
   const PickerDescription({
     required this.icon,
@@ -31,8 +35,10 @@ mixin InstaPickerInterface on Widget {
   // GlobalProvider provider = Provider.of<GlobalProvider>(context);
 
   Column pickerColumn({
+    required BuildContext context,
     String? text,
     required VoidCallback onPressed,
+    required GlobalProvider provider,
   }) =>
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,18 +54,36 @@ mixin InstaPickerInterface on Widget {
               ),
             ),
           ),
+          SizedBox(height: 10.0),
+          Container(
+            margin: EdgeInsets.only(right: 0.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  child: Text('Continue'),
+                  onPressed: () {
+                    print('We want to go next!');
+                    // final provider = Provider.of<GlobalProvider>(context);
+                    provider.goToPage(6);
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       );
 
   Scaffold buildLayout(
     BuildContext context, {
     required VoidCallback onPressed,
+    required GlobalProvider provider
   }) =>
       Scaffold(
         appBar: _appBar,
         body: Padding(
           padding: const EdgeInsets.all(16),
-          child: pickerColumn(onPressed: onPressed),
+          child: pickerColumn(onPressed: onPressed, context: context, provider: provider),
         ),
       );
 
@@ -80,6 +104,7 @@ mixin InstaPickerInterface on Widget {
         maxAssets: maxAssets,
         pickerTheme: getPickerTheme(context),
         onCompleted: (Stream<InstaAssetsExportDetails> cropStream) {
+          // final provider = Provider.of<GlobalProvider>(context);
           Navigator.push(
             context,
             MaterialPageRoute(

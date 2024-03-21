@@ -5,13 +5,73 @@ import 'package:blend/models/platformSelection.dart';
 
 class PostingPlatformsPage extends StatelessWidget {
   var platforms = <PlatformSelection>[
-    PlatformSelection("Instagram", Icons.camera_alt_sharp),
-    PlatformSelection("TikTok", Icons.music_note),
-    PlatformSelection("Youtube", Icons.play_arrow_sharp),
-    PlatformSelection("Snapchat", Icons.snapchat),
-    PlatformSelection("X", Icons.cancel_presentation),
-    PlatformSelection("Facebook", Icons.facebook),
-    PlatformSelection("LinkedIn", Icons.language_sharp),
+    PlatformSelection(
+      "Instagram",
+      Icons.camera_alt_sharp,
+      [
+        [255, 241, 156, 56],
+        [255, 233, 54, 192],
+        [255, 233, 54, 192],
+      ],
+    ),
+    PlatformSelection(
+      "TokTok",
+      Icons.music_note,
+      [
+        [255, 11, 11, 11],
+        [255, 232, 51, 89],
+        [255, 56, 110, 181],
+      ],
+    ),
+    PlatformSelection(
+      "Youtube",
+      Icons.play_arrow_sharp,
+      [
+        [255, 234, 51, 36],
+        [255, 253, 253, 253],
+        [255, 234, 51, 36],
+      ],
+    ),
+    PlatformSelection(
+      "Snapchat",
+      Icons.snapchat,
+      [
+        [200, 255, 255, 0],
+        [255, 253, 253, 253],
+        [255, 255, 255, 0],
+      ],
+    ),
+    PlatformSelection(
+      "X",
+      Icons.cancel_presentation,
+      [
+        [255, 1, 1, 1],
+        [255, 255, 255, 255],
+        [255, 1, 1, 1, ]
+      ],
+    ),
+    PlatformSelection(
+      "Facebook",
+      Icons.facebook,
+      [
+        [255, 74, 97, 173],
+        [255, 255, 255, 255],
+        [255, 74, 97, 173],
+      ],
+    ),
+    PlatformSelection(
+      "LinkedIn",
+      Icons.language_sharp,
+      [
+        [255, 66, 107, 246],
+        [255, 255, 255, 255],
+        [255, 66, 107, 246],
+      ],
+    ),
+
+
+
+
   ];
 
   @override
@@ -64,7 +124,7 @@ class PostingPlatformsPage extends StatelessWidget {
                     child: Text('Next'),
                     onPressed: () {
                       print('We want to go next!');
-                      provider.goToPage(5);
+                      provider.goToPage(7);
                     },
                   ),
                 ],
@@ -102,7 +162,8 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
         } else {
           widget.selectedPlatforms.remove(widget.platform);
         }
-        print(List.generate(widget.selectedPlatforms.length, (index) => widget.selectedPlatforms.elementAt(index).name));
+        print(List.generate(widget.selectedPlatforms.length,
+            (index) => widget.selectedPlatforms.elementAt(index).name));
       },
       child: Column(
         children: <Widget>[
@@ -115,14 +176,32 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
                 colors: [
                   _isTapped
                       ? const Color(0xFF0055FF)
-                      : const Color(0xFF3366FF),
+                      : Color.fromARGB(
+                          widget.platform.colors[0][0],
+                          widget.platform.colors[0][1],
+                          widget.platform.colors[0][2],
+                          widget.platform.colors[0][3],
+                        ),
                   _isTapped
-                      ? const Color(0xFF00D7FF)
-                      : const Color(0xFF00CCFF),
+                      ? Color.fromARGB(255, 0, 217, 255)
+                      : Color.fromARGB(
+                          widget.platform.colors[1][0],
+                          widget.platform.colors[1][1],
+                          widget.platform.colors[1][2],
+                          widget.platform.colors[1][3],
+                        ),
+                  _isTapped
+                      ? Color.fromARGB(255, 0, 217, 255)
+                      : Color.fromARGB(
+                          widget.platform.colors[2][0],
+                          widget.platform.colors[2][1],
+                          widget.platform.colors[2][2],
+                          widget.platform.colors[2][3],
+                        ),
                 ],
                 begin: const FractionalOffset(0.0, 0.0),
                 end: const FractionalOffset(1.0, 0.0),
-                stops: [0.0, 1.0],
+                stops: [0.3, 0.8, 1.0],
                 tileMode: TileMode.clamp,
               ),
             ),
@@ -132,7 +211,8 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
               title: Text(
                 widget.platform.name,
                 style: TextStyle(
-                  color: _isTapped ? Colors.white : Colors.black,
+                  color: _isTapped ? Colors.white : Colors.white,
+                  fontWeight: FontWeight.bold
                 ),
               ),
             ),

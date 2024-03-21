@@ -5,8 +5,9 @@ class PlatformSelection {
   // attribues belonging to instanted class
   final String name;
   final IconData icon;
+  final List<List<int>> colors; // [ [a,r,g,b], ...]
 
-  PlatformSelection(this.name, this.icon);
+  PlatformSelection(this.name, this.icon, this.colors);
 
   // STATICS 
   // character limites for making posts

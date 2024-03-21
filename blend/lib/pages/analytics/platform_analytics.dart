@@ -21,7 +21,8 @@ class _PlatformAnalyticsPageState extends State<PlatformAnalyticsPage> {
           leading: IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: () {
-          Navigator.pushNamed(context , 'analytics/');
+          // Navigator.pushNamed(context , 'analytics/');
+          Navigator.pop(context);
         },
       )),
       body: SafeArea(

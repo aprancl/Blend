@@ -175,9 +175,7 @@ class PlatformEntry extends StatelessWidget {
     final provider = Provider.of<GlobalProvider>(context);
     return GestureDetector(
       onTap: () {
-        print("banana");
         print("${mediaName}");
-        provider.goToPage(8);
         Navigator.pushNamed(context, '/analytics/platforms');
       },
       child: Container(

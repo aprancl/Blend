@@ -131,18 +131,24 @@ class ImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return provider.selectedMedia != null
-        ? Image.file(
-            provider.selectedMedia!,
-            width: 240,
-            height: 240,
-            fit: BoxFit.cover,
-          )
-        : Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: Image.asset(
-              provider.defaultImagePath,
-            ),
-          ); // You can replace this with any fallback widget or null widget.
+    if (provider.medias.isNotEmpty) {
+      return Image.file(
+        provider.medias[0],
+      );
+    } else {
+      return provider.selectedMedia != null
+          ? Image.file(
+              provider.selectedMedia!,
+              width: 240,
+              height: 240,
+              fit: BoxFit.cover,
+            )
+          : Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              child: Image.asset(
+                provider.defaultImagePath,
+              ),
+            ); // You can replace this with any fallback widget or null widget.
+    }
   }
 }
