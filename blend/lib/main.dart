@@ -1,5 +1,7 @@
 // Import dependencies
 // Flutter
+import 'dart:io';
+
 import 'package:blend/pages/auth/verify.dart';
 import 'package:blend/pages/analytics/analytics.dart';
 import 'package:blend/pages/user/user_profile.dart';
@@ -39,9 +41,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  Platform.isAndroid
+      ? await Firebase.initializeApp(
+          options: const FirebaseOptions(
+            apiKey: "AIzaSyDmIaxkHWpEP0X8eYGEQ9YoPtFTtsYtcaM",
+            appId: "1:438579021661:web:2bcd8c49187dc8277a0ab4",
+            messagingSenderId: "438579021661",
+            projectId: "barista-blend",
+            authDomain: "barista-blend.firebaseapp.com",
+            storageBucket: "barista-blend.appspot.com",
+            measurementId: "G-PW10CEZGVE",
+          ),
+        )
+      : await Firebase.initializeApp();
 
   // Launch the app
   runApp(
@@ -75,7 +87,7 @@ class _MyAppState extends State<MyApp> {
       // The Mandy red, light theme.
       theme: provider.theme,
       // Use dark or light theme based on system setting.
-      themeMode: ThemeMode.system, 
+      themeMode: ThemeMode.system,
       home: (authUser == null)
           ? SplashPage()
           : (!authUser.emailVerified)

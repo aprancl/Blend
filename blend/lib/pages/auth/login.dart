@@ -222,7 +222,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-               SizedBox(height: 300.0),
+                ElevatedButton(
+                    onPressed: () {
+                      provider.signInWithGoogle();
+                    },
+                    child: Text("Sign In With Google")),
+                SizedBox(height: 300.0),
               ],
             ),
           ),

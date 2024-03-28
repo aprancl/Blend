@@ -11,6 +11,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -390,6 +391,43 @@ class GlobalProvider with ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       return e;
     }
+  }
+
+  Future<User?> signInWithGoogle() async {
+    User? tempUser;
+
+    // Trigger the Google Sign In process
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+    // If we have an account
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+
+        tempUser = userCredential.user;
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          // handle the error here
+        }
+        else if (e.code == 'invalid-credential') {
+          // handle the error here
+        }
+      } catch (e) {
+        // handle the error here
+      }
+    }
+
+    return tempUser;
   }
 
   Future<bool> isUsernameAvailable(String username) async {
