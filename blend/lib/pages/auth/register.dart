@@ -174,28 +174,6 @@ class _RegisterPageState extends State<RegisterPage> {
     return isValid;
   }
 
-  Future<UserCredential> signInWithGoogle() async {
-    // try{
-    print("google auth button SIGN IN WITH GOOGLE");
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
-  //   on Exception catch (e) {
-  //     print(e);
-
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
@@ -276,6 +254,16 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: emailController,
                 ),
                 TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Username',
+                    errorText: this.usernameErrorText,
+                  ),
+                  controller: usernameController,
+                ),
+                TextField(
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -343,17 +331,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Text('Sign Up'),
                 ),
                 ElevatedButton(
-                  // Google sign in button
-                  onPressed: () async {
-                    try {
-                      await signInWithGoogle();
-                      print("works as expected...");
-                    } on Exception catch (e) {
-                      print(e);
-                    }
-                  },
-                  child: Text('Sign Up With Google'),
-                ),
+                    onPressed: () {
+                      provider.signUpWithGoogle();
+                    },
+                    child: Text("Sign Up With Google")),
                 SizedBox(height: 120.0),
               ],
             ),

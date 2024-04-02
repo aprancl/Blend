@@ -36,6 +36,8 @@ import 'pages/analytics/platform_analytics.dart';
 
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   // Make sure everything is loaded
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,6 +86,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: "Blend",
       onGenerateRoute: router.generateRoute,
+      navigatorKey: navigatorKey,
       initialRoute: '/',
       // The Mandy red, light theme.
       theme: provider.theme,

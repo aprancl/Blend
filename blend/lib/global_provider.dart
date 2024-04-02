@@ -1,6 +1,7 @@
 // Flutter
 import 'dart:async';
 
+import 'package:blend/main.dart';
 import 'package:blend/models/blendCard.dart';
 import 'package:blend/models/blendTheme.dart';
 import 'package:blend/models/blendUser.dart';
@@ -109,6 +110,7 @@ class GlobalProvider with ChangeNotifier {
 // ██   ██  ██████     ██    ██   ██ ███████ ██   ████    ██    ██  ██████ ██   ██    ██    ██  ██████  ██   ████
   var existingEmail = null;
   var authUser = FirebaseAuth.instance.currentUser;
+  var pauseAuthStateListener = false;
   BlendUser blendUser = BlendUser();
   BlendCard blendCard = BlendCard(
     topColor: "rgba(255, 149, 56, 1)",
@@ -123,11 +125,17 @@ class GlobalProvider with ChangeNotifier {
         if (user == null) {
           print('User is currently signed out!');
         } else {
-          print('User is signed in!');
-          await getAuthUser();
-          await getBlendUser();
-          await getBlendCard(blendUser.workspaces![0].blendCard!);
-          notifyListeners();
+          if (!pauseAuthStateListener) {
+            print('User is signed in!');
+            await getAuthUser();
+            await getBlendUser();
+
+            // check if email is verified
+            // if (authUser!.emailVerified) {
+              await getBlendCard(blendUser.workspaces![0].blendCard!);
+            // }
+            notifyListeners();
+          }
         }
       },
     );
@@ -137,6 +145,7 @@ class GlobalProvider with ChangeNotifier {
     if (FirebaseAuth.instance.currentUser != null) {
       authUser = FirebaseAuth.instance.currentUser;
       notifyListeners();
+      print("THE AUTH USER IS " + authUser!.uid);
       return FirebaseAuth.instance.currentUser!;
     } else {
       authUser = null;
@@ -146,6 +155,10 @@ class GlobalProvider with ChangeNotifier {
   }
 
   Future<BlendUser> getBlendUser() async {
+    // DEBUG EMERGENCY SIGNOUT
+    if (false) {
+      signOut();
+    }
     print("getAuthUserDoc");
     if (FirebaseAuth.instance.currentUser != null &&
         FirebaseAuth.instance.currentUser!.emailVerified) {
@@ -302,6 +315,7 @@ class GlobalProvider with ChangeNotifier {
     String username,
     String password,
   ) async {
+    pauseAuthStateListener = true;
     try {
       // Check if username is taken
       isUsernameAvailable(username).then((value) {
@@ -383,29 +397,59 @@ class GlobalProvider with ChangeNotifier {
           .set(user)
           .catchError((e) => print("CREATING USER ERROR: " + e));
 
-      getAuthUser();
+      await getAuthUser();
+      pauseAuthStateListener = false;
 
       // send verification email
       await authUser!.sendEmailVerification();
       return null;
     } on FirebaseAuthException catch (e) {
+      pauseAuthStateListener = false;
       return e;
     }
   }
 
-  Future<void> authenticateWithGoogle({required BuildContext context}) async {
+  Future<FirebaseAuthException?> signInWithGoogle() async {
     try {
-      await signInWithGoogle();
-    } on NoGoogleAccountChosenException {
-      return;
-    } catch (e) {
-      if (!context.mounted) return;
-      print("AYO OVER HERE THE AUTH W/ GOOG TING HAD AN ERROR");
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        throw const NoGoogleAccountChosenException();
+      }
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // fetchSignInMethodsForEmail
+      final signInMethods = await FirebaseAuth.instance
+          .fetchSignInMethodsForEmail(googleUser.email);
+
+      if (signInMethods.isEmpty) {
+        signUpWithGoogle();
+        return null;
+      } else {
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        getAuthUser();
+        // pop until /
+        navigatorKey.currentState!.popUntil(ModalRoute.withName('/'));
+        return null;
+      }
+    } on FirebaseAuthException catch (e) {
+      return e;
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
+  Future<FirebaseAuthException?> signUpWithGoogle() async {
+    pauseAuthStateListener = true;
+// Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     if (googleUser == null) {
@@ -422,45 +466,112 @@ class GlobalProvider with ChangeNotifier {
       idToken: googleAuth?.idToken,
     );
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
+    // Check if user already exists
+    final signInMethods = await FirebaseAuth.instance
+        .fetchSignInMethodsForEmail(googleUser.email);
 
-  Future<User?> signInWithGoogleMINE() async {
-    User? tempUser;
-
-    // Trigger the Google Sign In process
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-
-    // If we have an account
-    if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-
-      try {
-        final UserCredential userCredential =
-            await auth.signInWithCredential(credential);
-
-        tempUser = userCredential.user;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'account-exists-with-different-credential') {
-          // handle the error here
-        }
-        else if (e.code == 'invalid-credential') {
-          // handle the error here
-        }
-      } catch (e) {
-        // handle the error here
-      }
+    if (signInMethods.isNotEmpty) {
+      pauseAuthStateListener = false;
+      await signInWithGoogle();
+      return null;
     }
 
-    return tempUser;
+    // Once signed in, return the UserCredential
+    UserCredential uc =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    var fname = uc.additionalUserInfo!.profile!['given_name'];
+    var lname = uc.additionalUserInfo!.profile!['family_name'];
+    var email = uc.additionalUserInfo!.profile!['email'];
+    var username = email.split('@')[0];
+
+    try {
+      // Check if username is taken
+      isUsernameAvailable(username).then((value) {
+        if (!value) {
+          return FirebaseAuthException(
+            code: "username-taken",
+            message: "Username is already taken",
+          );
+        }
+      });
+
+      // Create auth account
+
+      // Reload authUser
+      authUser = FirebaseAuth.instance.currentUser;
+      await authUser!.updateDisplayName("$fname $lname");
+
+      // Add username to database
+      final usernameRecord = <String, dynamic>{
+        "uid": authUser!.uid,
+      };
+
+      await db.collection("usernames").doc(username).set(usernameRecord);
+
+      // Create personal blendCard
+      final blendCard = <String, dynamic>{
+        "bio": "",
+        "platforms": [],
+        "background":
+            "https://images.pexels.com/photos/15334615/pexels-photo-15334615.jpeg",
+        "topColor": "rgba(255, 149, 56, 1)",
+        "bottomColor": "rgba(114, 203, 255, 0.5)",
+      };
+
+      var blendCardDocRef = await db.collection("blendCards").add(blendCard);
+
+      // Create personal workspace
+      final workspace = <String, dynamic>{
+        "name": "$username's Workspace",
+        "followers": 0,
+        "following": 0,
+        "pfp":
+            "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
+        "users": [
+          {"user": db.doc('users/${authUser!.uid}'), "role": "owner"}
+        ],
+        "blendCard": db.doc('blendCards/${blendCardDocRef.id}'),
+        "instagram": {},
+        "tiktok": {},
+        "youtube": {},
+        "snapchat": {},
+        "x": {},
+        "facebook": {},
+        "linkedin": {},
+      };
+
+      var workspaceDocRef = await db.collection("workspaces").add(workspace);
+
+      final user = <String, dynamic>{
+        "fname": fname,
+        "lname": lname,
+        "email": email,
+        "username": username,
+        "pfp":
+            "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
+        "theme": "default",
+        "customTheme": {},
+        "personalWorkspace": db.doc('workspaces/${workspaceDocRef.id}'),
+        "workspaces": [db.doc('workspaces/${workspaceDocRef.id}')],
+      };
+
+      await db
+          .collection("users")
+          .doc(authUser!.uid)
+          .set(user)
+          .catchError((e) => print("CREATING USER ERROR: " + e));
+
+      pauseAuthStateListener = false;
+      await getAuthUser();
+      await getBlendUser();
+      await getBlendCard(blendUser.workspaces![0].blendCard!);
+      navigatorKey.currentState!.popUntil(ModalRoute.withName('/'));
+      return null;
+    } on FirebaseAuthException catch (e) {
+      pauseAuthStateListener = false;
+      return e;
+    }
   }
 
   Future<bool> isUsernameAvailable(String username) async {
@@ -483,6 +594,8 @@ class GlobalProvider with ChangeNotifier {
 
   void signOut() async {
     await FirebaseAuth.instance.signOut();
+    // sign out of google
+    await GoogleSignIn().signOut();
     getAuthUser();
     notifyListeners();
   }
