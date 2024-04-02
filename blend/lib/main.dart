@@ -40,20 +40,21 @@ void main() async {
   // Make sure everything is loaded
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize firebase
   Platform.isAndroid
-      ? await Firebase.initializeApp(
-          options: const FirebaseOptions(
-            apiKey: "AIzaSyDmIaxkHWpEP0X8eYGEQ9YoPtFTtsYtcaM",
-            appId: "1:438579021661:web:2bcd8c49187dc8277a0ab4",
-            messagingSenderId: "438579021661",
-            projectId: "barista-blend",
-            authDomain: "barista-blend.firebaseapp.com",
-            storageBucket: "barista-blend.appspot.com",
-            measurementId: "G-PW10CEZGVE",
-          ),
-        )
-      : await Firebase.initializeApp();
+        ? await Firebase.initializeApp(
+            name: 'blend',
+            options: const FirebaseOptions(
+              apiKey: "AIzaSyDmIaxkHWpEP0X8eYGEQ9YoPtFTtsYtcaM",
+              appId: "1:438579021661:web:2bcd8c49187dc8277a0ab4",
+              messagingSenderId: "438579021661",
+              projectId: "barista-blend",
+              authDomain: "barista-blend.firebaseapp.com",
+              storageBucket: "barista-blend.appspot.com",
+              measurementId: "G-PW10CEsZGVE",
+            ),
+          )
+        : await Firebase.initializeApp();
+  // Initialize firebase
 
   // Launch the app
   runApp(

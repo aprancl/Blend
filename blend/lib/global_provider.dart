@@ -393,7 +393,40 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
-  Future<User?> signInWithGoogle() async {
+  Future<void> authenticateWithGoogle({required BuildContext context}) async {
+    try {
+      await signInWithGoogle();
+    } on NoGoogleAccountChosenException {
+      return;
+    } catch (e) {
+      if (!context.mounted) return;
+      print("AYO OVER HERE THE AUTH W/ GOOG TING HAD AN ERROR");
+    }
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser == null) {
+      throw const NoGoogleAccountChosenException();
+    }
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<User?> signInWithGoogleMINE() async {
     User? tempUser;
 
     // Trigger the Google Sign In process
@@ -530,4 +563,8 @@ class GlobalProvider with ChangeNotifier {
     _authStateChanges.cancel();
     super.dispose();
   }
+}
+
+class NoGoogleAccountChosenException implements Exception {
+  const NoGoogleAccountChosenException();
 }
