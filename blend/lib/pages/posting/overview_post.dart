@@ -79,10 +79,7 @@ class PostingOverviewPage extends StatelessWidget {
                                 backgroundColor: Colors.blue[400]),
                             child: Text('Post Content'),
                             onPressed: () async {
-                              print('Post the Content');
-                              provider.postCaption = captionController.text;
-                              var userInfo = await provider.getUserInfo();
-                              print(userInfo);
+                              provider.post();
                             },
                           ),
                         ],

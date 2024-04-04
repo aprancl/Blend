@@ -15,3 +15,5 @@ doc/api/
 .idea/
 .DS_Store
 blend/lib/.env
+blend/android/.gradle/file-system.probe
+blend/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock

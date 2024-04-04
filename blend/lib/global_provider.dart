@@ -1,5 +1,6 @@
 // Flutter
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:blend/main.dart';
 import 'package:blend/models/blendCard.dart';
@@ -8,15 +9,21 @@ import 'package:blend/models/blendUser.dart';
 import 'package:blend/models/blendWorkspace.dart';
 import 'package:blend/models/platformSelection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/youtube/v3.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 
 class GlobalProvider with ChangeNotifier {
 //  ██████  ██       ██████  ██████   █████  ██
@@ -666,6 +673,7 @@ class GlobalProvider with ChangeNotifier {
     try {
       final img = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (img != null) {
+        print("Selected image: ${img.path}");
         selectedMedia = File(img!.path);
         notifyListeners();
       }
@@ -700,14 +708,74 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
+  static Future<YouTubeApi> getYoutubeApi() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: <String>[
+        YouTubeApi.youtubeReadonlyScope,
+        YouTubeApi.youtubeUploadScope
+      ],
+    );
+    await googleSignIn.signIn();
+
+    // final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    var httpClient = await googleSignIn.authenticatedClient();
+    if (httpClient == null) {
+      print("You didn't allow to proceed with YouTube access");
+    }
+
+    return YouTubeApi(httpClient!);
+  }
+
+Future<File> copyVideoToLocal(String assetPath, String fileName) async {
+  // Get the directory for the app's local storage
+  Directory appDocDir = await getApplicationDocumentsDirectory();
+  String appDocPath = appDocDir.path;
+
+  // Path for the destination file
+  String filePath = '$appDocPath/$fileName';
+
+  // Check if the file already exists
+  bool fileExists = await File(filePath).exists();
+
+  if (!fileExists) {
+    // Load video file as a ByteData (binary data)
+    ByteData data = await rootBundle.load(assetPath);
+
+    // Write the data into the file
+    await File(filePath).writeAsBytes(data.buffer.asUint8List());
+  }
+
+  // Return a File object for the copied video
+  return File(filePath);
+}
+
   publishToYoutube() async {
+    var youTubeApi = await getYoutubeApi();
+
+    // get the file from assets/vid.mp4
+    File f = await copyVideoToLocal('assets/vid.mp4', 'vid.mp4');
+
+    // check if file exists
     
+
+    Stream<List<int>> stream = f.openRead();
+    Media m = Media(stream, (await f.length()));
+    Video video = Video(
+      snippet: VideoSnippet(
+        title: 'Video',
+        description: 'Test Upload for Blend',
+        categoryId: '22',
+      ),
+    );
+
+    return await youTubeApi.videos.insert(
+      video,
+      ['snippet', 'status'],
+      uploadMedia: m,
+    );
   }
 
-  publishToLinkedin() async {
-    
-  }
-
+  publishToLinkedin() async {}
 
   Future<dynamic> getUserInfo() async {
     // var url = Uri.parse(uri);
