@@ -12,8 +12,10 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 
 class GlobalProvider with ChangeNotifier {
@@ -132,7 +134,7 @@ class GlobalProvider with ChangeNotifier {
 
             // check if email is verified
             // if (authUser!.emailVerified) {
-              await getBlendCard(blendUser.workspaces![0].blendCard!);
+            await getBlendCard(blendUser.workspaces![0].blendCard!);
             // }
             notifyListeners();
           }
@@ -658,6 +660,7 @@ class GlobalProvider with ChangeNotifier {
   var defaultImagePath = "images/lime.png";
   File? selectedMedia;
   List<File> medias = [];
+  var client = http.Client();
 
   Future selectImage() async {
     try {
@@ -705,6 +708,27 @@ class GlobalProvider with ChangeNotifier {
     
   }
 
+
+  Future<dynamic> getUserInfo() async {
+    // var url = Uri.parse(uri);
+    // var headers = {
+    //   'Authorization': 'Bearer sfie328370428387=',
+    //   'api_key': 'ief873fj38uf38uf83u839898989',
+    // };
+
+    String endpoint =
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+
+    var uri = Uri.parse(endpoint);
+
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      //throw exception and catch it in UI
+      print("There was an error acquiring the ");
+    }
+  }
 
   @override
   void dispose() {

@@ -9,9 +9,9 @@ class PostingPlatformsPage extends StatelessWidget {
       "Instagram",
       Icons.camera_alt_sharp,
       [
-        [255, 241, 156, 56],
+        [255, 252, 175, 69],
         [255, 233, 54, 192],
-        [255, 233, 54, 192],
+        [255, 193, 53, 132],
       ],
     ),
     PlatformSelection(
@@ -36,9 +36,9 @@ class PostingPlatformsPage extends StatelessWidget {
       "Snapchat",
       Icons.snapchat,
       [
-        [200, 255, 255, 0],
+        [255, 255, 252, 0],
         [255, 253, 253, 253],
-        [255, 255, 255, 0],
+        [255, 255, 252, 0],
       ],
     ),
     PlatformSelection(
@@ -201,7 +201,7 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
                 ],
                 begin: const FractionalOffset(0.0, 0.0),
                 end: const FractionalOffset(1.0, 0.0),
-                stops: [0.3, 0.8, 1.0],
+                stops: [0.5, 0.8, 1.0],
                 tileMode: TileMode.clamp,
               ),
             ),
