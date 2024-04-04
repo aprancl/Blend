@@ -15,7 +15,7 @@ class PostingPlatformsPage extends StatelessWidget {
       ],
     ),
     PlatformSelection(
-      "TokTok",
+      "TikTok",
       Icons.music_note,
       [
         [255, 11, 11, 11],

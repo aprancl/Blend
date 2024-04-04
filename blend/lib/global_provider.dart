@@ -671,6 +671,41 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
+  post() async {
+    // loop through selected platforms
+    for (var platform in selectedPlatforms) {
+      switch (platform.name) {
+        case "Instagram":
+          break;
+        case "TikTok":
+          break;
+        case "Youtube":
+          publishToYoutube();
+          break;
+        case "LinkedIn":
+          publishToLinkedin();
+          break;
+        case "Facebook":
+          break;
+        case "Snapchat":
+          break;
+        case "X":
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  publishToYoutube() async {
+    
+  }
+
+  publishToLinkedin() async {
+    
+  }
+
+
   @override
   void dispose() {
     _authStateChanges.cancel();
