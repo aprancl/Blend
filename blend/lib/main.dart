@@ -10,6 +10,7 @@ import 'package:blend/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'router/router.dart' as router;
 import 'package:blend/global_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 // Firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,6 +40,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
+  await dotenv.load(fileName: "lib/.env");
   // Make sure everything is loaded
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -57,7 +59,6 @@ void main() async {
           )
         : await Firebase.initializeApp();
   // Initialize firebase
-
   // Launch the app
   runApp(
     ChangeNotifierProvider(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'media.dart';
 
 class PostingOverviewPage extends StatelessWidget {
@@ -77,10 +78,11 @@ class PostingOverviewPage extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blue[400]),
                             child: Text('Post Content'),
-                            onPressed: () {
+                            onPressed: () async {
                               print('Post the Content');
-                              // provider.goToPage(6);
                               provider.postCaption = captionController.text;
+                              var userInfo = await provider.getUserInfo();
+                              print(userInfo);
                             },
                           ),
                         ],
