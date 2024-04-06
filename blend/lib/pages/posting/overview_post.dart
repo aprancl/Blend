@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:blend/models/platformSelection.dart';
+import 'package:blend/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
@@ -79,10 +81,14 @@ class PostingOverviewPage extends StatelessWidget {
                                 backgroundColor: Colors.blue[400]),
                             child: Text('Post Content'),
                             onPressed: () async {
-                              print('Post the Content');
                               provider.postCaption = captionController.text;
-                              var userInfo = await provider.getUserInfo();
-                              print(userInfo);
+
+                              print('Posting Content...');
+
+                              provider.postAll();
+
+                              print("Content posted");
+
                             },
                           ),
                         ],

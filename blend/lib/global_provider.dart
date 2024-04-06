@@ -16,6 +16,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'dart:io';
 
 class GlobalProvider with ChangeNotifier {
@@ -674,7 +675,7 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
-  post() async {
+  postAll() async {
     // loop through selected platforms
     for (var platform in selectedPlatforms) {
       switch (platform.name) {
@@ -686,7 +687,7 @@ class GlobalProvider with ChangeNotifier {
           publishToYoutube();
           break;
         case "LinkedIn":
-          publishToLinkedin();
+          publishToLinkedin(postCaption);
           break;
         case "Facebook":
           break;
@@ -700,16 +701,43 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
-  publishToYoutube() async {
-    
+  publishToYoutube() async {}
+
+  publishToLinkedin(String message) async {
+    var headers = {
+      'LinkedIn-Version': '202401',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
+      'Cookie':
+          'lidc="b=TB55:s=T:r=T:a=T:p=T:g=4081:u=27:x=1:i=1711720982:t=1711778521:v=2:sig=AQFHk_EgohwHNH45-qiIvk5hjzAGOcNk"; bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"; lidc="b=VB35:s=V:r=V:a=V:p=V:g=3852:u=1:x=1:i=1711719625:t=1711806025:v=2:sig=AQGWDQb4TuZLTDClebTViudjfQju-mSx"'
+    };
+    var userId = await getUserId();
+    var request =
+        http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
+    request.body = json.encode({
+      "author": "urn:li:person:${userId}",
+      "commentary": message,
+      "visibility": "PUBLIC",
+      "distribution": {
+        "feedDistribution": "MAIN_FEED",
+        "targetEntities": [],
+        "thirdPartyDistributionChannels": []
+      },
+      "lifecycleState": "PUBLISHED",
+      "isReshareDisabledByAuthor": false
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
   }
 
-  publishToLinkedin() async {
-    
-  }
-
-
-  Future<dynamic> getUserInfo() async {
+  Future<dynamic> getUserId() async {
     // var url = Uri.parse(uri);
     // var headers = {
     //   'Authorization': 'Bearer sfie328370428387=',
@@ -723,10 +751,12 @@ class GlobalProvider with ChangeNotifier {
 
     var response = await client.get(uri);
     if (response.statusCode == 200) {
-      return response.body;
+      var jsonResponse = json.decode(response.body);
+      String id = jsonResponse['id'];
+      return id;
     } else {
       //throw exception and catch it in UI
-      print("There was an error acquiring the ");
+      print("ERROR_NO_USER_ID");
     }
   }
 
