@@ -59,6 +59,8 @@ dependencies:
   animated_digit: ^3.2.3
   webview_flutter: ^4.7.0
   flutter_dotenv: ^5.1.0
+  googleapis: ^13.1.0
+  extension_google_sign_in_as_googleapis_auth: ^2.0.12
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +90,7 @@ flutter:
     - images/login.png
     - images/logo.png
     - images/register.png
+    - assets/vid.mp4
 
   # To add assets to your application, add an assets section, like this:
   # assets:
