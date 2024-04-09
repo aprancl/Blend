@@ -710,8 +710,6 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
-  publishToYoutube() async {}
-
   publishToLinkedin(String message) async {
     var headers = {
       'LinkedIn-Version': '202401',
@@ -746,104 +744,103 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
-  Future<dynamic> getUserId() async {
-    Future<YouTubeApi> getYoutubeApi() async {
-      final GoogleSignIn googleSignIn = GoogleSignIn(
-        scopes: <String>[
-          YouTubeApi.youtubeReadonlyScope,
-          YouTubeApi.youtubeUploadScope
-        ],
-      );
-      await googleSignIn.signIn();
+  Future<YouTubeApi> getYoutubeApi() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: <String>[
+        YouTubeApi.youtubeReadonlyScope,
+        YouTubeApi.youtubeUploadScope
+      ],
+    );
+    await googleSignIn.signIn();
 
-      // final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-      var httpClient = await googleSignIn.authenticatedClient();
-      if (httpClient == null) {
-        print("You didn't allow to proceed with YouTube access");
-      }
-
-      return YouTubeApi(httpClient!);
+    // final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    var httpClient = await googleSignIn.authenticatedClient();
+    if (httpClient == null) {
+      print("You didn't allow to proceed with YouTube access");
     }
 
-    Future<File> copyVideoToLocal(String assetPath, String fileName) async {
-      // Get the directory for the app's local storage
-      Directory appDocDir = await getApplicationDocumentsDirectory();
-      String appDocPath = appDocDir.path;
+    return YouTubeApi(httpClient!);
+  }
 
-      // Path for the destination file
-      String filePath = '$appDocPath/$fileName';
+  Future<File> copyVideoToLocal(String assetPath, String fileName) async {
+    // Get the directory for the app's local storage
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
 
-      // Check if the file already exists
-      bool fileExists = await File(filePath).exists();
+    // Path for the destination file
+    String filePath = '$appDocPath/$fileName';
 
-      if (!fileExists) {
-        // Load video file as a ByteData (binary data)
-        ByteData data = await rootBundle.load(assetPath);
+    // Check if the file already exists
+    bool fileExists = await File(filePath).exists();
 
-        // Write the data into the file
-        await File(filePath).writeAsBytes(data.buffer.asUint8List());
-      }
+    if (!fileExists) {
+      // Load video file as a ByteData (binary data)
+      ByteData data = await rootBundle.load(assetPath);
 
-      // Return a File object for the copied video
-      return File(filePath);
+      // Write the data into the file
+      await File(filePath).writeAsBytes(data.buffer.asUint8List());
     }
 
-    publishToYoutube() async {
-      var youTubeApi = await getYoutubeApi();
+    // Return a File object for the copied video
+    return File(filePath);
+  }
 
-      // get the file from assets/vid.mp4
-      File f = await copyVideoToLocal('assets/vid.mp4', 'vid.mp4');
+  publishToYoutube() async {
+    var youTubeApi = await getYoutubeApi();
 
-      // check if file exists
+    // get the file from assets/vid.mp4
+    File f = await copyVideoToLocal('assets/vid.mp4', 'vid.mp4');
 
-      Stream<List<int>> stream = f.openRead();
-      Media m = Media(stream, (await f.length()));
-      Video video = Video(
-        snippet: VideoSnippet(
-          title: 'Video',
-          description: 'Test Upload for Blend',
-          categoryId: '22',
-        ),
-      );
+    // check if file exists
 
-      return await youTubeApi.videos.insert(
-        video,
-        ['snippet', 'status'],
-        uploadMedia: m,
-      );
-    }
+    Stream<List<int>> stream = f.openRead();
+    Media m = Media(stream, (await f.length()));
+    Video video = Video(
+      snippet: VideoSnippet(
+        title: 'Video',
+        description: 'Test Upload for Blend',
+        categoryId: '22',
+      ),
+    );
 
-    publishToLinkedin() async {}
+    return await youTubeApi.videos.insert(
+      video,
+      ['snippet', 'status'],
+      uploadMedia: m,
+    );
+  }
 
-    Future<dynamic> getUserInfo() async {
-      // var url = Uri.parse(uri);
-      // var headers = {
-      //   'Authorization': 'Bearer sfie328370428387=',
-      //   'api_key': 'ief873fj38uf38uf83u839898989',
-      // };
 
-      String endpoint =
-          'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+  Future<dynamic> getUserInfo() async {
+    // var url = Uri.parse(uri);
+    // var headers = {
+    //   'Authorization': 'Bearer sfie328370428387=',
+    //   'api_key': 'ief873fj38uf38uf83u839898989',
+    // };
 
-      var uri = Uri.parse(endpoint);
+    String endpoint =
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
 
-      var response = await client.get(uri);
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body);
-        String id = jsonResponse['id'];
-        return id;
-      } else {
-        //throw exception and catch it in UI
-        print("ERROR_NO_USER_ID");
-      }
-    }
+    var uri = Uri.parse(endpoint);
 
-    @override
-    void dispose() {
-      _authStateChanges.cancel();
-      super.dispose();
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      String id = jsonResponse['id'];
+      return id;
+    } else {
+      //throw exception and catch it in UI
+      print("ERROR_NO_USER_ID");
     }
   }
+
+  @override
+  void dispose() {
+    _authStateChanges.cancel();
+    super.dispose();
+  }
+
+  Future<dynamic> getUserId() async {}
 }
 
 class NoGoogleAccountChosenException implements Exception {
