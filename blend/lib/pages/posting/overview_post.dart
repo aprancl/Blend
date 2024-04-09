@@ -87,7 +87,7 @@ class PostingOverviewPage extends StatelessWidget {
 
                               provider.postAll();
 
-                              print("Content posted");
+                              print("Content Posted!");
 
                             },
                           ),

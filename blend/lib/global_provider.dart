@@ -810,7 +810,6 @@ class GlobalProvider with ChangeNotifier {
     );
   }
 
-
   Future<dynamic> getUserInfo() async {
     // var url = Uri.parse(uri);
     // var headers = {
@@ -840,7 +839,28 @@ class GlobalProvider with ChangeNotifier {
     super.dispose();
   }
 
-  Future<dynamic> getUserId() async {}
+  Future<dynamic> getUserId() async {
+// var url = Uri.parse(uri);
+    // var headers = {
+    //   'Authorization': 'Bearer sfie328370428387=',
+    //   'api_key': 'ief873fj38uf38uf83u839898989',
+    // };
+
+    String endpoint =
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+
+    var uri = Uri.parse(endpoint);
+
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      String id = jsonResponse['id'];
+      return id;
+    } else {
+      //throw exception and catch it in UI
+      print("ERROR_NO_USER_ID");
+    }
+  }
 }
 
 class NoGoogleAccountChosenException implements Exception {
