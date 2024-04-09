@@ -1,3 +1,4 @@
+// hello
 // Flutter
 import 'dart:async';
 import 'dart:typed_data';
@@ -27,11 +28,11 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 
 class GlobalProvider with ChangeNotifier {
-//  ██████  ██       ██████  ██████   █████  ██
-// ██       ██      ██    ██ ██   ██ ██   ██ ██
-// ██   ███ ██      ██    ██ ██████  ███████ ██
-// ██    ██ ██      ██    ██ ██   ██ ██   ██ ██
-//  ██████  ███████  ██████  ██████  ██   ██ ███████
+  //  ██████  ██       ██████  ██████   █████  ██
+  // ██       ██      ██    ██ ██   ██ ██   ██ ██
+  // ██   ███ ██      ██    ██ ██████  ███████ ██
+  // ██    ██ ██      ██    ██ ██   ██ ██   ██ ██
+  //  ██████  ███████  ██████  ██████  ██   ██ ███████
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
   late StreamSubscription<User?> _authStateChanges;
@@ -41,11 +42,11 @@ class GlobalProvider with ChangeNotifier {
     _initializeAuthStateListener();
   }
 
-//  ████████ ██   ██ ███████ ███    ███ ███████
-//     ██    ██   ██ ██      ████  ████ ██
-//     ██    ███████ █████   ██ ████ ██ █████
-//     ██    ██   ██ ██      ██  ██  ██ ██
-//     ██    ██   ██ ███████ ██      ██ ███████
+  //  ████████ ██   ██ ███████ ███    ███ ███████
+  //     ██    ██   ██ ██      ████  ████ ██
+  //     ██    ███████ █████   ██ ████ ██ █████
+  //     ██    ██   ██ ██      ██  ██  ██ ██
+  //     ██    ██   ██ ███████ ██      ██ ███████
   ThemeData theme = ThemeData(
     colorScheme: ColorScheme(
       brightness: Brightness.dark,
@@ -84,11 +85,11 @@ class GlobalProvider with ChangeNotifier {
     notifyListeners();
   }
 
-// ███    ██  █████  ██    ██ ██  ██████   █████  ████████ ██  ██████  ███    ██
-// ████   ██ ██   ██ ██    ██ ██ ██       ██   ██    ██    ██ ██    ██ ████   ██
-// ██ ██  ██ ███████ ██    ██ ██ ██   ███ ███████    ██    ██ ██    ██ ██ ██  ██
-// ██  ██ ██ ██   ██  ██  ██  ██ ██    ██ ██   ██    ██    ██ ██    ██ ██  ██ ██
-// ██   ████ ██   ██   ████   ██  ██████  ██   ██    ██    ██  ██████  ██   ████
+  // ███    ██  █████  ██    ██ ██  ██████   █████  ████████ ██  ██████  ███    ██
+  // ████   ██ ██   ██ ██    ██ ██ ██       ██   ██    ██    ██ ██    ██ ████   ██
+  // ██ ██  ██ ███████ ██    ██ ██ ██   ███ ███████    ██    ██ ██    ██ ██ ██  ██
+  // ██  ██ ██ ██   ██  ██  ██  ██ ██    ██ ██   ██    ██    ██ ██    ██ ██  ██ ██
+  // ██   ████ ██   ██   ████   ██  ██████  ██   ██    ██    ██  ██████  ██   ████
   int navbarIndex = 0;
   GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
   PageController pageController = PageController();
@@ -113,11 +114,11 @@ class GlobalProvider with ChangeNotifier {
         duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
   }
 
-//  █████  ██    ██ ████████ ██   ██ ███████ ███    ██ ████████ ██  ██████  █████  ████████ ██  ██████  ███    ██
-// ██   ██ ██    ██    ██    ██   ██ ██      ████   ██    ██    ██ ██      ██   ██    ██    ██ ██    ██ ████   ██
-// ███████ ██    ██    ██    ███████ █████   ██ ██  ██    ██    ██ ██      ███████    ██    ██ ██    ██ ██ ██  ██
-// ██   ██ ██    ██    ██    ██   ██ ██      ██  ██ ██    ██    ██ ██      ██   ██    ██    ██ ██    ██ ██  ██ ██
-// ██   ██  ██████     ██    ██   ██ ███████ ██   ████    ██    ██  ██████ ██   ██    ██    ██  ██████  ██   ████
+  //  █████  ██    ██ ████████ ██   ██ ███████ ███    ██ ████████ ██  ██████  █████  ████████ ██  ██████  ███    ██
+  // ██   ██ ██    ██    ██    ██   ██ ██      ████   ██    ██    ██ ██      ██   ██    ██    ██ ██    ██ ████   ██
+  // ███████ ██    ██    ██    ███████ █████   ██ ██  ██    ██    ██ ██      ███████    ██    ██ ██    ██ ██ ██  ██
+  // ██   ██ ██    ██    ██    ██   ██ ██      ██  ██ ██    ██    ██ ██      ██   ██    ██    ██ ██    ██ ██  ██ ██
+  // ██   ██  ██████     ██    ██   ██ ███████ ██   ████    ██    ██  ██████ ██   ██    ██    ██  ██████  ██   ████
   var existingEmail = null;
   var authUser = FirebaseAuth.instance.currentUser;
   var pauseAuthStateListener = false;
@@ -459,7 +460,7 @@ class GlobalProvider with ChangeNotifier {
 
   Future<FirebaseAuthException?> signUpWithGoogle() async {
     pauseAuthStateListener = true;
-// Trigger the authentication flow
+    // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     if (googleUser == null) {
@@ -658,11 +659,11 @@ class GlobalProvider with ChangeNotifier {
     notifyListeners();
   }
 
-// ██████   ██████  ███████ ████████ ██ ███    ██  ██████
-// ██   ██ ██    ██ ██         ██    ██ ████   ██ ██
-// ██████  ██    ██ ███████    ██    ██ ██ ██  ██ ██   ███
-// ██      ██    ██      ██    ██    ██ ██  ██ ██ ██    ██
-// ██       ██████  ███████    ██    ██ ██   ████  ██████
+  // ██████   ██████  ███████ ████████ ██ ███    ██  ██████
+  // ██   ██ ██    ██ ██         ██    ██ ████   ██ ██
+  // ██████  ██    ██ ███████    ██    ██ ██ ██  ██ ██   ███
+  // ██      ██    ██      ██    ██    ██ ██  ██ ██ ██    ██
+  // ██       ██████  ███████    ██    ██ ██   ████  ██████
   Set<PlatformSelection> selectedPlatforms = {};
   var postCaption = "";
   var defaultImagePath = "images/lime.png";
@@ -746,103 +747,102 @@ class GlobalProvider with ChangeNotifier {
   }
 
   Future<dynamic> getUserId() async {
-  static Future<YouTubeApi> getYoutubeApi() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn(
-      scopes: <String>[
-        YouTubeApi.youtubeReadonlyScope,
-        YouTubeApi.youtubeUploadScope
-      ],
-    );
-    await googleSignIn.signIn();
+    Future<YouTubeApi> getYoutubeApi() async {
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: <String>[
+          YouTubeApi.youtubeReadonlyScope,
+          YouTubeApi.youtubeUploadScope
+        ],
+      );
+      await googleSignIn.signIn();
 
-    // final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
-    var httpClient = await googleSignIn.authenticatedClient();
-    if (httpClient == null) {
-      print("You didn't allow to proceed with YouTube access");
+      // final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      var httpClient = await googleSignIn.authenticatedClient();
+      if (httpClient == null) {
+        print("You didn't allow to proceed with YouTube access");
+      }
+
+      return YouTubeApi(httpClient!);
     }
 
-    return YouTubeApi(httpClient!);
-  }
+    Future<File> copyVideoToLocal(String assetPath, String fileName) async {
+      // Get the directory for the app's local storage
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String appDocPath = appDocDir.path;
 
-Future<File> copyVideoToLocal(String assetPath, String fileName) async {
-  // Get the directory for the app's local storage
-  Directory appDocDir = await getApplicationDocumentsDirectory();
-  String appDocPath = appDocDir.path;
+      // Path for the destination file
+      String filePath = '$appDocPath/$fileName';
 
-  // Path for the destination file
-  String filePath = '$appDocPath/$fileName';
+      // Check if the file already exists
+      bool fileExists = await File(filePath).exists();
 
-  // Check if the file already exists
-  bool fileExists = await File(filePath).exists();
+      if (!fileExists) {
+        // Load video file as a ByteData (binary data)
+        ByteData data = await rootBundle.load(assetPath);
 
-  if (!fileExists) {
-    // Load video file as a ByteData (binary data)
-    ByteData data = await rootBundle.load(assetPath);
+        // Write the data into the file
+        await File(filePath).writeAsBytes(data.buffer.asUint8List());
+      }
 
-    // Write the data into the file
-    await File(filePath).writeAsBytes(data.buffer.asUint8List());
-  }
-
-  // Return a File object for the copied video
-  return File(filePath);
-}
-
-  publishToYoutube() async {
-    var youTubeApi = await getYoutubeApi();
-
-    // get the file from assets/vid.mp4
-    File f = await copyVideoToLocal('assets/vid.mp4', 'vid.mp4');
-
-    // check if file exists
-    
-
-    Stream<List<int>> stream = f.openRead();
-    Media m = Media(stream, (await f.length()));
-    Video video = Video(
-      snippet: VideoSnippet(
-        title: 'Video',
-        description: 'Test Upload for Blend',
-        categoryId: '22',
-      ),
-    );
-
-    return await youTubeApi.videos.insert(
-      video,
-      ['snippet', 'status'],
-      uploadMedia: m,
-    );
-  }
-
-  publishToLinkedin() async {}
-
-  Future<dynamic> getUserInfo() async {
->>>>>>> 2011b2b0405a1715cc9275e78c2a9087737d5712
-    // var url = Uri.parse(uri);
-    // var headers = {
-    //   'Authorization': 'Bearer sfie328370428387=',
-    //   'api_key': 'ief873fj38uf38uf83u839898989',
-    // };
-
-    String endpoint =
-        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
-
-    var uri = Uri.parse(endpoint);
-
-    var response = await client.get(uri);
-    if (response.statusCode == 200) {
-      var jsonResponse = json.decode(response.body);
-      String id = jsonResponse['id'];
-      return id;
-    } else {
-      //throw exception and catch it in UI
-      print("ERROR_NO_USER_ID");
+      // Return a File object for the copied video
+      return File(filePath);
     }
-  }
 
-  @override
-  void dispose() {
-    _authStateChanges.cancel();
-    super.dispose();
+    publishToYoutube() async {
+      var youTubeApi = await getYoutubeApi();
+
+      // get the file from assets/vid.mp4
+      File f = await copyVideoToLocal('assets/vid.mp4', 'vid.mp4');
+
+      // check if file exists
+
+      Stream<List<int>> stream = f.openRead();
+      Media m = Media(stream, (await f.length()));
+      Video video = Video(
+        snippet: VideoSnippet(
+          title: 'Video',
+          description: 'Test Upload for Blend',
+          categoryId: '22',
+        ),
+      );
+
+      return await youTubeApi.videos.insert(
+        video,
+        ['snippet', 'status'],
+        uploadMedia: m,
+      );
+    }
+
+    publishToLinkedin() async {}
+
+    Future<dynamic> getUserInfo() async {
+      // var url = Uri.parse(uri);
+      // var headers = {
+      //   'Authorization': 'Bearer sfie328370428387=',
+      //   'api_key': 'ief873fj38uf38uf83u839898989',
+      // };
+
+      String endpoint =
+          'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+
+      var uri = Uri.parse(endpoint);
+
+      var response = await client.get(uri);
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        String id = jsonResponse['id'];
+        return id;
+      } else {
+        //throw exception and catch it in UI
+        print("ERROR_NO_USER_ID");
+      }
+    }
+
+    @override
+    void dispose() {
+      _authStateChanges.cancel();
+      super.dispose();
+    }
   }
 }
 
