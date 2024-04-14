@@ -48,37 +48,37 @@ class GlobalProvider with ChangeNotifier {
   //     ██    ██   ██ ██      ██  ██  ██ ██
   //     ██    ██   ██ ███████ ██      ██ ███████
   ThemeData theme = ThemeData(
-      colorScheme: ColorScheme(
-        brightness: Brightness.dark,
-        primary: Color.fromARGB(255, 213, 220, 231),
-        onPrimary: Color.fromARGB(255, 0, 157, 255),
-        primaryContainer: Color(0xff0028ff),
-        onPrimaryContainer: Color(0xffd0d9ff),
-        secondary: Color(0xff00d3ff),
-        onSecondary: Color(0xff061e1e),
-        secondaryContainer: Color(0xff009fad),
-        onSecondaryContainer: Color(0xffd0f5f8),
-        tertiary: Color(0xff86d2e1),
-        onTertiary: Color(0xff151e1e),
-        tertiaryContainer: Color.fromARGB(255, 0, 78, 89),
-        onTertiaryContainer: Color(0xffd0e2e5),
-        error: Color(0xffffb4a9),
-        onError: Color(0xff680003),
-        errorContainer: Color(0xff930006),
-        onErrorContainer: Color(0xffffb4a9),
-        outline: Color(0xff93969a),
-        background: Color.fromARGB(255, 11, 41, 102),
-        onBackground: Color.fromARGB(255, 255, 255, 255),
-        surface: Color.fromARGB(255, 0, 7, 48),
-        onSurface: Color(0xfff0f1f1),
-        surfaceVariant: Color(0xff10171e),
-        onSurfaceVariant: Color(0xffe2e3e4),
-        inverseSurface: Color(0xfff8fbff),
-        onInverseSurface: Color(0xff0e0e0f),
-        inversePrimary: Color.fromARGB(255, 14, 70, 115),
-        shadow: Color(0xff000000),
-        ),
-        );
+    colorScheme: ColorScheme(
+      brightness: Brightness.dark,
+      primary: Color.fromARGB(255, 213, 220, 231),
+      onPrimary: Color.fromARGB(255, 0, 157, 255),
+      primaryContainer: Color(0xff0028ff),
+      onPrimaryContainer: Color(0xffd0d9ff),
+      secondary: Color(0xff00d3ff),
+      onSecondary: Color(0xff061e1e),
+      secondaryContainer: Color(0xff009fad),
+      onSecondaryContainer: Color(0xffd0f5f8),
+      tertiary: Color(0xff86d2e1),
+      onTertiary: Color(0xff151e1e),
+      tertiaryContainer: Color.fromARGB(255, 0, 78, 89),
+      onTertiaryContainer: Color(0xffd0e2e5),
+      error: Color(0xffffb4a9),
+      onError: Color(0xff680003),
+      errorContainer: Color(0xff930006),
+      onErrorContainer: Color(0xffffb4a9),
+      outline: Color(0xff93969a),
+      background: Color.fromARGB(255, 11, 41, 102),
+      onBackground: Color.fromARGB(255, 255, 255, 255),
+      surface: Color.fromARGB(255, 0, 7, 48),
+      onSurface: Color(0xfff0f1f1),
+      surfaceVariant: Color(0xff10171e),
+      onSurfaceVariant: Color(0xffe2e3e4),
+      inverseSurface: Color(0xfff8fbff),
+      onInverseSurface: Color(0xff0e0e0f),
+      inversePrimary: Color.fromARGB(255, 14, 70, 115),
+      shadow: Color(0xff000000),
+    ),
+  );
 
   void setTheme(ThemeData newTheme) {
     theme = newTheme;
@@ -101,7 +101,7 @@ class GlobalProvider with ChangeNotifier {
 
   void goToNavPage(int index) {
     final CurvedNavigationBarState? navBarState =
-      bottomNavigationKey.currentState;
+        bottomNavigationKey.currentState;
     navBarState?.setPage(index);
   }
 
@@ -124,32 +124,32 @@ class GlobalProvider with ChangeNotifier {
   var pauseAuthStateListener = false;
   BlendUser blendUser = BlendUser();
   BlendCard blendCard = BlendCard(
-      topColor: "rgba(255, 149, 56, 1)",
-      bottomColor: "rgba(114, 203, 255, 0.5)",
-      background:
-      "https://images.pexels.com/photos/15334615/pexels-photo-15334615.jpeg",
-      );
+    topColor: "rgba(255, 149, 56, 1)",
+    bottomColor: "rgba(114, 203, 255, 0.5)",
+    background:
+        "https://images.pexels.com/photos/15334615/pexels-photo-15334615.jpeg",
+  );
 
   void _initializeAuthStateListener() {
     _authStateChanges = FirebaseAuth.instance.authStateChanges().listen(
-        (User? user) async {
+      (User? user) async {
         if (user == null) {
-        print('User is currently signed out!');
+          print('User is currently signed out!');
         } else {
-        if (!pauseAuthStateListener) {
-        print('User is signed in!');
-        await getAuthUser();
-        await getBlendUser();
+          if (!pauseAuthStateListener) {
+            print('User is signed in!');
+            await getAuthUser();
+            await getBlendUser();
 
-        // check if email is verified
-        // if (authUser!.emailVerified) {
-        await getBlendCard(blendUser.workspaces![0].blendCard!);
-        // }
-        notifyListeners();
+            // check if email is verified
+            // if (authUser!.emailVerified) {
+            await getBlendCard(blendUser.workspaces![0].blendCard!);
+            // }
+            notifyListeners();
+          }
         }
-        }
-        },
-        );
+      },
+    );
   }
 
   User? getAuthUser() {
@@ -174,8 +174,8 @@ class GlobalProvider with ChangeNotifier {
     if (FirebaseAuth.instance.currentUser != null &&
         FirebaseAuth.instance.currentUser!.emailVerified) {
       final ref = db.collection("users").doc(authUser!.uid).withConverter(
-          fromFirestore: BlendUser.fromFirestore,
-          toFirestore: (BlendUser blendUser, _) => blendUser.toFirestore(),
+            fromFirestore: BlendUser.fromFirestore,
+            toFirestore: (BlendUser blendUser, _) => blendUser.toFirestore(),
           );
       final docSnap = await ref.get();
       final blendUser = docSnap.data();
@@ -189,7 +189,7 @@ class GlobalProvider with ChangeNotifier {
 
       blendUser.workspaces = blendWorkspaces;
       blendUser.personalWorkspace =
-        await getBlendWorkspace(blendUser.personalWorkspaceRef!);
+          await getBlendWorkspace(blendUser.personalWorkspaceRef!);
 
       this.blendUser = blendUser!;
 
@@ -198,74 +198,74 @@ class GlobalProvider with ChangeNotifier {
         BlendTheme blendTheme = BlendTheme.fromJson(blendUser.customTheme!);
         // Convert the JSON to a ThemeData object
         this.theme = ThemeData.from(
-            colorScheme: ColorScheme(
-              brightness: blendTheme.brightness!,
-              primary: blendTheme.primary!,
-              onPrimary: blendTheme.onPrimary!,
-              primaryContainer: blendTheme.primaryContainer!,
-              onPrimaryContainer: blendTheme.onPrimaryContainer!,
-              secondary: blendTheme.secondary!,
-              onSecondary: blendTheme.onSecondary!,
-              secondaryContainer: blendTheme.secondaryContainer!,
-              onSecondaryContainer: blendTheme.onSecondaryContainer!,
-              tertiary: blendTheme.tertiary!,
-              onTertiary: blendTheme.onTertiary!,
-              tertiaryContainer: blendTheme.tertiaryContainer!,
-              onTertiaryContainer: blendTheme.onTertiaryContainer!,
-              error: blendTheme.error!,
-              onError: blendTheme.onError!,
-              errorContainer: blendTheme.errorContainer!,
-              onErrorContainer: blendTheme.onErrorContainer!,
-              outline: blendTheme.outline!,
-              background: blendTheme.background!,
-              onBackground: blendTheme.onBackground!,
-              surface: blendTheme.surface!,
-              onSurface: blendTheme.onSurface!,
-              surfaceVariant: blendTheme.surfaceVariant!,
-              onSurfaceVariant: blendTheme.onSurfaceVariant!,
-              inverseSurface: blendTheme.inverseSurface!,
-              onInverseSurface: blendTheme.onInverseSurface!,
-              inversePrimary: blendTheme.inversePrimary!,
-              shadow: blendTheme.shadow!,
-              ),
-              );
+          colorScheme: ColorScheme(
+            brightness: blendTheme.brightness!,
+            primary: blendTheme.primary!,
+            onPrimary: blendTheme.onPrimary!,
+            primaryContainer: blendTheme.primaryContainer!,
+            onPrimaryContainer: blendTheme.onPrimaryContainer!,
+            secondary: blendTheme.secondary!,
+            onSecondary: blendTheme.onSecondary!,
+            secondaryContainer: blendTheme.secondaryContainer!,
+            onSecondaryContainer: blendTheme.onSecondaryContainer!,
+            tertiary: blendTheme.tertiary!,
+            onTertiary: blendTheme.onTertiary!,
+            tertiaryContainer: blendTheme.tertiaryContainer!,
+            onTertiaryContainer: blendTheme.onTertiaryContainer!,
+            error: blendTheme.error!,
+            onError: blendTheme.onError!,
+            errorContainer: blendTheme.errorContainer!,
+            onErrorContainer: blendTheme.onErrorContainer!,
+            outline: blendTheme.outline!,
+            background: blendTheme.background!,
+            onBackground: blendTheme.onBackground!,
+            surface: blendTheme.surface!,
+            onSurface: blendTheme.onSurface!,
+            surfaceVariant: blendTheme.surfaceVariant!,
+            onSurfaceVariant: blendTheme.onSurfaceVariant!,
+            inverseSurface: blendTheme.inverseSurface!,
+            onInverseSurface: blendTheme.onInverseSurface!,
+            inversePrimary: blendTheme.inversePrimary!,
+            shadow: blendTheme.shadow!,
+          ),
+        );
       }
       notifyListeners();
       return blendUser;
     } else {
       this.blendUser = BlendUser();
       this.theme = ThemeData(
-          colorScheme: ColorScheme(
-            brightness: Brightness.dark,
-            primary: Color(0xFFD5DCE7),
-            onPrimary: Color(0xFF009DFF),
-            primaryContainer: Color(0xff0028ff),
-            onPrimaryContainer: Color(0xffd0d9ff),
-            secondary: Color(0xff00d3ff),
-            onSecondary: Color(0xff061e1e),
-            secondaryContainer: Color(0xff009fad),
-            onSecondaryContainer: Color(0xffd0f5f8),
-            tertiary: Color(0xff86d2e1),
-            onTertiary: Color(0xff151e1e),
-            tertiaryContainer: Color(0xFF004E59),
-            onTertiaryContainer: Color(0xffd0e2e5),
-            error: Color(0xffffb4a9),
-            onError: Color(0xff680003),
-            errorContainer: Color(0xff930006),
-            onErrorContainer: Color(0xffffb4a9),
-            outline: Color(0xff93969a),
-            background: Color(0xFF0B2966),
-            onBackground: Color(0xFFFFFFFF),
-            surface: Color(0xFF000730),
-            onSurface: Color(0xfff0f1f1),
-            surfaceVariant: Color(0xff10171e),
-            onSurfaceVariant: Color(0xffe2e3e4),
-            inverseSurface: Color(0xfff8fbff),
-            onInverseSurface: Color(0xff0e0e0f),
-            inversePrimary: Color(0xFF0E4673),
-            shadow: Color(0xff000000),
-            ),
-            );
+        colorScheme: ColorScheme(
+          brightness: Brightness.dark,
+          primary: Color(0xFFD5DCE7),
+          onPrimary: Color(0xFF009DFF),
+          primaryContainer: Color(0xff0028ff),
+          onPrimaryContainer: Color(0xffd0d9ff),
+          secondary: Color(0xff00d3ff),
+          onSecondary: Color(0xff061e1e),
+          secondaryContainer: Color(0xff009fad),
+          onSecondaryContainer: Color(0xffd0f5f8),
+          tertiary: Color(0xff86d2e1),
+          onTertiary: Color(0xff151e1e),
+          tertiaryContainer: Color(0xFF004E59),
+          onTertiaryContainer: Color(0xffd0e2e5),
+          error: Color(0xffffb4a9),
+          onError: Color(0xff680003),
+          errorContainer: Color(0xff930006),
+          onErrorContainer: Color(0xffffb4a9),
+          outline: Color(0xff93969a),
+          background: Color(0xFF0B2966),
+          onBackground: Color(0xFFFFFFFF),
+          surface: Color(0xFF000730),
+          onSurface: Color(0xfff0f1f1),
+          surfaceVariant: Color(0xff10171e),
+          onSurfaceVariant: Color(0xffe2e3e4),
+          inverseSurface: Color(0xfff8fbff),
+          onInverseSurface: Color(0xff0e0e0f),
+          inversePrimary: Color(0xFF0E4673),
+          shadow: Color(0xff000000),
+        ),
+      );
       notifyListeners();
       return BlendUser();
     }
@@ -274,9 +274,9 @@ class GlobalProvider with ChangeNotifier {
   Future<BlendUser> getBlendUserByRef(
       DocumentReference<Map<String, dynamic>> blendUserRef) async {
     final ref = blendUserRef.withConverter(
-        fromFirestore: BlendUser.fromFirestore,
-        toFirestore: (BlendUser blendUser, _) => blendUser.toFirestore(),
-        );
+      fromFirestore: BlendUser.fromFirestore,
+      toFirestore: (BlendUser blendUser, _) => blendUser.toFirestore(),
+    );
     final blendUserDocSnap = await ref.get();
     final blendUser = blendUserDocSnap.data();
     return blendUser!;
@@ -285,10 +285,10 @@ class GlobalProvider with ChangeNotifier {
   Future<BlendWorkspace> getBlendWorkspace(
       DocumentReference<Map<String, dynamic>> workspaceRef) async {
     final ref = workspaceRef.withConverter(
-        fromFirestore: BlendWorkspace.fromFirestore,
-        toFirestore: (BlendWorkspace blendWorkspace, _) =>
-        blendWorkspace.toFirestore(),
-        );
+      fromFirestore: BlendWorkspace.fromFirestore,
+      toFirestore: (BlendWorkspace blendWorkspace, _) =>
+          blendWorkspace.toFirestore(),
+    );
     final workspaceDocSnap = await ref.get();
     final blendWorkspace = workspaceDocSnap.data();
     return blendWorkspace!;
@@ -297,9 +297,9 @@ class GlobalProvider with ChangeNotifier {
   Future<BlendCard> getBlendCard(
       DocumentReference<Map<String, dynamic>> blendCardRef) async {
     final ref = blendCardRef.withConverter(
-        fromFirestore: BlendCard.fromFirestore,
-        toFirestore: (BlendCard blendCard, _) => blendCard.toFirestore(),
-        );
+      fromFirestore: BlendCard.fromFirestore,
+      toFirestore: (BlendCard blendCard, _) => blendCard.toFirestore(),
+    );
     final blendCardDocSnap = await ref.get();
     final blendCard = blendCardDocSnap.data();
     this.blendCard = blendCard!;
@@ -309,9 +309,9 @@ class GlobalProvider with ChangeNotifier {
   Future<FirebaseAuthException?> signIn(String email, String password) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-          );
+        email: email,
+        password: password,
+      );
       getAuthUser();
       return null;
     } on FirebaseAuthException catch (e) {
@@ -320,29 +320,29 @@ class GlobalProvider with ChangeNotifier {
   }
 
   Future<FirebaseAuthException?> signUp(
-      String fname,
-      String lname,
-      String email,
-      String username,
-      String password,
-      ) async {
+    String fname,
+    String lname,
+    String email,
+    String username,
+    String password,
+  ) async {
     pauseAuthStateListener = true;
     try {
       // Check if username is taken
       isUsernameAvailable(username).then((value) {
-          if (!value) {
+        if (!value) {
           return FirebaseAuthException(
-              code: "username-taken",
-              message: "Username is already taken",
-              );
-          }
-          });
+            code: "username-taken",
+            message: "Username is already taken",
+          );
+        }
+      });
 
       // Create auth account
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-          );
+        email: email,
+        password: password,
+      );
 
       // Reload authUser
       authUser = FirebaseAuth.instance.currentUser;
@@ -358,11 +358,11 @@ class GlobalProvider with ChangeNotifier {
       // Create personal blendCard
       final blendCard = <String, dynamic>{
         "bio": "",
-          "platforms": [],
-          "background":
+        "platforms": [],
+        "background":
             "https://images.pexels.com/photos/15334615/pexels-photo-15334615.jpeg",
-          "topColor": "rgba(255, 149, 56, 1)",
-          "bottomColor": "rgba(114, 203, 255, 0.5)",
+        "topColor": "rgba(255, 149, 56, 1)",
+        "bottomColor": "rgba(114, 203, 255, 0.5)",
       };
 
       var blendCardDocRef = await db.collection("blendCards").add(blendCard);
@@ -370,43 +370,43 @@ class GlobalProvider with ChangeNotifier {
       // Create personal workspace
       final workspace = <String, dynamic>{
         "name": "$username's Workspace",
-          "followers": 0,
-          "following": 0,
-          "pfp":
+        "followers": 0,
+        "following": 0,
+        "pfp":
             "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
-          "users": [
+        "users": [
           {"user": db.doc('users/${authUser!.uid}'), "role": "owner"}
-          ],
-          "blendCard": db.doc('blendCards/${blendCardDocRef.id}'),
-          "instagram": {},
-          "tiktok": {},
-          "youtube": {},
-          "snapchat": {},
-          "x": {},
-          "facebook": {},
-          "linkedin": {},
+        ],
+        "blendCard": db.doc('blendCards/${blendCardDocRef.id}'),
+        "instagram": {},
+        "tiktok": {},
+        "youtube": {},
+        "snapchat": {},
+        "x": {},
+        "facebook": {},
+        "linkedin": {},
       };
 
       var workspaceDocRef = await db.collection("workspaces").add(workspace);
 
       final user = <String, dynamic>{
         "fname": fname,
-          "lname": lname,
-          "email": email,
-          "username": username,
-          "pfp":
+        "lname": lname,
+        "email": email,
+        "username": username,
+        "pfp":
             "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
-          "theme": "default",
-          "customTheme": {},
-          "personalWorkspace": db.doc('workspaces/${workspaceDocRef.id}'),
-          "workspaces": [db.doc('workspaces/${workspaceDocRef.id}')],
+        "theme": "default",
+        "customTheme": {},
+        "personalWorkspace": db.doc('workspaces/${workspaceDocRef.id}'),
+        "workspaces": [db.doc('workspaces/${workspaceDocRef.id}')],
       };
 
       await db
-        .collection("users")
-        .doc(authUser!.uid)
-        .set(user)
-        .catchError((e) => print("CREATING USER ERROR: " + e));
+          .collection("users")
+          .doc(authUser!.uid)
+          .set(user)
+          .catchError((e) => print("CREATING USER ERROR: " + e));
 
       await getAuthUser();
       pauseAuthStateListener = false;
@@ -431,17 +431,17 @@ class GlobalProvider with ChangeNotifier {
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+          await googleUser?.authentication;
 
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth?.accessToken,
-          idToken: googleAuth?.idToken,
-          );
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
       // fetchSignInMethodsForEmail
       final signInMethods = await FirebaseAuth.instance
-        .fetchSignInMethodsForEmail(googleUser.email);
+          .fetchSignInMethodsForEmail(googleUser.email);
 
       if (signInMethods.isEmpty) {
         signUpWithGoogle();
@@ -469,17 +469,17 @@ class GlobalProvider with ChangeNotifier {
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-        );
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
 
     // Check if user already exists
     final signInMethods = await FirebaseAuth.instance
-      .fetchSignInMethodsForEmail(googleUser.email);
+        .fetchSignInMethodsForEmail(googleUser.email);
 
     if (signInMethods.isNotEmpty) {
       pauseAuthStateListener = false;
@@ -489,7 +489,7 @@ class GlobalProvider with ChangeNotifier {
 
     // Once signed in, return the UserCredential
     UserCredential uc =
-      await FirebaseAuth.instance.signInWithCredential(credential);
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
     var fname = uc.additionalUserInfo!.profile!['given_name'];
     var lname = uc.additionalUserInfo!.profile!['family_name'];
@@ -499,13 +499,13 @@ class GlobalProvider with ChangeNotifier {
     try {
       // Check if username is taken
       isUsernameAvailable(username).then((value) {
-          if (!value) {
+        if (!value) {
           return FirebaseAuthException(
-              code: "username-taken",
-              message: "Username is already taken",
-              );
-          }
-          });
+            code: "username-taken",
+            message: "Username is already taken",
+          );
+        }
+      });
 
       // Create auth account
 
@@ -523,11 +523,11 @@ class GlobalProvider with ChangeNotifier {
       // Create personal blendCard
       final blendCard = <String, dynamic>{
         "bio": "",
-          "platforms": [],
-          "background":
+        "platforms": [],
+        "background":
             "https://images.pexels.com/photos/15334615/pexels-photo-15334615.jpeg",
-          "topColor": "rgba(255, 149, 56, 1)",
-          "bottomColor": "rgba(114, 203, 255, 0.5)",
+        "topColor": "rgba(255, 149, 56, 1)",
+        "bottomColor": "rgba(114, 203, 255, 0.5)",
       };
 
       var blendCardDocRef = await db.collection("blendCards").add(blendCard);
@@ -535,43 +535,43 @@ class GlobalProvider with ChangeNotifier {
       // Create personal workspace
       final workspace = <String, dynamic>{
         "name": "$username's Workspace",
-          "followers": 0,
-          "following": 0,
-          "pfp":
+        "followers": 0,
+        "following": 0,
+        "pfp":
             "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
-          "users": [
+        "users": [
           {"user": db.doc('users/${authUser!.uid}'), "role": "owner"}
-          ],
-          "blendCard": db.doc('blendCards/${blendCardDocRef.id}'),
-          "instagram": {},
-          "tiktok": {},
-          "youtube": {},
-          "snapchat": {},
-          "x": {},
-          "facebook": {},
-          "linkedin": {},
+        ],
+        "blendCard": db.doc('blendCards/${blendCardDocRef.id}'),
+        "instagram": {},
+        "tiktok": {},
+        "youtube": {},
+        "snapchat": {},
+        "x": {},
+        "facebook": {},
+        "linkedin": {},
       };
 
       var workspaceDocRef = await db.collection("workspaces").add(workspace);
 
       final user = <String, dynamic>{
         "fname": fname,
-          "lname": lname,
-          "email": email,
-          "username": username,
-          "pfp":
+        "lname": lname,
+        "email": email,
+        "username": username,
+        "pfp":
             "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=$fname+$lname",
-          "theme": "default",
-          "customTheme": {},
-          "personalWorkspace": db.doc('workspaces/${workspaceDocRef.id}'),
-          "workspaces": [db.doc('workspaces/${workspaceDocRef.id}')],
+        "theme": "default",
+        "customTheme": {},
+        "personalWorkspace": db.doc('workspaces/${workspaceDocRef.id}'),
+        "workspaces": [db.doc('workspaces/${workspaceDocRef.id}')],
       };
 
       await db
-        .collection("users")
-        .doc(authUser!.uid)
-        .set(user)
-        .catchError((e) => print("CREATING USER ERROR: " + e));
+          .collection("users")
+          .doc(authUser!.uid)
+          .set(user)
+          .catchError((e) => print("CREATING USER ERROR: " + e));
 
       pauseAuthStateListener = false;
       await getAuthUser();
@@ -589,12 +589,12 @@ class GlobalProvider with ChangeNotifier {
     final usernameRef = db.collection("usernames").doc(username);
 
     await usernameRef.get().then((doc) {
-        if (doc.exists) {
+      if (doc.exists) {
         return false;
-        } else {
+      } else {
         return true;
-        }
-        });
+      }
+    });
 
     return false;
   }
@@ -633,7 +633,7 @@ class GlobalProvider with ChangeNotifier {
           continue;
         } else {
           BlendUser workspaceUser =
-            await getBlendUserByRef(workspaceUserObject['user']);
+              await getBlendUserByRef(workspaceUserObject['user']);
           await workspaceUser.removeWorkspace(workspaceRef);
         }
       }
@@ -697,7 +697,6 @@ class GlobalProvider with ChangeNotifier {
           publishToYoutube();
           break;
         case "LinkedIn":
-
           publishWithImagetoLinkedin(postCaption);
           // if (selectedMedia != null){
           //   publishWithImagetoLinkedin(postCaption);
@@ -724,23 +723,23 @@ class GlobalProvider with ChangeNotifier {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
       'Cookie':
-        'lidc="b=TB55:s=T:r=T:a=T:p=T:g=4081:u=27:x=1:i=1711720982:t=1711778521:v=2:sig=AQFHk_EgohwHNH45-qiIvk5hjzAGOcNk"; bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"; lidc="b=VB35:s=V:r=V:a=V:p=V:g=3852:u=1:x=1:i=1711719625:t=1711806025:v=2:sig=AQGWDQb4TuZLTDClebTViudjfQju-mSx"'
+          'lidc="b=TB55:s=T:r=T:a=T:p=T:g=4081:u=27:x=1:i=1711720982:t=1711778521:v=2:sig=AQFHk_EgohwHNH45-qiIvk5hjzAGOcNk"; bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"; lidc="b=VB35:s=V:r=V:a=V:p=V:g=3852:u=1:x=1:i=1711719625:t=1711806025:v=2:sig=AQGWDQb4TuZLTDClebTViudjfQju-mSx"'
     };
     var userId = await getUserId();
     var request =
-      http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
+        http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
     request.body = json.encode({
-        "author": "urn:li:person:${userId}",
-        "commentary": message,
-        "visibility": "PUBLIC",
-        "distribution": {
+      "author": "urn:li:person:${userId}",
+      "commentary": message,
+      "visibility": "PUBLIC",
+      "distribution": {
         "feedDistribution": "MAIN_FEED",
         "targetEntities": [],
         "thirdPartyDistributionChannels": []
-        },
-        "lifecycleState": "PUBLISHED",
-        "isReshareDisabledByAuthor": false
-        });
+      },
+      "lifecycleState": "PUBLISHED",
+      "isReshareDisabledByAuthor": false
+    });
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -752,14 +751,13 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
-
   // TODO: it appears that the image is null
   publishWithImagetoLinkedin(String message) async {
-
     // make the upload request
-    uploadImageToLinkedIn(selectedMedia!);
+    print("===Before publishing image===");
+    await uploadImageToLinkedIn();
+    print("===After publishing image===");
 
-  
     var userId = await getUserId();
     // make post to linkedin with the posted image
     var headers = {
@@ -769,44 +767,41 @@ class GlobalProvider with ChangeNotifier {
       'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
       'Cookie': 'bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
     };
-    var request = http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
+    var request =
+        http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
     request.body = json.encode({
-        "author": "urn:li:person:${userId}",
-        "commentary": message,
-        "visibility": "PUBLIC",
-        "distribution": {
+      "author": "urn:li:person:${userId}",
+      "commentary": message,
+      "visibility": "PUBLIC",
+      "distribution": {
         "feedDistribution": "MAIN_FEED",
         "targetEntities": [],
         "thirdPartyDistributionChannels": []
-        },
-        "content": {
+      },
+      "content": {
         "media": {
-        "altText": "testing for alt tags",
-        "id": selectedMediaURN,
+          "altText": "testing for alt tags",
+          "id": selectedMediaURN,
         }
-        },
-        "lifecycleState": "PUBLISHED",
-        "isReshareDisabledByAuthor": false
-        });
+      },
+      "lifecycleState": "PUBLISHED",
+      "isReshareDisabledByAuthor": false
+    });
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
-    }
-    else {
+    } else {
       print(response.reasonPhrase);
     }
-
   }
 
-
-  Future<void> uploadImageToLinkedIn(File imageFile) async {
-
+  Future<void> uploadImageToLinkedIn() async {
     String uploadURL = "";
     String imageURN = "";
-    
+
     // make the upload request
     var userId = await getUserId();
 
@@ -815,41 +810,46 @@ class GlobalProvider with ChangeNotifier {
       'LinkedIn-Version': '202401',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
-      'Cookie': 'lidc="b=TB55:s=T:r=T:a=T:p=T:g=4150:u=31:x=1:i=1713043350:t=1713069108:v=2:sig=AQHT5KnjKxwxMo8B1gw0UOAM6cKYTD4d"; bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
+      'Cookie':
+          'lidc="b=TB55:s=T:r=T:a=T:p=T:g=4150:u=31:x=1:i=1713043350:t=1713069108:v=2:sig=AQHT5KnjKxwxMo8B1gw0UOAM6cKYTD4d"; bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
     };
-    var request = http.Request('POST', Uri.parse('https://api.linkedin.com/rest/images?action=initializeUpload'));
-    request.body = json.encode({
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://api.linkedin.com/rest/images?action=initializeUpload'));
+    request.body = json.encode(
+      {
         "initializeUploadRequest": {
-        "owner": "urn:li:person:${userId}",
+          "owner": "urn:li:person:${userId}",
         },
-        },);
+      },
+    );
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-
       String responseBody = await response.stream.bytesToString();
       var jsonResponse = json.decode(responseBody);
-      
-      userId = jsonResponse['uploadURL'];
-      imageURN = jsonResponse['image'];
-    
-      
-    }
-    else {
+
+      print(jsonResponse);
+      uploadURL = jsonResponse["value"]["uploadUrl"];
+      imageURN = jsonResponse["value"]["image"];
+      print(uploadURL);
+      print(imageURN);
+      print("===upload request successful===");
+    } else {
       print(response.reasonPhrase);
     }
 
-
-
     // upload the literal image after making the request
-    List<int> imageBytes = await imageFile.readAsBytes();
+    List<int> imageBytes = await medias[0].readAsBytes();
 
     // Prepare request headers
     Map<String, String> uploadHeaders = {
       'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
-      'Content-Type': 'image/png', // Adjust content type based on your image format
+      'Content-Type':
+          'image/png', // Adjust content type based on your image format
     };
 
     // LinkedIn API endpoint for image upload
@@ -857,14 +857,14 @@ class GlobalProvider with ChangeNotifier {
     // Send POST request
     try {
       http.Response response = await http.post(
-          Uri.parse(uploadURL),
-          headers: uploadHeaders,
-          body: imageBytes,
-          );
+        Uri.parse(uploadURL),
+        headers: uploadHeaders,
+        body: imageBytes,
+      );
 
       print("TRYING TO UPLOAD IMAGE");
       // Check response status
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Image uploaded successfully');
         selectedMediaURN = imageURN;
       } else {
@@ -877,11 +877,11 @@ class GlobalProvider with ChangeNotifier {
 
   Future<YouTubeApi> getYoutubeApi() async {
     final GoogleSignIn googleSignIn = GoogleSignIn(
-        scopes: <String>[
+      scopes: <String>[
         YouTubeApi.youtubeReadonlyScope,
         YouTubeApi.youtubeUploadScope,
-        ],
-        );
+      ],
+    );
     await googleSignIn.signIn();
 
     // final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
@@ -927,18 +927,18 @@ class GlobalProvider with ChangeNotifier {
     Stream<List<int>> stream = f.openRead();
     Media m = Media(stream, (await f.length()));
     Video video = Video(
-        snippet: VideoSnippet(
-          title: 'Video',
-          description: 'Test Upload for Blend',
-          categoryId: '22',
-          ),
-        );
+      snippet: VideoSnippet(
+        title: 'Video',
+        description: 'Test Upload for Blend',
+        categoryId: '22',
+      ),
+    );
 
     return await youTubeApi.videos.insert(
-        video,
-        ['snippet', 'status'],
-        uploadMedia: m,
-        );
+      video,
+      ['snippet', 'status'],
+      uploadMedia: m,
+    );
   }
 
   Future<dynamic> getUserInfo() async {
@@ -949,7 +949,7 @@ class GlobalProvider with ChangeNotifier {
     // };
 
     String endpoint =
-      'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
 
     var uri = Uri.parse(endpoint);
 
@@ -965,10 +965,10 @@ class GlobalProvider with ChangeNotifier {
   }
 
   @override
-    void dispose() {
-      _authStateChanges.cancel();
-      super.dispose();
-    }
+  void dispose() {
+    _authStateChanges.cancel();
+    super.dispose();
+  }
 
   Future<dynamic> getUserId() async {
     // var url = Uri.parse(uri);
@@ -978,7 +978,7 @@ class GlobalProvider with ChangeNotifier {
     // };
 
     String endpoint =
-      'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
 
     var uri = Uri.parse(endpoint);
 
