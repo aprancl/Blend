@@ -88,6 +88,8 @@ class PostingOverviewPage extends StatelessWidget {
                               provider.postAll();
 
                               print("Content Posted!");
+                              provider.hasSelectedMedia = false;
+                              provider.goToPage(1);
 
                             },
                           ),

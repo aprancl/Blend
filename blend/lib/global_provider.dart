@@ -668,8 +668,11 @@ class GlobalProvider with ChangeNotifier {
   var postCaption = "";
   var defaultImagePath = "images/lime.png";
   File? selectedMedia;
+  bool hasSelectedMedia =
+      false; // i know its cheesy, but having issues checking if selectedMedia is null
   String selectedMediaURN = "";
-  List<File> medias = [];
+  List<File> medias =
+      []; // to be used in the futer if we are able to get multiple images working
   var client = http.Client();
 
   Future selectImage() async {
@@ -697,13 +700,12 @@ class GlobalProvider with ChangeNotifier {
           publishToYoutube();
           break;
         case "LinkedIn":
-          publishWithImagetoLinkedin(postCaption);
-          // if (selectedMedia != null){
-          //   publishWithImagetoLinkedin(postCaption);
-          // } else{
-          //   publishToLinkedin(postCaption);
-          // }
-
+          // publishWithImagetoLinkedin(postCaption);
+          if (hasSelectedMedia) {
+            publishWithImagetoLinkedin(postCaption);
+          } else {
+            publishToLinkedin(postCaption);
+          }
           break;
         case "Facebook":
           break;
