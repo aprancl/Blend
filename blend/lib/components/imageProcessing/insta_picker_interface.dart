@@ -11,7 +11,6 @@ class PickerDescription {
   final String icon;
   final String label;
   final String? description;
-  // final provider = Provider.of<GlobalProvider>(contxet);
 
   const PickerDescription({
     required this.icon,
@@ -32,7 +31,6 @@ mixin InstaPickerInterface on Widget {
   }
 
   AppBar get _appBar => AppBar(title: Text(description.fullLabel));
-  // GlobalProvider provider = Provider.of<GlobalProvider>(context);
 
   Column pickerColumn({
     required BuildContext context,
@@ -64,7 +62,6 @@ mixin InstaPickerInterface on Widget {
                   child: Text('Continue'),
                   onPressed: () {
                     print('We want to go next!');
-                    // final provider = Provider.of<GlobalProvider>(context);
                     provider.goToPage(6);
                   },
                 ),
@@ -74,16 +71,15 @@ mixin InstaPickerInterface on Widget {
         ],
       );
 
-  Scaffold buildLayout(
-    BuildContext context, {
-    required VoidCallback onPressed,
-    required GlobalProvider provider
-  }) =>
+  Scaffold buildLayout(BuildContext context,
+          {required VoidCallback onPressed,
+          required GlobalProvider provider}) =>
       Scaffold(
         appBar: _appBar,
         body: Padding(
           padding: const EdgeInsets.all(16),
-          child: pickerColumn(onPressed: onPressed, context: context, provider: provider),
+          child: pickerColumn(
+              onPressed: onPressed, context: context, provider: provider),
         ),
       );
 
@@ -104,12 +100,13 @@ mixin InstaPickerInterface on Widget {
         maxAssets: maxAssets,
         pickerTheme: getPickerTheme(context),
         onCompleted: (Stream<InstaAssetsExportDetails> cropStream) {
-          // final provider = Provider.of<GlobalProvider>(context);
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  PickerCropResultScreen(cropStream: cropStream),
+              builder: (context) => PickerCropResultScreen(
+                cropStream: cropStream,
+                provider: Provider.of<GlobalProvider>(context),
+              ),
             ),
           );
         },

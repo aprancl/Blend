@@ -668,7 +668,11 @@ class GlobalProvider with ChangeNotifier {
   var postCaption = "";
   var defaultImagePath = "images/lime.png";
   File? selectedMedia;
-  List<File> medias = [];
+  bool hasSelectedMedia =
+      false; // i know its cheesy, but having issues checking if selectedMedia is null
+  String selectedMediaURN = "";
+  List<File> medias =
+      []; // to be used in the futer if we are able to get multiple images working
   var client = http.Client();
 
   Future selectImage() async {
@@ -696,7 +700,12 @@ class GlobalProvider with ChangeNotifier {
           publishToYoutube();
           break;
         case "LinkedIn":
-          publishToLinkedin(postCaption);
+          // publishWithImagetoLinkedin(postCaption);
+          if (hasSelectedMedia) {
+            publishWithImagetoLinkedin(postCaption);
+          } else {
+            publishToLinkedin(postCaption);
+          }
           break;
         case "Facebook":
           break;
@@ -744,11 +753,135 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
+  // TODO: it appears that the image is null
+  publishWithImagetoLinkedin(String message) async {
+    // make the upload request
+    print("===Before publishing image===");
+    await uploadImageToLinkedIn();
+    print("===After publishing image===");
+
+    var userId = await getUserId();
+    // make post to linkedin with the posted image
+    var headers = {
+      'X-Restli-Protocol-Version': '2.0.0',
+      'LinkedIn-Version': '202401',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
+      'Cookie': 'bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
+    };
+    var request =
+        http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
+    request.body = json.encode({
+      "author": "urn:li:person:${userId}",
+      "commentary": message,
+      "visibility": "PUBLIC",
+      "distribution": {
+        "feedDistribution": "MAIN_FEED",
+        "targetEntities": [],
+        "thirdPartyDistributionChannels": []
+      },
+      "content": {
+        "media": {
+          "altText": "testing for alt tags",
+          "id": selectedMediaURN,
+        }
+      },
+      "lifecycleState": "PUBLISHED",
+      "isReshareDisabledByAuthor": false
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  Future<void> uploadImageToLinkedIn() async {
+    String uploadURL = "";
+    String imageURN = "";
+
+    // make the upload request
+    var userId = await getUserId();
+
+    var headers = {
+      'X-Restli-Protocol-Version': '2.0.0',
+      'LinkedIn-Version': '202401',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
+      'Cookie':
+          'lidc="b=TB55:s=T:r=T:a=T:p=T:g=4150:u=31:x=1:i=1713043350:t=1713069108:v=2:sig=AQHT5KnjKxwxMo8B1gw0UOAM6cKYTD4d"; bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
+    };
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://api.linkedin.com/rest/images?action=initializeUpload'));
+    request.body = json.encode(
+      {
+        "initializeUploadRequest": {
+          "owner": "urn:li:person:${userId}",
+        },
+      },
+    );
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseBody = await response.stream.bytesToString();
+      var jsonResponse = json.decode(responseBody);
+
+      print(jsonResponse);
+      uploadURL = jsonResponse["value"]["uploadUrl"];
+      imageURN = jsonResponse["value"]["image"];
+      print(uploadURL);
+      print(imageURN);
+      print("===upload request successful===");
+    } else {
+      print(response.reasonPhrase);
+    }
+
+    // upload the literal image after making the request
+    List<int> imageBytes = await medias[0].readAsBytes();
+
+    // Prepare request headers
+    Map<String, String> uploadHeaders = {
+      'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
+      'Content-Type':
+          'image/png', // Adjust content type based on your image format
+    };
+
+    // LinkedIn API endpoint for image upload
+
+    // Send POST request
+    try {
+      http.Response response = await http.post(
+        Uri.parse(uploadURL),
+        headers: uploadHeaders,
+        body: imageBytes,
+      );
+
+      print("TRYING TO UPLOAD IMAGE");
+      // Check response status
+      if (response.statusCode == 201) {
+        print('Image uploaded successfully');
+        selectedMediaURN = imageURN;
+      } else {
+        print('Failed to upload image. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
+  }
+
   Future<YouTubeApi> getYoutubeApi() async {
     final GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: <String>[
         YouTubeApi.youtubeReadonlyScope,
-        YouTubeApi.youtubeUploadScope
+        YouTubeApi.youtubeUploadScope,
       ],
     );
     await googleSignIn.signIn();
@@ -810,7 +943,6 @@ class GlobalProvider with ChangeNotifier {
     );
   }
 
-
   Future<dynamic> getUserInfo() async {
     // var url = Uri.parse(uri);
     // var headers = {
@@ -840,7 +972,28 @@ class GlobalProvider with ChangeNotifier {
     super.dispose();
   }
 
-  Future<dynamic> getUserId() async {}
+  Future<dynamic> getUserId() async {
+    // var url = Uri.parse(uri);
+    // var headers = {
+    //   'Authorization': 'Bearer sfie328370428387=',
+    //   'api_key': 'ief873fj38uf38uf83u839898989',
+    // };
+
+    String endpoint =
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+
+    var uri = Uri.parse(endpoint);
+
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      String id = jsonResponse['id'];
+      return id;
+    } else {
+      //throw exception and catch it in UI
+      print("ERROR_NO_USER_ID");
+    }
+  }
 }
 
 class NoGoogleAccountChosenException implements Exception {

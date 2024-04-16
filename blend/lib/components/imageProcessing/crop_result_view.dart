@@ -1,21 +1,32 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:insta_assets_picker/insta_assets_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
 
 class PickerCropResultScreen extends StatelessWidget {
-  const PickerCropResultScreen({super.key, required this.cropStream});
-
+  const PickerCropResultScreen(
+      {super.key, required this.cropStream, required this.provider});
+  final GlobalProvider provider;
   final Stream<InstaAssetsExportDetails> cropStream;
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height - kToolbarHeight;
+    final provider = Provider.of<GlobalProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Selected Media')),
+      appBar: AppBar(
+          title: const Text('Selected Media'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              provider.hasSelectedMedia = true;
+              Navigator.of(context).pop();
+            },
+          )),
       body: StreamBuilder<InstaAssetsExportDetails>(
         stream: cropStream,
         builder: (context, snapshot) => CropResultView(
@@ -164,7 +175,6 @@ class CropResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final provider = Provider.of<GlobalProvider>(context);
 
     provider.medias = croppedFiles;
