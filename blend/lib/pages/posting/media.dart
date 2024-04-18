@@ -1,9 +1,14 @@
-import 'dart:io';
-import 'package:blend/components/imageProcessing/image_container.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:blend/global_provider.dart';
-import 'package:image_picker/image_picker.dart';
+import "dart:io";
+
+import "package:blend/components/appBars/sequential_app_bar.dart";
+import "package:blend/global_provider.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import 'package:image_picker_plus/image_picker_plus.dart';
+import 'package:video_player/video_player.dart';
+import 'package:image_picker_plus/src/gallery_display.dart';
+import 'package:image_picker_plus/src/utilities/enum.dart';
 
 class PostingMediaPage extends StatefulWidget {
   @override
@@ -11,116 +16,189 @@ class PostingMediaPage extends StatefulWidget {
 }
 
 class _PostingMediaPageState extends State<PostingMediaPage> {
-  List<File> galleryImages = [];
-  late GlobalProvider provider;
-
-  @override
-  void initState() {
-    super.initState();
-    provider = Provider.of<GlobalProvider>(context, listen: false);
-    // loadGalleryImages();
-  }
-
-  Future<void> loadGalleryImages() async {
-    List<XFile>? images = await ImagePicker().pickMultiImage(
-      maxWidth: 500,
-      maxHeight: 500,
-      imageQuality: 80,
-    );
-
-    if (images != null) {
-      setState(() {
-        galleryImages = images.map((image) => File(image.path)).toList();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
+
+    Future<void> globalizeSelection(SelectedImagesDetails details) async {
+      provider.mediaSelection = details;
+    }
+
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Your existing widgets
-              ImageContainer(provider: provider),
-              ElevatedButton(
-                child: Text('Add Media'),
-                onPressed: () {
-                  provider.selectImage();
-                },
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      child: Text('Back'),
-                      onPressed: () {
-                        print('We want to go back!');
-                        provider.goToPage(1);
-                      },
-                    ),
-                    Spacer(),
-                    ElevatedButton(
-                      child: Text('Next'),
-                      onPressed: () {
-                        print('We want to go next!');
-                        provider.goToPage(4);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      child: Text('To Instagram Media Picker'),
-                      onPressed: () {
-                        print('We want to go back!');
-                        provider.goToPage(7);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: GridView.builder(
-                  padding: EdgeInsets.only(top: 10, bottom: 30),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemCount: galleryImages.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        provider.selectImage();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: FileImage(galleryImages[index]),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+      appBar: SequentialAppBar(
+        leftFunction: () {
+          print('Going back');
+          provider.goToPage(1);
+        },
+        leftIcon: Icons.arrow_back,
+        rightFunction: () {
+          print('Going to profile');
+          provider.goToPage(5);
+        },
+        rightText: "Next",
+      ).build(context),
+      body: Container(
+        color: Colors.white,
+        child: CustomImagePicker(
+          source: ImageSource.both,
+          pickerSource: PickerSource.both,
+          multiSelection: true,
+          galleryDisplaySettings: GalleryDisplaySettings(
+            cropImage: true,
+            showImagePreview: true,
+            appTheme: AppTheme(
+              primaryColor: provider.theme.colorScheme.background,
+              focusColor: Colors.white,
+            ),
+            callbackFunction:(value) => globalizeSelection(value),
           ),
         ),
       ),
     );
   }
+
+
+
+  // EVERYTHING BELOW THIS POINT IS FOR EXAMPLE ONLY. NONE OF IT IS ACTUALLY USED.
+  // Anthony, if you see this, the below content may be useful for accessing the selected media.
+
+
+
+  ElevatedButton preview3(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        ImagePickerPlus picker = ImagePickerPlus(context);
+        SelectedImagesDetails? details = await picker.pickBoth(
+          source: ImageSource.both,
+          multiSelection: true,
+          galleryDisplaySettings:
+                GalleryDisplaySettings(cropImage: true, showImagePreview: true, ),
+        );
+        if (details != null) await displayDetails(details);
+      },
+      child: const Text("Preview 3"),
+    );
+  }
+
+  Future<void> displayDetails(SelectedImagesDetails details) async {
+    await Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) {
+          return DisplayImages(
+              selectedBytes: details.selectedFiles,
+              details: details,
+              aspectRatio: details.aspectRatio);
+        },
+      ),
+    );
+  }
 }
 
+class DisplayImages extends StatefulWidget {
+  final List<SelectedByte> selectedBytes;
+  final double aspectRatio;
+  final SelectedImagesDetails details;
+  const DisplayImages({
+    Key? key,
+    required this.details,
+    required this.selectedBytes,
+    required this.aspectRatio,
+  }) : super(key: key);
+
+  @override
+  State<DisplayImages> createState() => _DisplayImagesState();
+}
+
+class _DisplayImagesState extends State<DisplayImages> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Selected images/videos')),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          SelectedByte selectedByte = widget.selectedBytes[index];
+          if (!selectedByte.isThatImage) {
+            return _DisplayVideo(selectedByte: selectedByte);
+          } else {
+            return SizedBox(
+              width: double.infinity,
+              child: Image.file(selectedByte.selectedFile),
+            );
+          }
+        },
+        itemCount: widget.selectedBytes.length,
+      ),
+    );
+  }
+}
+
+class _DisplayVideo extends StatefulWidget {
+  final SelectedByte selectedByte;
+  const _DisplayVideo({Key? key, required this.selectedByte}) : super(key: key);
+
+  @override
+  State<_DisplayVideo> createState() => _DisplayVideoState();
+}
+
+class _DisplayVideoState extends State<_DisplayVideo> {
+  late VideoPlayerController controller;
+  late Future<void> initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    File file = widget.selectedByte.selectedFile;
+    controller = VideoPlayerController.file(file);
+    initializeVideoPlayerFuture = controller.initialize();
+    controller.setLooping(true);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: initializeVideoPlayerFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              AspectRatio(
+                aspectRatio: controller.value.aspectRatio,
+                child: VideoPlayer(controller),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (controller.value.isPlaying) {
+                        controller.pause();
+                      } else {
+                        controller.play();
+                      }
+                    });
+                  },
+                  child: Icon(
+                    controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                    color: Colors.white,
+                    size: 45,
+                  ),
+                ),
+              )
+            ],
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(strokeWidth: 1),
+          );
+        }
+      },
+    );
+  }
+}

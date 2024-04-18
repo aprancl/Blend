@@ -26,7 +26,6 @@ import 'pages/auth/register.dart';
 import 'pages/posting/platforms.dart';
 import 'pages/posting/caption.dart';
 import 'pages/posting/media.dart';
-import 'package:blend/pages/posting/media_insta.dart';
 import 'pages/posting/overview_post.dart';
 import 'pages/analytics/platform_analytics.dart';
 
@@ -108,10 +107,10 @@ class _MyAppState extends State<MyApp> {
                         PostingPlatformsPage(), //1
                         AnalyticsPage(), //2
                         WorkspaceProfilePage(), //3
-                        PostingCaptionPage(), //4
-                        PostingMediaPage(), //5
-                        PostingOverviewPage(), //6
-                        MultiplePicker(), // 7
+                        PostingMediaPage(), //4
+                        PostingOverviewPage(), //5
+                        PlatformAnalyticsPage(), //6
+                        PlatformAnalyticsPage(), // 7
                         PlatformAnalyticsPage(), // 8
                         // UserProfilePage(),
                       ],

@@ -25,6 +25,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
 class GlobalProvider with ChangeNotifier {
@@ -674,19 +675,7 @@ class GlobalProvider with ChangeNotifier {
   List<File> medias =
       []; // to be used in the futer if we are able to get multiple images working
   var client = http.Client();
-
-  Future selectImage() async {
-    try {
-      final img = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (img != null) {
-        print("Selected image: ${img.path}");
-        selectedMedia = File(img!.path);
-        notifyListeners();
-      }
-    } on Error catch (err) {
-      debugPrint("Failed to find image: $err");
-    }
-  }
+  SelectedImagesDetails? mediaSelection;
 
   postAll() async {
     // loop through selected platforms

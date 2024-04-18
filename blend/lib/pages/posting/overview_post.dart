@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:blend/components/appBars/sequential_app_bar.dart';
-import 'package:blend/components/imageProcessing/image_container.dart';
+import 'package:blend/components/posting/image_container.dart';
 import 'package:blend/models/platformSelection.dart';
 import 'package:blend/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:blend/global_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'media.dart';
+import 'package:expandable_widgets/expandable_widgets.dart';
 
 class PostingOverviewPage extends StatelessWidget {
   @override
@@ -17,15 +18,15 @@ class PostingOverviewPage extends StatelessWidget {
     TextEditingController captionController = TextEditingController();
 
     return Scaffold(
+      // ------------ AppBar ------------
       appBar: SequentialAppBar(
         leftFunction: () {
           print('Going back');
-          provider.goToPage(7);
+          provider.goToPage(4);
         },
         leftIcon: Icons.arrow_back,
         rightFunction: () {
-          print('Going to profile');
-          provider.goToPage(3);
+          print("POSTING");
         },
         rightText: "Post",
       ).build(context),
@@ -35,10 +36,13 @@ class PostingOverviewPage extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Center(
+                // ------------ Main Content ------------
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // ------------ Image Display ------------
                     ImageContainer(provider: provider),
+                    // ------------ Caption ------------
                     TextField(
                       controller: captionController,
                       keyboardType: TextInputType.multiline,
@@ -54,9 +58,11 @@ class PostingOverviewPage extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
+                    // ------------ Platform Fields ------------
                     Center(
                       child: Text("Platform-Specfic Fields"),
                     ),
+                    Expandable(backgroundColor: Colors.red, firstChild: Text("hello"), secondChild: Text("world"),),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 15.0),
                       child: Row(
