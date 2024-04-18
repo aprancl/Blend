@@ -1,5 +1,3 @@
-// hello
-// Flutter
 import 'dart:async';
 import 'dart:typed_data';
 
@@ -742,7 +740,6 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
-  // TODO: it appears that the image is null
   publishWithImagetoLinkedin(String message) async {
     // make the upload request
     print("===Before publishing image===");
@@ -769,14 +766,22 @@ class GlobalProvider with ChangeNotifier {
         "targetEntities": [],
         "thirdPartyDistributionChannels": []
       },
-      "content": {
-        "media": {
-          "altText": "testing for alt tags",
-          "id": selectedMediaURN,
-        }
-      },
       "lifecycleState": "PUBLISHED",
-      "isReshareDisabledByAuthor": false
+      "isReshareDisabledByAuthor": false,
+      "content": {
+        "multiImage": {
+          "images": [ // was images
+            {
+              "id": selectedMediaURN,
+              "altText": "testing for alt tags1",
+            },
+            {
+              "id": selectedMediaURN,
+              "altText": "testing for alt tags2",
+            },
+          ]
+        }
+      }
     });
     request.headers.addAll(headers);
 
