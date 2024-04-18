@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:blend/components/appBars/sequential_app_bar.dart';
+import 'package:blend/components/imageProcessing/image_container.dart';
 import 'package:blend/models/platformSelection.dart';
 import 'package:blend/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,18 @@ class PostingOverviewPage extends StatelessWidget {
     TextEditingController captionController = TextEditingController();
 
     return Scaffold(
+      appBar: SequentialAppBar(
+        leftFunction: () {
+          print('Going back');
+          provider.goToPage(7);
+        },
+        leftIcon: Icons.arrow_back,
+        rightFunction: () {
+          print('Going to profile');
+          provider.goToPage(3);
+        },
+        rightText: "Post",
+      ).build(context),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -24,44 +38,24 @@ class PostingOverviewPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Title(
-                      color: Color(0xFFFFFFFF),
-                      child: Text(
-                        "Review Post",
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      thickness: 3.0,
-                      indent: 12.0,
-                      endIndent: 12.0,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
                     ImageContainer(provider: provider),
-                    SizedBox(height: 25),
-                    Container(
-                      child: TextField(
-                        controller: captionController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 10,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 40, horizontal: 15),
-                          border: OutlineInputBorder(),
-                          labelText: "Add your caption here",
-                          alignLabelWithHint: true,
-                        ),
+                    TextField(
+                      controller: captionController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 3,
+                      decoration: const InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                        labelText: "Add your caption here",
+                        alignLabelWithHint: true,
+                        labelStyle: TextStyle(fontSize: 15.0),
                       ),
                     ),
                     SizedBox(
                       height: 10,
+                    ),
+                    Center(
+                      child: Text("Platform-Specfic Fields"),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 15.0),
