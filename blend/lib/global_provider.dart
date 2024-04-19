@@ -675,6 +675,11 @@ class GlobalProvider with ChangeNotifier {
   var client = http.Client();
   SelectedImagesDetails? mediaSelection;
 
+  updateMediaSelection(SelectedImagesDetails mediaSelection) async {
+    this.mediaSelection = mediaSelection;
+    notifyListeners();
+  }
+
   postAll() async {
     // loop through selected platforms
     for (var platform in selectedPlatforms) {

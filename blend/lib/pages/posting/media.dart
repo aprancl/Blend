@@ -21,22 +21,12 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
     final provider = Provider.of<GlobalProvider>(context);
 
     Future<void> globalizeSelection(SelectedImagesDetails details) async {
-      provider.mediaSelection = details;
+      await provider.updateMediaSelection(details);
+      print("------- GLOBALIZED SELECTION -------");
+      print(provider.mediaSelection!.selectedFiles[0].selectedFile.path);
     }
 
     return Scaffold(
-      appBar: SequentialAppBar(
-        leftFunction: () {
-          print('Going back');
-          provider.goToPage(1);
-        },
-        leftIcon: Icons.arrow_back,
-        rightFunction: () {
-          print('Going to profile');
-          provider.goToPage(5);
-        },
-        rightText: "Next",
-      ).build(context),
       body: Container(
         color: Colors.white,
         child: CustomImagePicker(
@@ -52,6 +42,15 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
             ),
             callbackFunction:(value) => globalizeSelection(value),
           ),
+          leftFunction: () {
+            print('Going back');
+            provider.goToPage(1);
+          },
+          rightFunction: () {
+            print('Going to profile');
+            provider.goToPage(5);
+          },
+          theme: provider.theme,
         ),
       ),
     );
