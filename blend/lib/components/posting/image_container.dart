@@ -33,6 +33,7 @@ class ImageContainer extends StatelessWidget {
                               provider.mediaSelection!.selectedFiles[index],
                         )
                       : Container(
+                          padding: EdgeInsets.symmetric(horizontal: 30.0),
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: List.generate(
