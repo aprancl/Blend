@@ -17,29 +17,33 @@ class ImageContainer extends StatelessWidget {
       // display carousel of images/videos from provider
       return Container(
         height: 400,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width - 50,
         child: Center(
           child: ListView.builder(
             itemBuilder: (context, index) {
               return Container(
-                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+                constraints:
+                    BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 100),
                 child: Center(
-                  child: !provider.mediaSelection!.selectedFiles[index].isThatImage
-                      ? _DisplayVideo(
-                          selectedByte:
-                              provider.mediaSelection!.selectedFiles[index],
-                        )
-                      : Image.file(
-                          provider
-                              .mediaSelection!.selectedFiles[index].selectedFile,
-                              width: MediaQuery.of(context).size.width - 50,
-                        ),
+                  child:
+                      !provider.mediaSelection!.selectedFiles[index].isThatImage
+                          ? _DisplayVideo(
+                              selectedByte:
+                                  provider.mediaSelection!.selectedFiles[index],
+                            )
+                          : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Image.file(
+                                provider.mediaSelection!.selectedFiles[index]
+                                    .selectedFile,
+                                width: MediaQuery.of(context).size.width - 50,
+                              ),
+                          ),
                 ),
               );
             },
             itemCount: provider.mediaSelection!.selectedFiles.length,
             scrollDirection: Axis.horizontal,
-            physics: PageScrollPhysics(),
           ),
         ),
       );

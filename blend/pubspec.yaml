@@ -65,6 +65,10 @@ dependencies:
   expandable_widgets: ^1.0.3+1
   image_picker_plus:
     git: https://github.com/ICAZ117/image_picker_plus.git
+  ffmpeg_kit_flutter: ^6.0.3
+  gal: ^2.3.0
+  # gallery_saver:
+  #   git: https://github.com/ICAZ117/gallery_saver.git
   # image_picker_plus: ^0.5.9
   # image_picker_plus: ^0.5.7
   # image_picker_plus: ^0.5.9

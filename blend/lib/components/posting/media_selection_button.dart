@@ -26,8 +26,12 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
         } else {
           widget.selectedPlatforms.remove(widget.platform);
         }
-        print(List.generate(widget.selectedPlatforms.length,
-            (index) => widget.selectedPlatforms.elementAt(index).name));
+        print(
+          List.generate(
+            widget.selectedPlatforms.length,
+            (index) => widget.selectedPlatforms.elementAt(index).name,
+          ),
+        );
       },
       child: Column(
         children: <Widget>[
@@ -75,9 +79,8 @@ class _MediaSelectionButtonState extends State<MediaSelectionButton> {
               title: Text(
                 widget.platform.name,
                 style: TextStyle(
-                  color: _isTapped ? Colors.white : Colors.white,
-                  fontWeight: FontWeight.bold
-                ),
+                    color: _isTapped ? Colors.white : Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),
