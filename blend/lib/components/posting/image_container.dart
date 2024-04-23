@@ -4,6 +4,7 @@ import 'package:blend/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker_plus/image_picker_plus.dart';
+import 'package:card_swiper/card_swiper.dart';
 
 class ImageContainer extends StatelessWidget {
   const ImageContainer({Key? key, required this.provider}) : super(key: key);
@@ -22,17 +23,27 @@ class ImageContainer extends StatelessWidget {
           child: ListView.builder(
             itemBuilder: (context, index) {
               return Container(
-                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+                constraints:
+                    BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
                 child: Center(
-                  child: !provider.mediaSelection!.selectedFiles[index].isThatImage
+                  child: !provider
+                          .mediaSelection!.selectedFiles[index].isThatImage
                       ? _DisplayVideo(
                           selectedByte:
                               provider.mediaSelection!.selectedFiles[index],
                         )
-                      : Image.file(
-                          provider
-                              .mediaSelection!.selectedFiles[index].selectedFile,
-                              width: MediaQuery.of(context).size.width - 50,
+                      : Container(
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: List.generate(
+                              provider.mediaSelection!.selectedFiles.length,
+                              (idx) => Image.file(
+                                provider.mediaSelection!.selectedFiles[idx]
+                                    .selectedFile,
+                                width: MediaQuery.of(context).size.width - 50,
+                              ),
+                            ),
+                          ),
                         ),
                 ),
               );

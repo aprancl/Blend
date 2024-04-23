@@ -65,6 +65,7 @@ dependencies:
   expandable_widgets: ^1.0.3+1
   image_picker_plus:
     git: https://github.com/ICAZ117/image_picker_plus.git
+  card_swiper: ^3.0.1
   # image_picker_plus: ^0.5.9
   # image_picker_plus: ^0.5.7
   # image_picker_plus: ^0.5.9
