@@ -9,11 +9,38 @@ import 'package:blend/models/blendWorkspace.dart';
 import 'package:blend/models/platformSelection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
+import 'package:ffmpeg_kit_flutter/abstract_session.dart';
+import 'package:ffmpeg_kit_flutter/arch_detect.dart';
+import 'package:ffmpeg_kit_flutter/chapter.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_session_complete_callback.dart';
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter/ffprobe_session.dart';
+import 'package:ffmpeg_kit_flutter/ffprobe_session_complete_callback.dart';
+import 'package:ffmpeg_kit_flutter/level.dart';
+import 'package:ffmpeg_kit_flutter/log.dart';
+import 'package:ffmpeg_kit_flutter/log_callback.dart';
+import 'package:ffmpeg_kit_flutter/log_redirection_strategy.dart';
+import 'package:ffmpeg_kit_flutter/media_information.dart';
+import 'package:ffmpeg_kit_flutter/media_information_json_parser.dart';
+import 'package:ffmpeg_kit_flutter/media_information_session.dart';
+import 'package:ffmpeg_kit_flutter/media_information_session_complete_callback.dart';
+import 'package:ffmpeg_kit_flutter/packages.dart';
+import 'package:ffmpeg_kit_flutter/return_code.dart';
+import 'package:ffmpeg_kit_flutter/session.dart';
+import 'package:ffmpeg_kit_flutter/session_state.dart';
+import 'package:ffmpeg_kit_flutter/signal.dart';
+import 'package:ffmpeg_kit_flutter/statistics.dart';
+import 'package:ffmpeg_kit_flutter/statistics_callback.dart';
+import 'package:ffmpeg_kit_flutter/stream_information.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gal/gal.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/youtube/v3.dart';
 import 'package:image_picker/image_picker.dart';
@@ -666,6 +693,8 @@ class GlobalProvider with ChangeNotifier {
   Set<PlatformSelection> selectedPlatforms = {};
   var postCaption = "";
   var defaultImagePath = "images/lime.png";
+  File? selectedMedia;
+  File? compositeVideo;
   bool hasSelectedMedia =
       false; // i know its cheesy, but having issues checking if selectedMedia is null
   String selectedMediaURN = "";
@@ -692,7 +721,7 @@ class GlobalProvider with ChangeNotifier {
           break;
         case "LinkedIn":
           // publishWithImagetoLinkedin(postCaption);
-          if (true) {
+          if (hasSelectedMedia) {
             publishWithImagetoLinkedin(postCaption);
           } else {
             publishToLinkedin(postCaption);
@@ -710,6 +739,12 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
+//  ██      ██ ███    ██ ██   ██ ███████ ██████  ██ ███    ██
+//  ██      ██ ████   ██ ██  ██  ██      ██   ██ ██ ████   ██
+//  ██      ██ ██ ██  ██ █████   █████   ██   ██ ██ ██ ██  ██
+//  ██      ██ ██  ██ ██ ██  ██  ██      ██   ██ ██ ██  ██ ██
+//  ███████ ██ ██   ████ ██   ██ ███████ ██████  ██ ██   ████
+
   publishToLinkedin(String message) async {
     var headers = {
       'LinkedIn-Version': '202401',
@@ -718,7 +753,7 @@ class GlobalProvider with ChangeNotifier {
       'Cookie':
           'lidc="b=TB55:s=T:r=T:a=T:p=T:g=4081:u=27:x=1:i=1711720982:t=1711778521:v=2:sig=AQFHk_EgohwHNH45-qiIvk5hjzAGOcNk"; bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"; lidc="b=VB35:s=V:r=V:a=V:p=V:g=3852:u=1:x=1:i=1711719625:t=1711806025:v=2:sig=AQGWDQb4TuZLTDClebTViudjfQju-mSx"'
     };
-    var userId = await getUserId();
+    var userId = await getLinkedInUserId();
     var request =
         http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
     request.body = json.encode({
@@ -750,7 +785,7 @@ class GlobalProvider with ChangeNotifier {
     await uploadImageToLinkedIn();
     print("===After publishing image===");
 
-    var userId = await getUserId();
+    var userId = await getLinkedInUserId();
     // make post to linkedin with the posted image
     var headers = {
       'X-Restli-Protocol-Version': '2.0.0',
@@ -759,29 +794,6 @@ class GlobalProvider with ChangeNotifier {
       'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
       'Cookie': 'bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
     };
-
-    var postContent = (true)
-        ? {
-            "media": {
-              "altText": "testing for alt tags",
-              "id": selectedMediaURN,
-            }
-          }
-        : {
-            "multiImage": {
-              "images": [
-                // was images
-                {
-                  "id": selectedMediaURN,
-                  "altText": "testing for alt tags1",
-                },
-                {
-                  "id": selectedMediaURN,
-                  "altText": "testing for alt tags2",
-                },
-              ]
-            }
-          };
     var request =
         http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
     request.body = json.encode({
@@ -795,7 +807,21 @@ class GlobalProvider with ChangeNotifier {
       },
       "lifecycleState": "PUBLISHED",
       "isReshareDisabledByAuthor": false,
-      "content": postContent
+      "content": {
+        "multiImage": {
+          "images": [
+            // was images
+            {
+              "id": selectedMediaURN,
+              "altText": "testing for alt tags1",
+            },
+            {
+              "id": selectedMediaURN,
+              "altText": "testing for alt tags2",
+            },
+          ]
+        }
+      }
     });
     request.headers.addAll(headers);
 
@@ -813,7 +839,7 @@ class GlobalProvider with ChangeNotifier {
     String imageURN = "";
 
     // make the upload request
-    var userId = await getUserId();
+    var userId = await getLinkedInUserId();
 
     var headers = {
       'X-Restli-Protocol-Version': '2.0.0',
@@ -853,8 +879,7 @@ class GlobalProvider with ChangeNotifier {
     }
 
     // upload the literal image after making the request
-    List<int> imageBytes =
-        await mediaSelection!.selectedFiles[0].selectedFile.readAsBytes();
+    List<int> imageBytes = await medias[0].readAsBytes();
 
     // Prepare request headers
     Map<String, String> uploadHeaders = {
@@ -886,7 +911,61 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
+  Future<dynamic> getLinkedInUserInfo() async {
+    // var url = Uri.parse(uri);
+    // var headers = {
+    //   'Authorization': 'Bearer sfie328370428387=',
+    //   'api_key': 'ief873fj38uf38uf83u839898989',
+    // };
+
+    String endpoint =
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+
+    var uri = Uri.parse(endpoint);
+
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      String id = jsonResponse['id'];
+      return id;
+    } else {
+      //throw exception and catch it in UI
+      print("ERROR_NO_USER_ID");
+    }
+  }
+
+  Future<dynamic> getLinkedInUserId() async {
+    // var url = Uri.parse(uri);
+    // var headers = {
+    //   'Authorization': 'Bearer sfie328370428387=',
+    //   'api_key': 'ief873fj38uf38uf83u839898989',
+    // };
+
+    String endpoint =
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+
+    var uri = Uri.parse(endpoint);
+
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      String id = jsonResponse['id'];
+      return id;
+    } else {
+      //throw exception and catch it in UI
+      print("ERROR_NO_USER_ID");
+    }
+  }
+
+//  ██    ██  ██████  ██    ██ ████████ ██    ██ ██████  ███████
+//   ██  ██  ██    ██ ██    ██    ██    ██    ██ ██   ██ ██
+//    ████   ██    ██ ██    ██    ██    ██    ██ ██████  █████
+//     ██    ██    ██ ██    ██    ██    ██    ██ ██   ██ ██
+//     ██     ██████   ██████     ██     ██████  ██████  ███████
+
+  /// Method to obtain the YouTube API object with the necessary permissions
   Future<YouTubeApi> getYoutubeApi() async {
+    // Ensure user is signed in with Google
     final GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: <String>[
         YouTubeApi.youtubeReadonlyScope,
@@ -895,7 +974,7 @@ class GlobalProvider with ChangeNotifier {
     );
     await googleSignIn.signIn();
 
-    // final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    // Get permission from user to access YouTube
     var httpClient = await googleSignIn.authenticatedClient();
     if (httpClient == null) {
       print("You didn't allow to proceed with YouTube access");
@@ -953,7 +1032,8 @@ class GlobalProvider with ChangeNotifier {
     var youTubeApi = await getYoutubeApi();
 
     // get the file from assets/vid.mp4
-    File f = await copyVideoToLocal('assets/vid.mp4', 'vid.mp4');
+    SelectedByte? composite = await generateCompositeVideo();
+    File f = composite!.selectedFile;
 
     // check if file exists
 
@@ -974,56 +1054,149 @@ class GlobalProvider with ChangeNotifier {
     );
   }
 
-  Future<dynamic> getUserInfo() async {
-    // var url = Uri.parse(uri);
-    // var headers = {
-    //   'Authorization': 'Bearer sfie328370428387=',
-    //   'api_key': 'ief873fj38uf38uf83u839898989',
-    // };
+  Future<SelectedByte?> generateCompositeVideo() async {
+    // Get the first media file from the mediaSelection
+    final firstMedia = mediaSelection!.selectedFiles[0];
 
-    String endpoint =
-        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+    SelectedByte? compositeVideo;
 
-    var uri = Uri.parse(endpoint);
-
-    var response = await client.get(uri);
-    if (response.statusCode == 200) {
-      var jsonResponse = json.decode(response.body);
-      String id = jsonResponse['id'];
-      return id;
+    // Check if the media is an image
+    if (firstMedia.isThatImage) {
+      // Create a video from the image
+      compositeVideo = await createVideoFromImages([firstMedia.selectedByte]);
     } else {
-      //throw exception and catch it in UI
-      print("ERROR_NO_USER_ID");
+      compositeVideo = firstMedia;
     }
+
+    if (compositeVideo == null) {
+      print("-------------------------->>>>>>>>> SUM TIN WONG");
+    }
+
+    // Loop through the remaining media files
+    for (int i = 1; i < mediaSelection!.selectedFiles.length; i++) {
+      final media = mediaSelection!.selectedFiles[i];
+
+      // Check if the media is an image
+      if (media.isThatImage) {
+        // Create a video from the image
+        final video = await createVideoFromImages([media.selectedByte]);
+
+        // Check if the video was successfully created
+        if (video != null) {
+          // Merge the video with the composite video
+          compositeVideo = await mergeRecordWithIntro(
+            compositeVideo!.selectedFile.path,
+            video.selectedFile.path,
+          );
+        }
+      } else {
+        // Merge the video with the composite video
+        compositeVideo = await mergeRecordWithIntro(
+          compositeVideo!.selectedFile.path,
+          media.selectedFile.path,
+        );
+      }
+    }
+
+    return compositeVideo;
+  }
+
+  Future<SelectedByte?> createVideoFromImages(List<Uint8List> images) async {
+    // Initialize video save location
+    final tempDir = await getTemporaryDirectory();
+    final videoPath =
+        '${tempDir.path}/output_${DateTime.now().millisecondsSinceEpoch}.mp4';
+
+    final imagePaths = <String>[];
+
+    // Concatenate the images into a single memory location
+    for (int i = 0; i < images.length; i++) {
+      final extension =
+          images[i][0] == 0xFF && images[i][1] == 0xD8 ? 'jpg' : 'png';
+      final imagePath = '${tempDir.path}/image$i.$extension';
+      await File(imagePath).writeAsBytes(images[i]);
+      imagePaths.add(imagePath);
+    }
+
+    // Determine the total number of frames for each image to last three seconds
+    final totalFrames = 8 * 3; // 8 fps * 3 seconds
+
+    // Construct a list of input image files
+    final inputImageFiles = '${tempDir.path}/image%d.*';
+
+    // Configure the ffmpeg command
+    final ffmpegCommand = [
+      '-framerate',
+      '8',
+      '-pattern_type',
+      'glob',
+      '-i',
+      inputImageFiles,
+      '-c:v',
+      'libx264',
+      '-pix_fmt',
+      'yuv420p',
+      '-r',
+      '8', // Output frame rate (fps)
+      '-t',
+      '${totalFrames ~/ 8}', // Total duration of each image in seconds
+      videoPath,
+    ];
+
+    // Execute the ffmpeg command to convert the memory location into an mp4 file
+    final session = await FFmpegKit.executeWithArguments(ffmpegCommand);
+
+    // Check if the video was successfully created
+    final logs = await session.getLogs();
+    for (final log in logs) {
+      print(log.getMessage());
+    }
+
+    // Return the newly created file, or null if there was an error
+    if (ReturnCode.isSuccess(await session.getReturnCode())) {
+      await Gal.putVideo(videoPath);
+      print("Composite Video Saved to Gallery");
+      return SelectedByte(
+        isThatImage: false,
+        selectedByte: await File(videoPath).readAsBytes(),
+        selectedFile: File(videoPath),
+      );
+    } else {
+      print('Error: Video creation failed');
+      return null;
+    }
+  }
+
+  Future<SelectedByte?> mergeRecordWithIntro(
+      String outputPath, String videoPath) async {
+    print("MergeVideoLoading");
+    const filter =
+        " [0:v]scale=480:640,setsar=1[l];[1:v]scale=480:640,setsar=1[r];[l][r]hstack;[0][1]amix -vsync 0 ";
+
+    await FFmpegKit.execute(
+            '-y -i $videoPath -i $videoPath -filter_complex $filter $outputPath')
+        .then((value) async {
+      final returnCode = await value.getReturnCode();
+
+      if (ReturnCode.isSuccess(returnCode)) {
+        Gal.putVideo(outputPath);
+        print("MergeVideoSucces");
+        return SelectedByte(
+          isThatImage: false,
+          selectedByte: await File(outputPath).readAsBytes(),
+          selectedFile: File(outputPath),
+        );
+      } else if (ReturnCode.isCancel(returnCode)) {
+        print('MergeVideoError');
+        return null;
+      }
+    });
   }
 
   @override
   void dispose() {
     _authStateChanges.cancel();
     super.dispose();
-  }
-
-  Future<dynamic> getUserId() async {
-    // var url = Uri.parse(uri);
-    // var headers = {
-    //   'Authorization': 'Bearer sfie328370428387=',
-    //   'api_key': 'ief873fj38uf38uf83u839898989',
-    // };
-
-    String endpoint =
-        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
-
-    var uri = Uri.parse(endpoint);
-
-    var response = await client.get(uri);
-    if (response.statusCode == 200) {
-      var jsonResponse = json.decode(response.body);
-      String id = jsonResponse['id'];
-      return id;
-    } else {
-      //throw exception and catch it in UI
-      print("ERROR_NO_USER_ID");
-    }
   }
 }
 

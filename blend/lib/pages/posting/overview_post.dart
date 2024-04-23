@@ -37,7 +37,6 @@ class _PostingOverviewPageState extends State<PostingOverviewPage> {
 
           provider.postAll();
 
-          print(provider.mediaSelection!.selectedFiles);
           print("Content Posted!");
           provider.hasSelectedMedia = false;
           provider.goToPage(1);

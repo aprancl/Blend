@@ -4,7 +4,6 @@ import 'package:blend/global_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker_plus/image_picker_plus.dart';
-import 'package:card_swiper/card_swiper.dart';
 
 class ImageContainer extends StatelessWidget {
   const ImageContainer({Key? key, required this.provider}) : super(key: key);
@@ -18,40 +17,33 @@ class ImageContainer extends StatelessWidget {
       // display carousel of images/videos from provider
       return Container(
         height: 400,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width - 50,
         child: Center(
           child: ListView.builder(
             itemBuilder: (context, index) {
               return Container(
                 constraints:
-                    BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+                    BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 100),
                 child: Center(
-                  child: !provider
-                          .mediaSelection!.selectedFiles[index].isThatImage
-                      ? _DisplayVideo(
-                          selectedByte:
-                              provider.mediaSelection!.selectedFiles[index],
-                        )
-                      : Container(
-                          padding: EdgeInsets.symmetric(horizontal: 30.0),
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: List.generate(
-                              provider.mediaSelection!.selectedFiles.length,
-                              (idx) => Image.file(
-                                provider.mediaSelection!.selectedFiles[idx]
+                  child:
+                      !provider.mediaSelection!.selectedFiles[index].isThatImage
+                          ? _DisplayVideo(
+                              selectedByte:
+                                  provider.mediaSelection!.selectedFiles[index],
+                            )
+                          : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Image.file(
+                                provider.mediaSelection!.selectedFiles[index]
                                     .selectedFile,
                                 width: MediaQuery.of(context).size.width - 50,
                               ),
-                            ),
                           ),
-                        ),
                 ),
               );
             },
             itemCount: provider.mediaSelection!.selectedFiles.length,
             scrollDirection: Axis.horizontal,
-            physics: PageScrollPhysics(),
           ),
         ),
       );
