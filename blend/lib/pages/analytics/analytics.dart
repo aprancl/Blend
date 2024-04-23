@@ -80,35 +80,36 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                             height: 30,
                           ),
                           Container(
-                              height: 100.0,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "\u2022 Instagram",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "\u2022 Youtube",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "\u2022 TikTok",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "\u2022 SnapChat",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ))
+                            height: 100.0,
+                            child: Column(
+                              children: [
+                                Text(
+                                  "\u2022 Instagram",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "\u2022 Youtube",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "\u2022 TikTok",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "\u2022 SnapChat",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       )
                     ],

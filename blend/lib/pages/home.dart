@@ -85,7 +85,8 @@ class _HomePageState extends State<HomePage> {
                             dataMap: dataMap,
                             chartLegendSpacing: 20,
                             chartType: pie.ChartType.ring,
-                            chartRadius: MediaQuery.of(context).size.width / 2.5,
+                            chartRadius:
+                                MediaQuery.of(context).size.width / 2.5,
                             legendOptions: pie.LegendOptions(
                               showLegends: false,
                               showLegendsInRow: true,
@@ -107,12 +108,38 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               SizedBox(
-                                height: 30,
+                                height: 20,
                               ),
                               Container(
                                 height: 100.0,
-                                color: Colors.grey,
-                                child: Text("Place holder"),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "\u2022 Instagram",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "\u2022 Youtube",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "\u2022 TikTok",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "\u2022 SnapChat",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           )
@@ -166,12 +193,13 @@ class _HomePageState extends State<HomePage> {
                         height: 20,
                       ),
                       SkewBox(
-                  topColor: cssToColor(provider.blendCard.topColor!),
-                  bottomColor: cssToColor(provider.blendCard.bottomColor!),
-                  height: (MediaQuery.of(context).size.width / 16) * 9,
-                  width: MediaQuery.of(context).size.width,
-                  image: provider.blendCard.background!,
-                ),
+                        topColor: cssToColor(provider.blendCard.topColor!),
+                        bottomColor:
+                            cssToColor(provider.blendCard.bottomColor!),
+                        height: (MediaQuery.of(context).size.width / 16) * 9,
+                        width: MediaQuery.of(context).size.width,
+                        image: provider.blendCard.background!,
+                      ),
                     ],
                   ),
                 ),

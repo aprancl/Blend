@@ -666,7 +666,6 @@ class GlobalProvider with ChangeNotifier {
   Set<PlatformSelection> selectedPlatforms = {};
   var postCaption = "";
   var defaultImagePath = "images/lime.png";
-  File? selectedMedia;
   bool hasSelectedMedia =
       false; // i know its cheesy, but having issues checking if selectedMedia is null
   String selectedMediaURN = "";
