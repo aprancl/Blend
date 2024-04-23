@@ -693,7 +693,7 @@ class GlobalProvider with ChangeNotifier {
           break;
         case "LinkedIn":
           // publishWithImagetoLinkedin(postCaption);
-          if (hasSelectedMedia) {
+          if (true) {
             publishWithImagetoLinkedin(postCaption);
           } else {
             publishToLinkedin(postCaption);
@@ -760,6 +760,29 @@ class GlobalProvider with ChangeNotifier {
       'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
       'Cookie': 'bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
     };
+
+    var postContent = (true)
+        ? {
+            "media": {
+              "altText": "testing for alt tags",
+              "id": selectedMediaURN,
+            }
+          }
+        : {
+            "multiImage": {
+              "images": [
+                // was images
+                {
+                  "id": selectedMediaURN,
+                  "altText": "testing for alt tags1",
+                },
+                {
+                  "id": selectedMediaURN,
+                  "altText": "testing for alt tags2",
+                },
+              ]
+            }
+          };
     var request =
         http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
     request.body = json.encode({
@@ -773,20 +796,7 @@ class GlobalProvider with ChangeNotifier {
       },
       "lifecycleState": "PUBLISHED",
       "isReshareDisabledByAuthor": false,
-      "content": {
-        "multiImage": {
-          "images": [ // was images
-            {
-              "id": selectedMediaURN,
-              "altText": "testing for alt tags1",
-            },
-            {
-              "id": selectedMediaURN,
-              "altText": "testing for alt tags2",
-            },
-          ]
-        }
-      }
+      "content": postContent
     });
     request.headers.addAll(headers);
 
@@ -844,7 +854,8 @@ class GlobalProvider with ChangeNotifier {
     }
 
     // upload the literal image after making the request
-    List<int> imageBytes = await medias[0].readAsBytes();
+    List<int> imageBytes =
+        await mediaSelection!.selectedFiles[0].selectedFile.readAsBytes();
 
     // Prepare request headers
     Map<String, String> uploadHeaders = {

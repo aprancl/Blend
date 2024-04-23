@@ -37,6 +37,7 @@ class _PostingOverviewPageState extends State<PostingOverviewPage> {
 
           provider.postAll();
 
+          print(provider.mediaSelection!.selectedFiles);
           print("Content Posted!");
           provider.hasSelectedMedia = false;
           provider.goToPage(1);
@@ -67,8 +68,8 @@ class _PostingOverviewPageState extends State<PostingOverviewPage> {
                           keyboardType: TextInputType.multiline,
                           maxLines: 3,
                           decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 0),
                             labelText: "Add your caption here",
                             alignLabelWithHint: true,
                             labelStyle: TextStyle(fontSize: 15.0),
