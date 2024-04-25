@@ -693,7 +693,6 @@ class GlobalProvider with ChangeNotifier {
   Set<PlatformSelection> selectedPlatforms = {};
   var postCaption = "";
   var defaultImagePath = "images/lime.png";
-  File? selectedMedia;
   File? compositeVideo;
   bool hasSelectedMedia =
       false; // i know its cheesy, but having issues checking if selectedMedia is null
@@ -785,7 +784,7 @@ class GlobalProvider with ChangeNotifier {
     await uploadImageToLinkedIn();
     print("===After publishing image===");
 
-    var userId = await getLinkedInUserId();
+    var userId = await getUserId();
     // make post to linkedin with the posted image
     var headers = {
       'X-Restli-Protocol-Version': '2.0.0',
@@ -794,6 +793,29 @@ class GlobalProvider with ChangeNotifier {
       'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
       'Cookie': 'bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
     };
+
+    var postContent = (true)
+        ? {
+            "media": {
+              "altText": "testing for alt tags",
+              "id": selectedMediaURN,
+            }
+          }
+        : {
+            "multiImage": {
+              "images": [
+                // was images
+                {
+                  "id": selectedMediaURN,
+                  "altText": "testing for alt tags1",
+                },
+                {
+                  "id": selectedMediaURN,
+                  "altText": "testing for alt tags2",
+                },
+              ]
+            }
+          };
     var request =
         http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
     request.body = json.encode({
@@ -807,21 +829,7 @@ class GlobalProvider with ChangeNotifier {
       },
       "lifecycleState": "PUBLISHED",
       "isReshareDisabledByAuthor": false,
-      "content": {
-        "multiImage": {
-          "images": [
-            // was images
-            {
-              "id": selectedMediaURN,
-              "altText": "testing for alt tags1",
-            },
-            {
-              "id": selectedMediaURN,
-              "altText": "testing for alt tags2",
-            },
-          ]
-        }
-      }
+      "content": postContent
     });
     request.headers.addAll(headers);
 
@@ -956,6 +964,30 @@ class GlobalProvider with ChangeNotifier {
       print("ERROR_NO_USER_ID");
     }
   }
+Future<dynamic> getUserId() async {
+    // var url = Uri.parse(uri);
+    // var headers = {
+    //   'Authorization': 'Bearer sfie328370428387=',
+    //   'api_key': 'ief873fj38uf38uf83u839898989',
+    // };
+
+    String endpoint =
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
+
+    var uri = Uri.parse(endpoint);
+
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      String id = jsonResponse['id'];
+      return id;
+    } else {
+      //throw exception and catch it in UI
+      print("ERROR_NO_USER_ID");
+    }
+  }
+}
+
 
 //  ██    ██  ██████  ██    ██ ████████ ██    ██ ██████  ███████
 //   ██  ██  ██    ██ ██    ██    ██    ██    ██ ██   ██ ██
