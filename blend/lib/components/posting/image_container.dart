@@ -48,11 +48,8 @@ class ImageContainer extends StatelessWidget {
         ),
       );
     } else {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Image.asset(
-          provider.defaultImagePath,
-        ),
+      return Center(
+        child: Text('No media selected')
       ); // You can replace this with any fallback widget or null widget.
     }
   }
