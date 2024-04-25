@@ -40,7 +40,7 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
               primaryColor: provider.theme.colorScheme.background,
               focusColor: Colors.white,
             ),
-            callbackFunction:(value) => globalizeSelection(value),
+            callbackFunction: (value) => globalizeSelection(value),
           ),
           leftFunction: () {
             print('Going back');
@@ -56,12 +56,8 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
     );
   }
 
-
-
   // EVERYTHING BELOW THIS POINT IS FOR EXAMPLE ONLY. NONE OF IT IS ACTUALLY USED.
   // Anthony, if you see this, the below content may be useful for accessing the selected media.
-
-
 
   ElevatedButton preview3(BuildContext context) {
     return ElevatedButton(
@@ -70,8 +66,10 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
         SelectedImagesDetails? details = await picker.pickBoth(
           source: ImageSource.both,
           multiSelection: true,
-          galleryDisplaySettings:
-                GalleryDisplaySettings(cropImage: true, showImagePreview: true, ),
+          galleryDisplaySettings: GalleryDisplaySettings(
+            cropImage: true,
+            showImagePreview: true,
+          ),
         );
         if (details != null) await displayDetails(details);
       },

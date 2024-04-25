@@ -784,7 +784,7 @@ class GlobalProvider with ChangeNotifier {
     await uploadImageToLinkedIn();
     print("===After publishing image===");
 
-    var userId = await getLinkedInUserId();
+    var userId = await getUserId();
     // make post to linkedin with the posted image
     var headers = {
       'X-Restli-Protocol-Version': '2.0.0',
@@ -793,6 +793,29 @@ class GlobalProvider with ChangeNotifier {
       'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
       'Cookie': 'bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
     };
+
+    var postContent = (true)
+        ? {
+            "media": {
+              "altText": "testing for alt tags",
+              "id": selectedMediaURN,
+            }
+          }
+        : {
+            "multiImage": {
+              "images": [
+                // was images
+                {
+                  "id": selectedMediaURN,
+                  "altText": "testing for alt tags1",
+                },
+                {
+                  "id": selectedMediaURN,
+                  "altText": "testing for alt tags2",
+                },
+              ]
+            }
+          };
     var request =
         http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
     request.body = json.encode({
@@ -806,21 +829,7 @@ class GlobalProvider with ChangeNotifier {
       },
       "lifecycleState": "PUBLISHED",
       "isReshareDisabledByAuthor": false,
-      "content": {
-        "multiImage": {
-          "images": [
-            // was images
-            {
-              "id": selectedMediaURN,
-              "altText": "testing for alt tags1",
-            },
-            {
-              "id": selectedMediaURN,
-              "altText": "testing for alt tags2",
-            },
-          ]
-        }
-      }
+      "content": postContent
     });
     request.headers.addAll(headers);
 
