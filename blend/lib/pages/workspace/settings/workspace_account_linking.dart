@@ -8,7 +8,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 // ^ Webview will be on this page for now, I have a feeling
 // that we will need to move this page to another page in the future but for now having it here should work
 
-
 class WorkspaceAccountLinkingPage extends StatefulWidget {
   const WorkspaceAccountLinkingPage({super.key});
   @override
@@ -61,22 +60,42 @@ class _WorkspaceAccountLinkingPageState
             children: [
               Text("Facebook: "),
               ElevatedButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewContainer()));
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WebViewContainer()));
                   // Unsure if the line above works, should send the user to the web_view_container page
                   // _loginWithFacebook();
                 },
                 child: Text('Login with Facebook'),
               ),
-              SizedBox(height: 20),
               // Sign out button
               ElevatedButton(
                 onPressed: _signOut,
                 child: Text('Sign Out of Facebook'),
               ),
               SizedBox(height: 20),
-              Text('Access Token: $_accessToken',
-                  style: TextStyle(color: Colors.white)),
+              // Text('Access Token: $_accessToken',
+              //     style: TextStyle(color: Colors.white)),
+              Text("LinkedIn: "),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WebViewContainer()));
+                },
+                child: Text('Login with LinkedIn'),
+              ),
+              // Sign out button
+              ElevatedButton(
+                onPressed: _signOut,
+                child: Text('Sign Out of LinkedIn'),
+              ),
+              SizedBox(height: 20),
+              // Text('Access Token: $_accessToken',
+              //     style: TextStyle(color: Colors.white)),
             ],
           ),
         ),
