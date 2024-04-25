@@ -964,7 +964,8 @@ class GlobalProvider with ChangeNotifier {
       print("ERROR_NO_USER_ID");
     }
   }
-Future<dynamic> getUserId() async {
+
+  Future<dynamic> getUserId() async {
     // var url = Uri.parse(uri);
     // var headers = {
     //   'Authorization': 'Bearer sfie328370428387=',
@@ -986,8 +987,6 @@ Future<dynamic> getUserId() async {
       print("ERROR_NO_USER_ID");
     }
   }
-}
-
 
 //  ██    ██  ██████  ██    ██ ████████ ██    ██ ██████  ███████
 //   ██  ██  ██    ██ ██    ██    ██    ██    ██ ██   ██ ██
@@ -1203,7 +1202,7 @@ Future<dynamic> getUserId() async {
     });
   }
 
-  @override
+  // @override
   void dispose() {
     _authStateChanges.cancel();
     super.dispose();
