@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import "package:blend/global_provider.dart";
+import "package:provider/provider.dart";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WebViewContainer extends StatelessWidget {
   // Initialize webview controller
@@ -10,14 +13,18 @@ class WebViewContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("WebView Container"),
         actions: [
           IconButton(
-              onPressed: () {
-                print(controller.currentUrl().toString());
-                // print(Uri.parse(controller.currentUrl().toString()));
+              onPressed: () async {
+                String? curURL = await controller.currentUrl();
+                String? finalCode = Uri.parse(curURL!).queryParameters['code'];
+                print(finalCode);
+                dotenv.env['linkedin_api_token'] = finalCode!;
+                Navigator.pop(context);
               },
               icon: Icon(Icons.refresh))
         ],
