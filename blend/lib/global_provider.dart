@@ -964,28 +964,30 @@ class GlobalProvider with ChangeNotifier {
       print("ERROR_NO_USER_ID");
     }
   }
+Future<dynamic> getUserId() async {
+    // var url = Uri.parse(uri);
+    // var headers = {
+    //   'Authorization': 'Bearer sfie328370428387=',
+    //   'api_key': 'ief873fj38uf38uf83u839898989',
+    // };
 
-  // Future<File> linkedinOath() async {
-  //   var headers = {
-  //     'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
-  //     'Cookie':
-  //         'bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"; lang=v=2&lang=en-us; lidc="b=TGST09:s=T:r=T:a=T:p=T:g=2757:u=1:x=1:i=1713890424:t=1713976824:v=2:sig=AQHKRb0hY34vz8K2jBV_sbK66FyewNvT"; JSESSIONID=ajax:8407610734452186711; PLAY_SESSION=eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7ImZsb3dUcmFja2luZ0lkIjoiUnRvdmI1bDhUQXk3MjZUd3I0d1pKdz09In0sIm5iZiI6MTcxMzg5MDQyNCwiaWF0IjoxNzEzODkwNDI0fQ.RwPMxzpfsFbdEDQd0ty_CrdWP4v77UWKtMCZSq9Ncjs; bscookie="v=1&202403211909044ff30c9c-0d5d-40bf-829b-ee1e45e2ac5fAQHjIetCDv68VvUssAsVO9XPoJ0_QtNt"'
-  //   };
-  //   var request = http.Request(
-  //       'GET',
-  //       Uri.parse(
-  //           'https://www.linkedin.com/oauth/v2/authorization?client_id=78c38fpusmxngt&redirect_uri=https://www.google.com/&response_type=code&scope=w_member_social&client_secret=TtVyJAm4sOoI4KKM'));
+    String endpoint =
+        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
 
-  //   request.headers.addAll(headers);
+    var uri = Uri.parse(endpoint);
 
-  //   http.StreamedResponse response = await request.send();
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      String id = jsonResponse['id'];
+      return id;
+    } else {
+      //throw exception and catch it in UI
+      print("ERROR_NO_USER_ID");
+    }
+  }
+}
 
-  //   if (response.statusCode == 200) {
-  //     print(await response.stream.bytesToString());
-  //   } else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
 
 //  ██    ██  ██████  ██    ██ ████████ ██    ██ ██████  ███████
 //   ██  ██  ██    ██ ██    ██    ██    ██    ██ ██   ██ ██
