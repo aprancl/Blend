@@ -719,7 +719,6 @@ class GlobalProvider with ChangeNotifier {
           publishToYoutube();
           break;
         case "LinkedIn":
-          // publishWithImagetoLinkedin(postCaption);
           if (hasSelectedMedia) {
             publishWithImagetoLinkedin(postCaption);
           } else {
@@ -736,6 +735,7 @@ class GlobalProvider with ChangeNotifier {
           break;
       }
     }
+    selectedPlatforms.clear();
   }
 
 //  ██      ██ ███    ██ ██   ██ ███████ ██████  ██ ███    ██
