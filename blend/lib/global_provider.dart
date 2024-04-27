@@ -778,9 +778,24 @@ class GlobalProvider with ChangeNotifier {
 
   publishWithImagetoLinkedin(String message) async {
     // make the upload request
-    print("===Before publishing image===");
-    await uploadImageToLinkedIn(0);
-    print("===After publishing image===");
+
+    // first get all the images to post
+    List<File> images = [];
+    for (var i = 0; i < mediaSelection!.selectedFiles.length; i++) {
+      // filter out any videos
+      SelectedByte media = mediaSelection!.selectedFiles[i];
+      if (media.isThatImage) {
+        images.add(media.selectedFile);
+      }
+    }
+
+    // make requests and get image URNs for all images
+    mediaSelectionURNs = []; // clear any leftover URNs
+    print("===Before Publishing All Images===");
+    for (var i = 0; i < images.length; i++) {
+      await uploadImageToLinkedIn(images[i]);
+    }
+    print("===After Publishing All Images===");
 
     var userId = await getLinkedInUserId();
     // make post to linkedin with the posted image
@@ -792,28 +807,28 @@ class GlobalProvider with ChangeNotifier {
       'Cookie': 'bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
     };
 
-    var postContent = (mediaSelection!.selectedFiles.length == 1)
-        ? {
-            "media": {
-              "altText": "testing for alt tags",
-              "id": mediaSelectionURNs[0],
-            }
-          }
-        : {
-            "multiImage": {
-              "images": [
-                // was images
-                {
-                  "id": mediaSelectionURNs[0],
-                  "altText": "testing for alt tags1",
-                },
-                {
-                  "id": mediaSelectionURNs[0],
-                  "altText": "testing for alt tags2",
-                },
-              ]
-            }
-          };
+    Map<String, dynamic> postContent = {};
+
+    if (images.length == 1) {
+      postContent = {
+        "media": {
+          "altText": "testing for alt tags",
+          "id": mediaSelectionURNs[mediaSelectionURNs.length - 1],
+        }
+      };
+    } else if (images.length > 1) {
+      List<Map<String, dynamic>> imageList = [];
+      for (var i = 0; i < images.length; i++) {
+        imageList.add({
+          "id": mediaSelectionURNs[i],
+          "altText": "testing for alt tags${i + 1}",
+        });
+      }
+      postContent = {
+        "multiImage": {"images": imageList}
+      };
+    }
+
     var request =
         http.Request('POST', Uri.parse('https://api.linkedin.com/rest/posts'));
     request.body = json.encode({
@@ -835,12 +850,13 @@ class GlobalProvider with ChangeNotifier {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      print("------->Post Success");
     } else {
       print(response.reasonPhrase);
     }
   }
 
-  Future<void> uploadImageToLinkedIn(int index) async {
+  Future<void> uploadImageToLinkedIn(File image) async {
     String uploadURL = "";
     String imageURN = "";
 
@@ -885,8 +901,7 @@ class GlobalProvider with ChangeNotifier {
     }
 
     // upload the literal image after making the request
-    List<int> imageBytes =
-        await mediaSelection!.selectedFiles[index].selectedFile.readAsBytes();
+    List<int> imageBytes = await image.readAsBytes();
 
     // Prepare request headers
     Map<String, String> uploadHeaders = {
