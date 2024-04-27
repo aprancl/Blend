@@ -19,10 +19,10 @@ class WebViewContainer extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () async {
-                String? curURL = await controller.currentUrl();
-                String? finalCode = Uri.parse(curURL!).queryParameters['code'];
-                print(finalCode);
-                dotenv.env['linkedin_api_token'] = finalCode!;
+                // String? curURL = await controller.currentUrl();
+                // String? finalCode = Uri.parse(curURL!).queryParameters['code'];
+                // print(finalCode);
+                // dotenv.env['linkedin_api_token'] = finalCode!;
                 Navigator.pop(context);
               },
               icon: Icon(Icons.done))
