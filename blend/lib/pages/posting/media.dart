@@ -4,6 +4,7 @@ import "package:blend/components/appBars/sequential_app_bar.dart";
 import "package:blend/global_provider.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter/widgets.dart";
 import "package:provider/provider.dart";
 import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:video_player/video_player.dart';
@@ -21,37 +22,39 @@ class _PostingMediaPageState extends State<PostingMediaPage> {
     final provider = Provider.of<GlobalProvider>(context);
 
     Future<void> globalizeSelection(SelectedImagesDetails details) async {
-      await provider.updateMediaSelection(details);
       print("------- GLOBALIZED SELECTION -------");
+      await provider.updateMediaSelection(details);
       print(provider.mediaSelection!.selectedFiles[0].selectedFile.path);
     }
 
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: CustomImagePicker(
-          source: ImageSource.both,
-          pickerSource: PickerSource.both,
-          multiSelection: true,
-          galleryDisplaySettings: GalleryDisplaySettings(
-            cropImage: true,
-            showImagePreview: true,
-            appTheme: AppTheme(
-              primaryColor: provider.theme.colorScheme.background,
-              focusColor: Colors.white,
-            ),
-            callbackFunction: (value) => globalizeSelection(value),
+      body: CustomImagePicker(
+        source: ImageSource.both,
+        pickerSource: PickerSource.both,
+        multiSelection: true,
+        galleryDisplaySettings: GalleryDisplaySettings(
+          cropImage: true,
+          showImagePreview: true,
+          appTheme: AppTheme(
+            primaryColor: provider.theme.colorScheme.background,
+            focusColor: Colors.white,
           ),
-          leftFunction: () {
-            print('Going back');
-            provider.goToPage(1);
-          },
-          rightFunction: () {
-            print('Going to profile');
-            provider.goToPage(5);
-          },
-          theme: provider.theme,
+          callbackFunction: (value) => globalizeSelection(value),
         ),
+        leftFunction: () {
+          print('Going back');
+          provider.goToPage(1);
+        },
+        rightFunction: () {
+          print('Going to profile');
+          provider.goToPage(5);
+        },
+        clearMediaFunction: () {
+          print('Clearing media');
+          provider.updateMediaSelection(null);
+          provider.goToPage(5);
+        },
+        theme: provider.theme,
       ),
     );
   }

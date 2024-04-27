@@ -702,7 +702,7 @@ class GlobalProvider with ChangeNotifier {
   var client = http.Client();
   SelectedImagesDetails? mediaSelection;
 
-  updateMediaSelection(SelectedImagesDetails mediaSelection) async {
+  updateMediaSelection(SelectedImagesDetails? mediaSelection) async {
     this.mediaSelection = mediaSelection;
     notifyListeners();
   }
