@@ -694,11 +694,9 @@ class GlobalProvider with ChangeNotifier {
   var postCaption = "";
   var defaultImagePath = "images/lime.png";
   File? compositeVideo;
-  bool hasSelectedMedia =
-      false; // i know its cheesy, but having issues checking if selectedMedia is null
-  String selectedMediaURN = "";
-  List<File> medias =
-      []; // to be used in the futer if we are able to get multiple images working
+  List<String> mediaSelectionURNs = [];
+  // to be used in the futer if we are able to get multiple images working
+  List<File> medias = [];
   var client = http.Client();
   SelectedImagesDetails? mediaSelection;
 
@@ -719,7 +717,7 @@ class GlobalProvider with ChangeNotifier {
           publishToYoutube();
           break;
         case "LinkedIn":
-          if (hasSelectedMedia) {
+          if (mediaSelection != null) {
             publishWithImagetoLinkedin(postCaption);
           } else {
             publishToLinkedin(postCaption);
@@ -781,10 +779,10 @@ class GlobalProvider with ChangeNotifier {
   publishWithImagetoLinkedin(String message) async {
     // make the upload request
     print("===Before publishing image===");
-    await uploadImageToLinkedIn();
+    await uploadImageToLinkedIn(0);
     print("===After publishing image===");
 
-    var userId = await getUserId();
+    var userId = await getLinkedInUserId();
     // make post to linkedin with the posted image
     var headers = {
       'X-Restli-Protocol-Version': '2.0.0',
@@ -794,11 +792,11 @@ class GlobalProvider with ChangeNotifier {
       'Cookie': 'bcookie="v=2&9cb71389-ecec-4803-8d0b-1fa772424053"'
     };
 
-    var postContent = (true)
+    var postContent = (mediaSelection!.selectedFiles.length == 1)
         ? {
             "media": {
               "altText": "testing for alt tags",
-              "id": selectedMediaURN,
+              "id": mediaSelectionURNs[0],
             }
           }
         : {
@@ -806,11 +804,11 @@ class GlobalProvider with ChangeNotifier {
               "images": [
                 // was images
                 {
-                  "id": selectedMediaURN,
+                  "id": mediaSelectionURNs[0],
                   "altText": "testing for alt tags1",
                 },
                 {
-                  "id": selectedMediaURN,
+                  "id": mediaSelectionURNs[0],
                   "altText": "testing for alt tags2",
                 },
               ]
@@ -842,7 +840,7 @@ class GlobalProvider with ChangeNotifier {
     }
   }
 
-  Future<void> uploadImageToLinkedIn() async {
+  Future<void> uploadImageToLinkedIn(int index) async {
     String uploadURL = "";
     String imageURN = "";
 
@@ -887,13 +885,14 @@ class GlobalProvider with ChangeNotifier {
     }
 
     // upload the literal image after making the request
-    List<int> imageBytes = await medias[0].readAsBytes();
+    List<int> imageBytes =
+        await mediaSelection!.selectedFiles[index].selectedFile.readAsBytes();
 
     // Prepare request headers
     Map<String, String> uploadHeaders = {
       'Authorization': 'Bearer ${dotenv.env['linkedin_api_token']}',
-      'Content-Type':
-          'image/png', // Adjust content type based on your image format
+      // Adjust content type based on your image format
+      'Content-Type': 'image/png',
     };
 
     // LinkedIn API endpoint for image upload
@@ -910,7 +909,7 @@ class GlobalProvider with ChangeNotifier {
       // Check response status
       if (response.statusCode == 201) {
         print('Image uploaded successfully');
-        selectedMediaURN = imageURN;
+        mediaSelectionURNs.add(imageURN);
       } else {
         print('Failed to upload image. Status code: ${response.statusCode}');
       }
@@ -943,29 +942,6 @@ class GlobalProvider with ChangeNotifier {
   }
 
   Future<dynamic> getLinkedInUserId() async {
-    // var url = Uri.parse(uri);
-    // var headers = {
-    //   'Authorization': 'Bearer sfie328370428387=',
-    //   'api_key': 'ief873fj38uf38uf83u839898989',
-    // };
-
-    String endpoint =
-        'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName)&oauth2_access_token=${dotenv.env['linkedin_api_token']}';
-
-    var uri = Uri.parse(endpoint);
-
-    var response = await client.get(uri);
-    if (response.statusCode == 200) {
-      var jsonResponse = json.decode(response.body);
-      String id = jsonResponse['id'];
-      return id;
-    } else {
-      //throw exception and catch it in UI
-      print("ERROR_NO_USER_ID");
-    }
-  }
-
-  Future<dynamic> getUserId() async {
     // var url = Uri.parse(uri);
     // var headers = {
     //   'Authorization': 'Bearer sfie328370428387=',

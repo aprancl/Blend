@@ -38,7 +38,6 @@ class _PostingOverviewPageState extends State<PostingOverviewPage> {
           provider.postAll();
 
           print("Content Posted!");
-          provider.hasSelectedMedia = false;
           provider.goToPage(1);
         },
         rightText: "Post",
